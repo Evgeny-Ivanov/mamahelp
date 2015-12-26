@@ -72,6 +72,8 @@ var MamaHelpApp = function () {
         var app = express();
         self.app = app;
 
+        app.use(express.static(__dirname + '/public'));
+
         app.use(router);
     };
 
