@@ -5,6 +5,7 @@ var MamaHelpApp = function () {
     //  Scope.
     var self = this;
     var router = express.Router();
+    var oneDay = 86400000;
 
 
     /**
@@ -73,10 +74,8 @@ var MamaHelpApp = function () {
         var app = express();
         self.app = app;
 
-        app.use(express.static(__dirname + '/public'));
-        app.use(compression({
-            threshold: false
-        }));
+        app.use(express.static(__dirname + '/public', {maxAge: oneDay}));
+        app.use(compression());
 
         app.use(router);
     };
