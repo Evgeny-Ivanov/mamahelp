@@ -1,4 +1,5 @@
 var express = require('express');
+var compression = require('compression');
 
 var MamaHelpApp = function () {
     //  Scope.
@@ -73,6 +74,9 @@ var MamaHelpApp = function () {
         self.app = app;
 
         app.use(express.static(__dirname + '/public'));
+        app.use(compression({
+            threshold: false
+        }));
 
         app.use(router);
     };
