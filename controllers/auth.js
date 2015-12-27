@@ -39,7 +39,7 @@ passport.use(new FacebookStrategy(config.get('facebook'), function (token, refre
         console.log('FB user not found. Creating new one for profile: ' + profile);
         var user = new User();
 
-        user.facebookdId = profile.id;
+        user.facebookId = profile.id;
         user.username = profile.id;
         user.email = '';
         user.name = profile.displayName;
