@@ -36,7 +36,7 @@ passport.use(new TwitterStrategy(config.get('twitter'), function (req, accessTok
 passport.use(new FacebookStrategy(config.get('facebook'), function (token, refreshToken, profile, done) {
     User.findOne({facebookId: profile.id}, function (err, existingUser) {
         if (existingUser) return done(null, existingUser);
-
+        console.log('FB user not found. Creating new one for profile: ' + profile);
         var user = new User();
 
         user.facebookdId = profile.id;
