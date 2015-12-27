@@ -24,7 +24,16 @@ if (process.env.CRYPTO_KEY) {
 if (process.env.SESSION_SECRET) {
     nconf.set('sessionSecret', process.env.SESSION_SECRET);
 }
-
+if (process.env.TWITTER_KEY) {
+    nconf.set('twitter:consumerKey', process.env.TWITTER_KEY);
+}
+if (process.env.TWITTER_SECRET) {
+    nconf.set('twitter:consumerSecret', process.env.TWITTER_SECRET);
+}
+if (process.env.TWITTER_CALLBACK) {
+    nconf.set('twitter:callbackURL', process.env.TWITTER_CALLBACK);
+}
+nconf.set('twitter.passReqToCallback', true);
 console.log(nconf.get());
 
 
