@@ -8,11 +8,18 @@ var UserSchema = new mongoose.Schema({
     twitter: {
         id: String,
         token: String,
+        tokenSecret: String,
         username: String
     },
     facebook: {
         id: String,
-        token: String
+        token: String,
+        refreshToken: String
+    },
+    google: {
+        id: String,
+        token: String,
+        refreshToken: String
     },
     username: {type: String, unique: true, lowercase: true},
     password: String,

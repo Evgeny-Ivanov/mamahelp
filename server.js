@@ -106,6 +106,10 @@ var MamaHelpApp = function () {
         router.get('/auth/facebook/callback', authController.facebookCallback, function (req, res) {
             res.redirect(req.session.returnTo || '/');
         });
+        router.get('/auth/google', authController.google);
+        router.get('/auth/google/callback', authController.googleCallback, function (req, res) {
+            res.redirect(req.session.returnTo || '/');
+        });
         router.get('/auth/logout', authController.logout);
         app.use(router);
     };
