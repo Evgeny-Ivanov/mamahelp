@@ -1,5 +1,5 @@
 module.exports = {
-    db: process.env.MONGODB || 'mongodb://admin:rhV1bQKQtieS@localhost:27017/mamahelp',
+    db: process.env.MONGODB || 'mongodb://localhost:27017/mamahelp',
 
     cryptos: {
         algorithm: 'aes256',
