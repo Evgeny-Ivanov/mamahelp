@@ -83,6 +83,10 @@ var MamaHelpApp = function () {
         app.use(passport.initialize());
 
         app.use(passport.session());
+        app.use(function (req, res, next) {
+            res.locals.user = req.user;
+            next();
+        });
 
         app.use(compression());
 
@@ -98,6 +102,7 @@ var MamaHelpApp = function () {
         router.get('/auth/twitter/callback', authController.twitterCallback, function (req, res) {
             res.redirect(req.session.returnTo || '/');
         });
+        router.get('/auth/logout', authController.logout);
         app.use(router);
     };
 

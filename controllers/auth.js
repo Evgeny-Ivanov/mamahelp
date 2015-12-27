@@ -34,3 +34,9 @@ passport.use(new TwitterStrategy(secrets.twitter, function (req, accessToken, to
 
 exports.twitter = passport.authenticate('twitter');
 exports.twitterCallback = passport.authenticate('twitter', {failureRedirect: '/'});
+
+exports.logout = function (req, res) {
+    req.logout();
+    req.session.destroy();
+    res.redirect('/');
+};

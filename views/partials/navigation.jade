@@ -1,3 +1,7 @@
 header
     div
         a(href='/') Mama Help
+        if !user
+            a(href="/auth/twitter") Login with Twitter
+        else
+            a(href="/auth/logout") Logout
