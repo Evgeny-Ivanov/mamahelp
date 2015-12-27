@@ -6,12 +6,14 @@ var config = require('../config/config');
 // Define our user schema
 var UserSchema = new mongoose.Schema({
     twitterId: {type: String, unique: true, required: true},
+    facebookId: {type: String, unique: true, required: true},
     username: {type: String, unique: true, lowercase: true, required: true},
     email: {type: String, lowercase: true},
     name: {type: String, default: ''},
     created: {type: Date, default: new Date()},
     accessToken: {type: String, required: true},
-    tokenSecret: {type: String, required: true}
+    tokenSecret: {type: String, required: true},
+    refreshToken: {type: String, required: true}
 });
 
 UserSchema.methods.encrypt = function (text) {

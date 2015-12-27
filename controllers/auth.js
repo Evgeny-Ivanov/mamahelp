@@ -34,7 +34,22 @@ passport.use(new TwitterStrategy(config.get('twitter'), function (req, accessTok
     });
 }));
 passport.use(new FacebookStrategy(config.get('facebook'), function (token, refreshToken, profile, done) {
-    console.log(profile);
+    User.findOne({facebookId: profile.id}, function (err, existingUser) {
+        if (existingUser) return done(null, existingUser);
+
+        var user = new User();
+
+        user.facebookdId = profile.id;
+        user.username = profile.id;
+        user.email = '';
+        user.name = profile.displayName;
+        user.created = new Date();
+        user.refreshToken = user.encrypt(refreshToken);
+
+        user.save(function (err) {
+            done(err, user);
+        });
+    });
 
 }));
 
