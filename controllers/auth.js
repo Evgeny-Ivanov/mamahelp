@@ -1,6 +1,7 @@
 // Load required packages
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require('../models/user');
 var config = require('../config/config');
 
@@ -32,9 +33,15 @@ passport.use(new TwitterStrategy(config.get('twitter'), function (req, accessTok
         });
     });
 }));
+passport.use(new FacebookStrategy(config.get('facebook'), function (token, refreshToken, profile, done) {
+    console.log(profile);
+
+}));
 
 exports.twitter = passport.authenticate('twitter');
 exports.twitterCallback = passport.authenticate('twitter', {failureRedirect: '/'});
+exports.facebook = passport.authenticate('facebook');
+exports.facebookCallback = passport.authenticate('facebook', {failureRedirect: '/'});
 
 exports.logout = function (req, res) {
     req.logout();

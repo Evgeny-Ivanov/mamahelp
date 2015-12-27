@@ -33,6 +33,15 @@ if (process.env.TWITTER_SECRET) {
 if (process.env.TWITTER_CALLBACK) {
     nconf.set('twitter:callbackURL', process.env.TWITTER_CALLBACK);
 }
+if (process.env.FACEBOOK_CLIENTID) {
+    nconf.set('facebook:clientID', process.env.FACEBOOK_CLIENTID);
+}
+if (process.env.FACEBOOK_CLIENTSECRET) {
+    nconf.set('facebook:clientSecret', process.env.FACEBOOK_CLIENTSECRET);
+}
+if (process.env.FACEBOOK_CALLBACKURL) {
+    nconf.set('facebook:callbackURL', process.env.FACEBOOK_CALLBACKURL);
+}
 nconf.set('twitter.passReqToCallback', true);
 console.log(nconf.get());
 

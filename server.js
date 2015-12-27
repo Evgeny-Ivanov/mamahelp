@@ -102,6 +102,10 @@ var MamaHelpApp = function () {
         router.get('/auth/twitter/callback', authController.twitterCallback, function (req, res) {
             res.redirect(req.session.returnTo || '/');
         });
+        router.get('/auth/facebook', authController.facebook);
+        router.get('/auth/facebook/callback', authController.facebookCallback, function (req, res) {
+            res.redirect(req.session.returnTo || '/');
+        });
         router.get('/auth/logout', authController.logout);
         app.use(router);
     };
