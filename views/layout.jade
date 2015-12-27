@@ -1,11 +1,9 @@
 doctype html
 html
     head
-        title= title
+        title Mama Help
+        include partials/head
     body
-        block header
+        include partials/navigation
         block content
-        block sidebar
-        div(id='footer')
-            block footer
-        link(rel='stylesheet', href='/stylesheets/style.css')
+        include partials/footer

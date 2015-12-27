@@ -1,11 +1,19 @@
 var express = require('express');
+var path = require('path');
 var compression = require('compression');
+var secrets = require('./config/secrets');
+var mongoose = require('mongoose');
+var passport = require('passport');
+var session = require('express-session');
+
+var homeController = require('./controllers/home');
+var authController = require('./controllers/auth');
+
+mongoose.connect(secrets.db);
 
 var MamaHelpApp = function () {
     //  Scope.
     var self = this;
-    var router = express.Router();
-    var oneDay = 86400000;
 
 
     /**
@@ -58,27 +66,41 @@ var MamaHelpApp = function () {
         });
     };
 
-    self.createRoutes = function () {
-        router.get('/', function (req, res) {
-            res.end('Mama Help!')
-        });
-    };
-
-
     /**
      *  Initialize the server (express) and create the routes and register
      *  the handlers.
      */
     self.initializeServer = function () {
-        self.createRoutes();
         var app = express();
         self.app = app;
 
-        app.use(express.static(__dirname + '/public', {maxAge: oneDay}));
+        app.use(session({
+            secret: secrets.sessionSecret,
+            resave: false,
+            saveUninitialized: false
+        }));
+
+        app.use(passport.initialize());
+
+        app.use(passport.session());
+
         app.use(compression());
 
+        var oneDay = 86400000;
+        app.use(express.static(path.join(__dirname, 'public'), {maxAge: oneDay}));
+
+        app.set('views', path.join(__dirname, '/views'));
+        app.set('view engine', 'jade');
+
+        var router = express.Router();
+        router.get('/', homeController.index);
+        router.get('/auth/twitter', authController.twitter);
+        router.get('/auth/twitter/callback', authController.twitterCallback, function (req, res) {
+            res.redirect(req.session.returnTo || '/');
+        });
         app.use(router);
     };
+
 
     /**
      *  Initializes the sample application.
