@@ -2,7 +2,11 @@ header
     div
         a(href='/') Mama Help
         if !user
-            a(href="/auth/twitter") Login with Twitter
-            a(href="/auth/facebook") Login with Facebook
+            div
+                a(href="/auth/twitter") Login with Twitter
+            div
+                a(href="/auth/facebook") Login with Facebook
         else
-            a(href="/auth/logout") Logout
+            div Hello #{user.name}
+            div
+                a(href="/auth/logout") Logout

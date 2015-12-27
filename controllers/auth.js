@@ -4,6 +4,7 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require('../models/user');
 var config = require('../config/config');
+var uuid = require('node-uuid');
 
 passport.serializeUser(function (user, done) {
     done(null, user);
@@ -13,39 +14,41 @@ passport.deserializeUser(function (user, done) {
     done(null, user);
 });
 
-console.log('Creating Twitter strategy with: ' + config.get('twitter'));
 passport.use(new TwitterStrategy(config.get('twitter'), function (req, accessToken, tokenSecret, profile, done) {
-    User.findOne({twitterId: profile.id}, function (err, existingUser) {
+    User.findOne({'twitter.id': profile.id}, function (err, existingUser) {
+        if (err) return done(err);
         if (existingUser) return done(null, existingUser);
 
         var user = new User();
 
-        user.twitterId = profile.id;
-        user.username = profile.id;
-        user.email = '';
+        user.twitter.id = profile.id;
+        user.twitter.username = profile.username;
+        user.twitter.token = user.encrypt(accessToken);
         user.name = profile.displayName;
-        user.created = new Date();
-        user.accessToken = user.encrypt(accessToken);
-        user.tokenSecret = user.encrypt(tokenSecret);
+        user.username = 'user_' + uuid.v4();
 
+        console.log('New user created: ' + user);
         user.save(function (err) {
             done(err, user);
         });
     });
 }));
 passport.use(new FacebookStrategy(config.get('facebook'), function (token, refreshToken, profile, done) {
-    console.log('Looking for user with FB ID: ' + profile.id);
-    User.findOne({facebookId: profile.id}, function (err, existingUser) {
+    User.findOne({'facebook.id': profile.id}, function (err, existingUser) {
+        if (err)  return done(err);
         if (existingUser) return done(null, existingUser);
-        console.log('FB user not found. Creating new one for profile: ' + profile);
+
         var user = new User();
 
-        user.facebookId = profile.id;
-        user.username = profile.id;
-        user.email = '';
+        user.facebook.id = profile.id;
+        user.facebook.token = user.encrypt(token);
+        if (profile.emails) {
+            user.email = profile.emails[0].value;
+        }
         user.name = profile.displayName;
-        user.created = new Date();
+        user.username = 'user_' + uuid.v4();
 
+        console.log('New user created: ' + user);
         user.save(function (err) {
             done(err, user);
         });
