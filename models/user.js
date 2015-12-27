@@ -12,8 +12,7 @@ var UserSchema = new mongoose.Schema({
     name: {type: String, default: ''},
     created: {type: Date, default: new Date()},
     accessToken: {type: String, required: true},
-    tokenSecret: {type: String, required: true},
-    refreshToken: {type: String, required: true}
+    tokenSecret: {type: String, required: true}
 });
 
 UserSchema.methods.encrypt = function (text) {
