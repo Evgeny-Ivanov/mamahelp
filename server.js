@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
 var compression = require('compression');
-var secrets = require('./config/secrets');
+var config = require('./config/config');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var session = require('express-session');
@@ -9,7 +9,7 @@ var session = require('express-session');
 var homeController = require('./controllers/home');
 var authController = require('./controllers/auth');
 
-mongoose.connect(secrets.db);
+mongoose.connect(config.get('db'));
 
 var MamaHelpApp = function () {
     //  Scope.
@@ -75,7 +75,7 @@ var MamaHelpApp = function () {
         self.app = app;
 
         app.use(session({
-            secret: secrets.sessionSecret,
+            secret: config.get('sessionSecret'),
             resave: false,
             saveUninitialized: false
         }));

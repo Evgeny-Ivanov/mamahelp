@@ -2,7 +2,7 @@
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
 var User = require('../models/user');
-var secrets = require('../config/secrets');
+var config = require('../config/config');
 
 passport.serializeUser(function (user, done) {
     done(null, user);
@@ -12,7 +12,8 @@ passport.deserializeUser(function (user, done) {
     done(null, user);
 });
 
-passport.use(new TwitterStrategy(secrets.twitter, function (req, accessToken, tokenSecret, profile, done) {
+console.log('Creating Twitter strategy with: ' + config.get('twitter'));
+passport.use(new TwitterStrategy(config.get('twitter'), function (req, accessToken, tokenSecret, profile, done) {
     User.findOne({twitterId: profile.id}, function (err, existingUser) {
         if (existingUser) return done(null, existingUser);
 

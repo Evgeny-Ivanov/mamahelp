@@ -1,7 +1,7 @@
 // Load required packages
 var mongoose = require('mongoose');
 var crypto = require('crypto');
-var secrets = require('../config/secrets');
+var config = require('../config/config');
 
 // Define our user schema
 var UserSchema = new mongoose.Schema({
@@ -15,16 +15,16 @@ var UserSchema = new mongoose.Schema({
 });
 
 UserSchema.methods.encrypt = function (text) {
-    var algorithm = secrets.cryptos.algorithm;
-    var key = secrets.cryptos.key;
+    var algorithm = config.get('cryptos.algorithm');
+    var key = config.get('cryptos.key');
 
     var cipher = crypto.createCipher(algorithm, key);
     return cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
 };
 
 UserSchema.methods.decrypt = function (text) {
-    var algorithm = secrets.cryptos.algorithm;
-    var key = secrets.cryptos.key;
+    var algorithm = config.get('cryptos.algorithm');
+    var key = config.get('cryptos.key');
 
     var decipher = crypto.createDecipher(algorithm, key);
     return decipher.update(text, 'hex', 'utf8') + decipher.final('utf8');
