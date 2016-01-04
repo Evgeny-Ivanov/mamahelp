@@ -9,6 +9,16 @@ header
             div
                 a(href="/auth/google") Login with Google
         else
-            div Hello #{user.name}
+            div #{__('Hello')} #{user.name}
             div
                 a(href="/auth/logout") Logout
+        div
+            p #{__('Language')}
+            p
+                ul
+                    li
+                        a(href='/en') English
+                    li
+                        a(href='/ua') Українська
+                    li
+                        a(href='/ru') Русский
