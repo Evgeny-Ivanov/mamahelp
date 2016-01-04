@@ -1,15 +1,27 @@
-var express = require('express');
-var path = require('path');
-var compression = require('compression');
-var config = require('./config/config');
-var mongoose = require('mongoose');
-var passport = require('passport');
-var session = require('express-session');
+var express = require('express'),
+    path = require('path'),
+    compression = require('compression'),
+    config = require('./config/config'),
+    mongoose = require('mongoose'),
+    passport = require('passport'),
+    session = require('express-session'),
+    cookieParser = require('cookie-parser'),
+    i18n = require('i18n');
 
 var homeController = require('./controllers/home');
 var authController = require('./controllers/auth');
 
 mongoose.connect(config.get('db'));
+
+i18n.configure({
+    locales: ['en', 'ua', 'ru'],
+    directory: __dirname + '/locales',
+    //directory: path.join(__dirname, 'locales'),
+    defaultLocale: 'en',
+    cookie: 'i18n'
+});
+
+
 
 var MamaHelpApp = function () {
     //  Scope.
@@ -74,11 +86,19 @@ var MamaHelpApp = function () {
         var app = express();
         self.app = app;
 
+        app.use(cookieParser(config.get('sessionSecret')));
         app.use(session({
             secret: config.get('sessionSecret'),
             resave: false,
-            saveUninitialized: false
+            saveUninitialized: false,
+            cookie: {maxAge: 60000}
         }));
+
+
+        app.use(i18n.init);
+
+        var hi = i18n.__('Hello');
+        console.log(hi);
 
         app.use(passport.initialize());
 
@@ -93,7 +113,7 @@ var MamaHelpApp = function () {
         var oneDay = 86400000;
         app.use(express.static(path.join(__dirname, 'public'), {maxAge: oneDay}));
 
-        app.set('views', path.join(__dirname, '/views'));
+        app.set('views', path.join(__dirname, 'views'));
         app.set('view engine', 'jade');
 
         var router = express.Router();
@@ -111,7 +131,14 @@ var MamaHelpApp = function () {
             res.redirect(req.session.returnTo || '/');
         });
         router.get('/auth/logout', authController.logout);
+
+        router.get('/:locale', function (req, res) {
+            res.cookie('i18n', req.params.locale);
+            res.redirect('/');
+        });
+
         app.use(router);
+
     };
 
 
@@ -132,8 +159,8 @@ var MamaHelpApp = function () {
     self.start = function () {
         //  Start the app on the specific interface (and port).
         self.app.listen(self.port, self.ipaddress, function () {
-            console.log('%s: Node server started on %s:%d ...',
-                Date(Date.now()), self.ipaddress, self.port);
+            console.log('%s: Node server started on %s:%d ...' +
+                new Date(Date.now()), self.ipaddress, self.port);
         });
     };
 };
