@@ -13,8 +13,9 @@ var authController = require('./controllers/auth');
 
 mongoose.connect(config.get('db'));
 
+var systemLocales = ['en', 'ua', 'ru'];
 i18n.configure({
-    locales: ['en', 'ua', 'ru'],
+    locales: systemLocales,
     directory: __dirname + '/locales',
     //directory: path.join(__dirname, 'locales'),
     defaultLocale: 'en',
@@ -105,6 +106,12 @@ var MamaHelpApp = function () {
         app.use(passport.session());
         app.use(function (req, res, next) {
             res.locals.user = req.user;
+            res.locals.systemLocales = systemLocales;
+            var languageHeader = req.headers['accept-language'];
+            if (languageHeader && !res.locals.locale) {
+                console.log('User locale set: ' + languageHeader);
+                res.locals.locale = languageHeader.split(';')[1];
+            }
             next();
         });
 
@@ -133,7 +140,10 @@ var MamaHelpApp = function () {
         router.get('/auth/logout', authController.logout);
 
         router.get('/:locale', function (req, res) {
-            res.cookie('i18n', req.params.locale);
+            var locale = req.params.locale;
+            console.log('Updating user locale: ' + locale);
+            res.cookie('i18n', locale);
+            res.locals.locale = locale;
             res.redirect('/');
         });
 

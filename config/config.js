@@ -52,6 +52,7 @@ if (process.env.GOOGLE_CALLBACKURL) {
     nconf.set('google:callbackURL', process.env.GOOGLE_CALLBACKURL);
 }
 nconf.set('twitter.passReqToCallback', true);
+
 console.log(nconf.get());
 
 

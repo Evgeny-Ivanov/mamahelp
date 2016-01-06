@@ -1,0 +1,119 @@
+/********Base rules**********/
+body {
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+a {
+    color: #4169E1;
+}
+
+p {
+    text-indent: 10px;
+    color: #75787B;
+}
+h1 {
+    color: #FFD600;
+    font-family: 'Amatic SC', cursive;
+    font-size: 72px;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+h2, h3, h4, h5, h6 {
+    font-family: 'Amatic SC', cursive;
+    font-weight: 700;
+    color: #333638;
+    word-spacing: 4px;
+    letter-spacing: 1.2px;
+}
+h2 {
+    font-size: 42px;
+}
+h3 {
+    font-size: 36px;
+}
+h4 {
+    font-size: 24px;
+}
+
+/*******************/
+.site-name {
+    padding-right: 0;
+}
+.site-search {
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #75787B;
+    border-radius: 25px 0 25px 25px;
+    margin-top: 15px
+}
+.site-search span {
+    vertical-align: middle;
+}
+.navbar {
+    border: none;
+}
+.navbar-default, .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover  {
+    background-color: #ffffff;
+}
+.navbar-toggle {
+    border: 1px solid #75787B;
+    border-radius: 25px 0 25px 25px;
+}
+
+.navbar-collapse {
+    border-top: none;
+    padding: 0;
+}
+.user-switcher {
+    padding: 0;
+}
+.user-switcher>ul>li>a {
+    padding: 15px 5px 0 10px;
+}
+
+.user-switcher>ul {
+    margin-right: 0;
+}
+
+.nav>li>a {
+    color: #75787B;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+}
+.nav>li>a:hover {
+    background-color: #ffffff;
+    text-decoration: underline;
+
+}
+.nav>ul {
+    padding: 0;
+}
+@media screen and (max-width: 768px)
+{
+    .collapsing
+    {
+        background-color: #FFD600;
+        position: absolute !important;
+        z-index: 20;
+        width: 90vw;
+        top: 50px;
+
+    }
+    .collapse.in {
+        background-color: #FFD600;
+        display: block;
+        position: absolute;
+        z-index: 20;
+        width: 90vw;
+        top: 50px;
+
+    }
+    .navbar-collapse
+    {
+        max-height: none !important;
+    }
+}

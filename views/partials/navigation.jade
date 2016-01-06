@@ -1,4 +1,47 @@
 header
+    .container-fluid
+        .row
+            .col-xs-10.col-sm-6.col-md-3.site-name
+                    h1 Mama Help
+
+            .col-xs-2.col-sm-6.col-md-1.col-md-push-5
+                button.pull-right.site-search(type='button')
+                    span.glyphicon.glyphicon-search
+                .hidden-xs.lang-switcher.pull-right
+                    ul.nav
+                        each val in systemLocales
+                            if val != locale
+                                li.pull-right
+                                    a(href='/#{val}')
+                                        img(src='/img/#{val}.png')
+            nav.navbar.navbar-default.col-xs-3.col-sm-7.col-md-5
+
+                button.navbar-toggle.collapsed.pull-left(type='button' data-toggle='collapse' data-target='#navbar-collapse-1' aria-expanded='false')
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+                .collapse.navbar-collapse.pull-left#navbar-collapse-1
+                    ul.nav.navbar-nav
+                        li
+                            a(href='') Home
+                        li
+                            a(href='') About project
+                        li
+                            a(href='') Blog
+                        li
+                            a(href='') Forum
+
+            .col-xs-9.col-sm-5.col-md-3.user-switcher
+                ul.nav-pills.nav.pull-right
+                    li
+                        a(href='') Sign up
+                    li
+                        a(href='') Sign in
+
+
+
+
+
     div
         a(href='/') Mama Help
         if !user
@@ -13,12 +56,10 @@ header
             div
                 a(href="/auth/logout") Logout
         div
-            p #{__('Language')}
-            p
-                ul
-                    li
-                        a(href='/en') English
-                    li
-                        a(href='/ua') Українська
-                    li
-                        a(href='/ru') Русский
+
+
+    div Current user locale: #{locale}
+    div
+        ul
+            each val in systemLocales
+                li= val
