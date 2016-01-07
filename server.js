@@ -18,7 +18,7 @@ i18n.configure({
     locales: systemLocales,
     directory: __dirname + '/locales',
     //directory: path.join(__dirname, 'locales'),
-    defaultLocale: 'en',
+    //defaultLocale: 'en',
     cookie: 'i18n'
 });
 
@@ -110,7 +110,8 @@ var MamaHelpApp = function () {
             var languageHeader = req.headers['accept-language'];
             if (languageHeader && !res.locals.locale) {
                 console.log('User locale set: ' + languageHeader);
-                res.locals.locale = languageHeader.split(';')[1];
+                var locale = languageHeader.split(';')[0].split(',')[1];
+                res.locals.locale = locale;
             }
             next();
         });
