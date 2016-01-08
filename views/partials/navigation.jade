@@ -1,20 +1,26 @@
 header
-    .container-fluid
+    .container-fluid#header
         .row
-            .col-xs-10.col-sm-6.col-md-3.site-name
-                    h1 Mama Help
-
-            .col-xs-2.col-sm-6.col-md-1.col-md-push-5
-                button.pull-right.site-search(type='button')
-                    span.glyphicon.glyphicon-search
-                .hidden-xs.lang-switcher.pull-right
-                    ul.nav
-                        each val in systemLocales
-                            if val != locale
-                                li.pull-right
-                                    a(href='/#{val}')
-                                        img(src='/img/#{val}.png')
-            nav.navbar.navbar-default.col-xs-3.col-sm-7.col-md-5
+            .col-xs-10.col-sm-6.col-md-3.col-lg-3.site-name
+                    a(href='home.jade') Mama Help
+            .col-xs-2.col-sm-6.col-md-3.col-md-push-6.col-lg-2.col-lg-push-7
+                .col-sm-12
+                    button.pull-right.site-search(type='button')
+                        span.glyphicon.glyphicon-search
+                    .hidden-xs.lang-switcher.pull-right
+                        ul.nav
+                            each val in systemLocales
+                                if val != locale
+                                    li.pull-right
+                                        a(href='/#{val}')
+                                            img(src='/img/#{val}.png')
+                .hidden-xs
+                    ul.nav-pills.nav.pull-right
+                        li
+                            a(href='') Sign up
+                        li
+                            a(href='') Sign in
+            nav.navbar.navbar-default.col-xs-3.col-sm-12.col-md-6.col-md-pull-3.col-lg-6.col-lg-pull-2
 
                 button.navbar-toggle.collapsed.pull-left(type='button' data-toggle='collapse' data-target='#navbar-collapse-1' aria-expanded='false')
                     span.icon-bar
@@ -31,7 +37,7 @@ header
                         li
                             a(href='') Forum
 
-            .col-xs-9.col-sm-5.col-md-3.user-switcher
+            .col-xs-9.hidden-sm.hidden-md.hidden-lg
                 ul.nav-pills.nav.pull-right
                     li
                         a(href='') Sign up
@@ -42,24 +48,24 @@ header
 
 
 
-    div
-        a(href='/') Mama Help
-        if !user
-            div
-                a(href="/auth/twitter") Login with Twitter
-            div
-                a(href="/auth/facebook") Login with Facebook
-            div
-                a(href="/auth/google") Login with Google
-        else
-            div #{__('Hello')} #{user.name}
-            div
-                a(href="/auth/logout") Logout
-        div
-
-
-    div Current user locale: #{locale}
-    div
-        ul
-            each val in systemLocales
-                li= val
+    //div
+    //    a(href='/') Mama Help
+    //    if !user
+    //        div
+    //            a(href="/auth/twitter") Login with Twitter
+    //        div
+    //            a(href="/auth/facebook") Login with Facebook
+    //        div
+    //            a(href="/auth/google") Login with Google
+    //    else
+    //        div #{__('Hello')} #{user.name}
+    //        div
+    //            a(href="/auth/logout") Logout
+    //    div
+    //
+    //
+    //div Current user locale: #{locale}
+    //div
+    //    ul
+    //        each val in systemLocales
+    //            li= val

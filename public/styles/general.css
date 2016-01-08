@@ -13,13 +13,16 @@ p {
     text-indent: 10px;
     color: #75787B;
 }
-h1 {
+.site-name a, .site-name a:hover, .site-name a:focus, .site-name a:active, .site-name a:visited {
     color: #FFD600;
     font-family: 'Amatic SC', cursive;
     font-size: 72px;
     font-weight: 700;
     margin-top: 0;
     margin-bottom: 0;
+}
+.site-name a:hover, .site-name a:focus, .site-name a:active, .site-name a:visited {
+    text-decoration: none
 }
 h2, h3, h4, h5, h6 {
     font-family: 'Amatic SC', cursive;
@@ -61,8 +64,8 @@ h4 {
 .navbar-toggle {
     border: 1px solid #75787B;
     border-radius: 25px 0 25px 25px;
-}
 
+}
 .navbar-collapse {
     border-top: none;
     padding: 0;
@@ -117,3 +120,4 @@ h4 {
         max-height: none !important;
     }
 }
+/************************Main-img**************************************************/
