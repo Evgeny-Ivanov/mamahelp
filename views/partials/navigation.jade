@@ -1,22 +1,19 @@
 header
     .container-fluid#header
         .row
-            .col-xs-12
-                div.center-block.text-center#nav-search-input
-                    .search-input-wrapper
+
+            div.center-block.text-center#nav-search-input
+                form(role='', action='', method='get')
+                    .site-search-input-wrapper
                         span.glyphicon.glyphicon-search#glyphicon-search2
-                        input#search-terms(type='text', name='search-terms', placeholder='Print here')
+                        input.site-search-input#search-terms(type='text', name='search-terms', placeholder='Print here')
                         span.glyphicon.glyphicon-remove
-            .col-xs-10.col-sm-6.col-md-3.col-lg-3.site-name
+            .col-xs-10.col-sm-6.col-lg-3.site-name
                 a(href='/') Mama Help
-            .col-xs-2.col-sm-6.col-md-3.col-md-push-6.col-lg-2.col-lg-push-7.nav-btn-holder
-                .col-sm-12.padding-zero
-                    //form#search(action='#', method='post')
-                        //div#nav-search-label
-                    button.btn.btn-default.pull-right.site-search#nav-search-label(type='button')
-                        span#glyphicon-search1.glyphicon.glyphicon-search
-                        //div#nav-search-input
-                            input#search-terms(type='text', name='search-terms', placeholder='Print here')
+            .col-xs-2.col-sm-6.col-lg-2.col-lg-push-7.nav-btn-holder
+                .col-sm-12.padding-zero.margin-bottom-15
+                    button.js-click-unsensitive.btn.btn-default.pull-right.site-search.btn-custom#nav-search-label(type='button')
+
                     .hidden-xs.lang-switcher.pull-right
                         ul.nav
                             each val in systemLocales
@@ -25,70 +22,37 @@ header
                                         a(href='/#{val}')
                                             img(src='/img/#{val}.png')
                 .hidden-xs.col-sm-12.padding-zero
-                    if !user
-                        ul.nav-pills.nav.pull-right
-                            li
-                                a(href='') Sign up
-                            li
-                                button.btn.btn-default(type='button', data-toggle='modal', data-target='#logInFormModal') Log in
-                    else
-                        .dropdown
-                            a.pull-right#userNameDropdown(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-                                p.inline-block #{user.name}
-                                span.glyphicon.glyphicon-menu-down
-                            ul.dropdown-menu(aria-labelledby='userNameDropdown')
-                                li
-                                    a Profile
-                                li
-                                    a Settings
-                                li.divider(role='separator')
-                                li
-                                    a Log out
-            nav.navbar.navbar-default.col-xs-3.col-sm-12.col-md-6.col-md-pull-3.col-lg-6.col-lg-pull-2
+                    include user-dropdown
+            nav.navbar.navbar-default.col-xs-3.col-sm-12.col-lg-6.col-lg-pull-2
 
-                button.navbar-toggle.collapsed.pull-left(type='button' data-toggle='collapse' data-target='#navbar-collapse-1' aria-expanded='false')
+                button.navbar-toggle.collapsed.pull-left#toggle-nav-btn(type='button' data-toggle='collapse' data-target='#navbar-collapse-1' aria-expanded='false')
                     span.icon-bar
                     span.icon-bar
                     span.icon-bar
-                .collapse.navbar-collapse.pull-left#navbar-collapse-1
+                .collapse.navbar-collapse#navbar-collapse-1
                     if !user
                         ul.nav.navbar-nav
                             li
-                                a(href='') Home
+                                a.header-link-font(href='') Home
                             li
-                                a(href='') About project
+                                a.header-link-font(href='') About project
                             li
-                                a(href='') Blog
+                                a.header-link-font(href='') Blog
                             li
-                                a(href='') Forum
+                                a.header-link-font(href='') Forum
                     else
                         ul.nav.navbar-nav
                             li
-                                a(href='') Home
+                                a.header-link-font(href='') Connections
                             li
-                                a(href='') Connections
+                                a.header-link-font(href='') Bookmarks
                             li
-                                a(href='') Bookmarks
+                                a.header-link-font(href='') Blog
                             li
-                                a(href='') Messages
-                            li
-                                a(href='') Blog
-                            li
-                                a(href='') Forum
+                                a.header-link-font(href='') Forum
 
             .col-xs-9.hidden-sm.hidden-md.hidden-lg
-                if !user
-                    ul.nav-pills.nav.pull-right
-                        li
-                            a(href='') Sign up
-                        li
-                            button(type='button', data-toggle='collapse', data-target='#logInForm-collapse' aria-expanded='false') Log in
-                else
-                    ul.nav-pills.nav.pull-right
-                        li
-                            #{__('Hello')} #{user.name}
-                        li
-                            a(href="/auth/logout") Logout
+                include user-dropdown
 
                                 //**************LogIn modal***********************
 .modal.fade#logInFormModal(tabindex='-1', role='dialog', aria-labelledby='logInFormLabel')
@@ -101,12 +65,17 @@ header
 
                 ul.nav.text-center
                     li
-                        a(href="/auth/twitter") Login with Twitter
+                        button.btn.btn-default(type='button')
+                            a(href="/auth/twitter") Login with Twitter
                     li
-                        a(href="/auth/facebook") Login with Facebook
+                        button.btn-social.btn-facebook Login with Facebook
+                            span.fa.fa-facebook-square
+                            a(href="/auth/facebook")
 
                     li
-                        a(href="/auth/google") Login with Google
+                        a.btn-social.btn-google(href="/auth/google") Login with Google
+                            span.fa.fa-google-plus
+
 
 
 

@@ -1,0 +1,20 @@
+if !user
+    ul.nav-pills.nav.pull-right.login-buttons
+        li
+            button.btn.btn-default.btn-custom(type='button', data-toggle='modal', data-target='#logInFormModal') Sign up
+        li
+            button.btn.btn-default.btn-custom(type='button', data-toggle='modal', data-target='#logInFormModal') Log in
+else
+    .dropdown.user-menu
+        a.pull-right#userNameDropdown(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+            span.glyphicon.glyphicon-envelope
+            p.inline-block #{user.name}
+            span.glyphicon.glyphicon-menu-down
+        ul.dropdown-menu.dropdown-menu-right(aria-labelledby='userNameDropdown')
+            li
+                a.header-link-font Profile
+            li
+                a.header-link-font Settings
+            li.divider(role='separator')
+            li
+                a.header-link-font(href="/auth/logout") Logout
