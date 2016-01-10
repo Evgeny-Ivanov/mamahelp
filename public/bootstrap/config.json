@@ -388,10 +388,8 @@
     "grid.less",
     "tables.less",
     "forms.less",
-    "buttons.less",
     "responsive-utilities.less",
     "glyphicons.less",
-    "button-groups.less",
     "input-groups.less",
     "navs.less",
     "navbar.less",
@@ -431,5 +429,5 @@
     "scrollspy.js",
     "transition.js"
   ],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=12bfb3e55b1c8d4e90f5"
+  "customizerUrl": "http://getbootstrap.com/customize/?id=7d1c139798a44a90a09f"
 }
