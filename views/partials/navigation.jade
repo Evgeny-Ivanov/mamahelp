@@ -1,19 +1,19 @@
 header
     .container-fluid#header
         .row
-
-            div.center-block.text-center#nav-search-input
-                form(role='', action='', method='get')
+            .col-xs-12
+                div#nav-search-input
                     .site-search-input-wrapper
-                        span.glyphicon.glyphicon-search#glyphicon-search2
+                    span.glyphicon.glyphicon-search#glyphicon-search2
+                    form(role='', action='', method='get')
                         input.site-search-input#search-terms(type='text', name='search-terms', placeholder='Print here')
-                        span.glyphicon.glyphicon-remove
+                    span.glyphicon.glyphicon-remove
             .col-xs-10.col-sm-6.col-lg-3.site-name
                 a(href='/') Mama Help
             .col-xs-2.col-sm-6.col-lg-2.col-lg-push-7.nav-btn-holder
                 .col-sm-12.padding-zero.margin-bottom-15
-                    button.js-click-unsensitive.btn.btn-default.pull-right.site-search.btn-custom#nav-search-label(type='button')
-
+                    button.js-click-unsensitive.pull-right.site-search.btn-custom.nav-search-label#site-search-button(type='button')
+                        span.glyphicon.glyphicon-search.nav-search-label.js-click-unsensitive
                     .hidden-xs.lang-switcher.pull-right
                         ul.nav
                             each val in systemLocales
@@ -61,20 +61,23 @@ header
             .modal-header
                 button.close(type='button', data-dismiss='modal', aria-label='Close')
                     span(aria-hidden='false') &times;
-            .modal-body
-
-                ul.nav.text-center
+            .modal-body.center-block.login-modal
+                ul.nav
                     li
-                        button.btn.btn-default(type='button')
-                            a(href="/auth/twitter") Login with Twitter
-                    li
-                        button.btn-social.btn-facebook Login with Facebook
-                            span.fa.fa-facebook-square
-                            a(href="/auth/facebook")
+                        form(action='/auth/twitter' method='get')
+                            button.btn-social.btn-twitter(type='submit') Login with Twitter
+                                span.fa.fa-twitter
 
                     li
-                        a.btn-social.btn-google(href="/auth/google") Login with Google
-                            span.fa.fa-google-plus
+                        form(action='/auth/facebook' method='get')
+                            button.btn-social.btn-facebook(type='submit') Login with Facebook
+                                span.fa.fa-facebook
+
+                    li
+                        form(action='/auth/google' method='get')
+                            button.btn-social.btn-google(type='submit') Login with Google
+                                span.fa.fa-google-plus
+
 
 
 
