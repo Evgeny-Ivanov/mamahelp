@@ -241,11 +241,13 @@ a {
         top: 25%;
         left: 10%;
     }
+}
 
-    @media screen and (min-width: 992px) {
-        /**md-screen****/
-        .main-img-content {
-            top: 25%;
-            left: 16%;
-        }
+@media screen and (min-width: 992px) {
+    /**md-screen****/
+    .main-img-content {
+        top: 25%;
+        left: 16%;
+    }
+}
 
