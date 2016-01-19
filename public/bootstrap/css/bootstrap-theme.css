@@ -5,8 +5,8 @@
  */
 
 /*!
- * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=935d552a4d4549b21840)
- * Config saved to config.json and https://gist.github.com/935d552a4d4549b21840
+ * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=eb30a7ba8149448391fa)
+ * Config saved to config.json and https://gist.github.com/eb30a7ba8149448391fa
  */
 /*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)
@@ -326,13 +326,13 @@ fieldset[disabled] .btn-danger.active {
 }
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
-  background-image: -webkit-linear-gradient(top, #75787b 0%, #696b6e 100%);
-  background-image: -o-linear-gradient(top, #75787b 0%, #696b6e 100%);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#75787b), to(#696b6e));
-  background-image: linear-gradient(to bottom, #75787b 0%, #696b6e 100%);
+  background-image: -webkit-linear-gradient(top, #474b4f 0%, #3b3e42 100%);
+  background-image: -o-linear-gradient(top, #474b4f 0%, #3b3e42 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#474b4f), to(#3b3e42));
+  background-image: linear-gradient(to bottom, #474b4f 0%, #3b3e42 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff75787b', endColorstr='#ff696b6e', GradientType=0);
-  background-color: #696b6e;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff474b4f', endColorstr='#ff3b3e42', GradientType=0);
+  background-color: #3b3e42;
 }
 .dropdown-menu > .active > a,
 .dropdown-menu > .active > a:hover,
@@ -402,7 +402,8 @@ fieldset[disabled] .btn-danger.active {
 .navbar-fixed-bottom {
   border-radius: 0;
 }
-@media (max-width: 479px) {
+
+@media (max-width: 767px) {
   .navbar .navbar-nav .open .dropdown-menu > .active > a,
   .navbar .navbar-nav .open .dropdown-menu > .active > a:hover,
   .navbar .navbar-nav .open .dropdown-menu > .active > a:focus {

@@ -1,25 +1,18 @@
 /********Base rules**********/
 body {
     background-color: #ffffff;
+    line-height: 1;
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-/******************Custom helper classes***********************/
-.padding-zero { /*********delete paddings from col-...************/
-    padding: 0;
-}
-
-.inline-block {
-    display: inline-block;
-}
-
-.margin-bottom-15 {
-    margin-bottom: 15px;
+    /*font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #ffd600;*/
 }
 
 /*******************Custom button*********************/
+button {
+    outline: none;
+}
+
 .btn-custom,
 .btn-custom:focus {
     display: inline-block;
@@ -39,27 +32,22 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     background-image: none;
-    background-color: #fff;
-    color: #75787b;
-    border: 1px solid #75787b;
+    background-color: #474B4F;
+    color: #ffd600;
+    border: 1px solid #ffd600;
     border-radius: 25px 0 25px 25px;
 }
 
 .btn-custom:hover,
 .btn-custom:active {
-    color: #ffffff;
-    border-color: #75787b;
-    background-color: #75787b;
-}
-
-button {
-    outline: none;
+    color: #fff;
+    border-color: #fff;
+    background-color: #474B4f;
 }
 
 .btn-social {
-    width: 100%;
     min-width: 190px;
-    padding: 5px 0 5px 50px;
+    padding: 10px 0 10px 50px;
     margin: 5px 0;
     border: 1px solid #fff;
     border-radius: 25px 0 25px 25px;
@@ -69,11 +57,24 @@ button {
     padding-left: 4px;
     width: 40px;
 }
+
+.btn-join-us,
+.btn-join-us:focus {
+    font-family: 'Amatic SC', cursive;
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: 1.5px;
+    word-spacing: 5px;
+    padding: 0 10px;
+    border-color: #474B4f;
+    margin: 30px 40px 0 40px;
+}
+
 /************Special for Logo************/
 .site-name a, .site-name a:hover, .site-name a:focus, .site-name a:active, .site-name a:visited {
     color: #ffd600;
     font-family: 'Amatic SC', cursive;
-    font-size: 72px;
+    font-size: 60px;
     font-weight: 700;
     margin-top: 0;
     margin-bottom: 0;
@@ -107,110 +108,70 @@ h4 {
 
 p {
     text-indent: 10px;
-    color: #75787b;
 }
 
 a {
     color: #4169E1;
 }
 
-/*****************Customizing buttons*******************/
-
-#toggle-nav-btn,
-#toggle-nav-btn:focus {
-    color: #75787b;
-    border-color: #75787b;
-    border-radius: 25px 0 25px 25px;
-    outline: none;
-}
-
-
-#toggle-nav-btn:hover,
-#toggle-nav-btn:active {
-    color: #ffffff;
-    border-color: #75787b;
-    background-color: #75787b;
-}
-
-#toggle-nav-btn:active .icon-bar,
-#toggle-nav-btn:hover .icon-bar {
-    background-color: #ffffff;
-}
-
-
-/*******************/
-.site-search { /********positioning site-search button*********/
-    height: 30px;
-    margin-top: 10px;
-}
-
-/*******************Navbar-toggle style*****************/
+/*******************Navbar style*****************/
 .navbar-default {
-    border-color: #75787b;
-}
-
-.navbar-default {
-    background-color: #fff;
+    background-color: #474B4f;
     border: none;
 }
 
-#toggle-nav-btn { /*************id selector is used to overwrite bootstrap styles**********/
-    margin: 0;
+.header-top {
+    background-color: #474B4f;
+    margin-bottom: 20px;
+    height: 70px;
+    color: #ffd600;
 }
 
-/***************Header navigation appearance****************/
 .header-link-font {
-    color: #75787b;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
+    color: #ffd600;
+    text-transform: uppercase;
+    font-family: sans-serif;
+    font-size: 14px;
     font-weight: 400;
+    letter-spacing: 2px;
 }
 
-.header-link-font:hover {
-    background-color: #ffffff;
-    text-decoration: underline;
-
+.navbar-default .navbar-nav > li > a:hover {
+    color: #fff;
+    text-decoration: overline;
 }
 
-/***********************Media query for navbar on small screens**************/
-@media screen and (max-width: 768px) {
-    .collapsing {
-        background-color: #ffd600;
-        position: absolute !important;
-        z-index: 20;
-        width: 90vw;
-        top: 50px;
-    }
-
-    .collapse.in {
-        background-color: #FFD600;
-        display: block;
-        position: absolute;
-        z-index: 20;
-        width: 90vw;
-        top: 50px;
-    }
+.site-search {
+    margin-left: 20px;
 }
 
-.navbar-collapse {
-    max-height: none !important;
+.user-name {
+    padding: 15px;
 }
 
-/********Expanded search-field styles*******/
-.nav-btn-holder {
-    position: relative;
+.user-name p,
+.user-name span {
+    margin: 0 5px;
+    line-height: 20px;
 }
+
+.user-name p:hover,
+.user-name span:hover {
+    color: #fff;
+}
+
+/***********Expandable search-field**************/
 #nav-search-input {
-    visibility: hidden;
+    visibility: collapse;
     position: relative;
     top: 0;
     right: 0;
     width: 0;
     height: 0;
     z-index: 20;
-    background-color: #75787b;
-
+    background-color: #474B4F;
 }
+
 #nav-search-input.search-expanded {
     visibility: visible;
     position: fixed;
@@ -220,15 +181,10 @@ a {
     z-index: 20;
     font-size: 20px;
     color: #ffd600;
-    background-color: #75787b;
+    background-color: #474B4F;
     transition: height 400ms ease-in-out, padding 400ms ease-in-out;
 }
 
-/*.site-search-input-wrapper {
-    height: 100%;
-    width: 100%;
-    color: #ffd600;
-}*/
 .site-search-input {
     display: inline-block;
     visibility: visible;
@@ -237,7 +193,7 @@ a {
     top: 50%;
     height: 35%;
     width: 90%;
-    background-color: #75787b;
+    background-color: #474B4f;
     border: none;
     border-bottom: 1px solid #ffd600;
     outline: none;
@@ -248,7 +204,7 @@ a {
     position: absolute;
     top: 57%;
     left: 10px;
-    z-index: 25
+    z-index: 25;
 }
 
 #nav-search-input .glyphicon-remove {
@@ -260,25 +216,36 @@ a {
     color: #000;
 }
 
-/******************************************/
-.login-buttons li:first-child { /***class to change position of login buttons in header****/
-    padding-right: 10px;
-}
+/*******************login modal*****************/
 
-
-.user-menu p {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    margin-right: 10px;
-}
-
-.user-menu span {
-    color: #75787b;
-    font-weight: 700;
-}
-
-.login-modal {
+.modal .wrapper {
     width: 200px;
 }
-/************************Main-img**************************************************/
+
+/**********************************************************************
+**********************Main img section*********************************
+***********************************************************************/
+.main-img {
+    position: relative;
+}
+
+.main-img-content {
+    position: absolute;
+    top: 25%;
+    left: 18%;
+}
+
+@media screen and (min-width: 768px) {
+    /**sm-screen****/
+    .main-img-content {
+        top: 25%;
+        left: 10%;
+    }
+
+    @media screen and (min-width: 992px) {
+        /**md-screen****/
+        .main-img-content {
+            top: 25%;
+            left: 16%;
+        }
+

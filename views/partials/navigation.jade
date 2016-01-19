@@ -1,58 +1,56 @@
 header
-    .container-fluid#header
-        .row
-            .col-xs-12
-                div#nav-search-input
-                    .site-search-input-wrapper
-                    span.glyphicon.glyphicon-search#glyphicon-search2
-                    form(role='', action='', method='get')
-                        input.site-search-input#search-terms(type='text', name='search-terms', placeholder='Print here')
-                    span.glyphicon.glyphicon-remove
-            .col-xs-10.col-sm-6.col-lg-3.site-name
-                a(href='/') Mama Help
-            .col-xs-2.col-sm-6.col-lg-2.col-lg-push-7.nav-btn-holder
-                .col-sm-12.padding-zero.margin-bottom-15
-                    button.js-click-unsensitive.pull-right.site-search.btn-custom.nav-search-label#site-search-button(type='button')
-                        span.glyphicon.glyphicon-search.nav-search-label.js-click-unsensitive
-                    .hidden-xs.lang-switcher.pull-right
-                        ul.nav
-                            each val in systemLocales
-                                if val != locale
-                                    li.pull-right
-                                        a(href='/#{val}')
-                                            img(src='/img/#{val}.png')
-                .hidden-xs.col-sm-12.padding-zero
-                    include user-dropdown
-            nav.navbar.navbar-default.col-xs-3.col-sm-12.col-lg-6.col-lg-pull-2
+.container-fluid.header-top
+    .row
+        .col-xs-12
+            div#nav-search-input
+                .site-search-input-wrapper
+                span.glyphicon.glyphicon-search#glyphicon-search2
+                form(role='', action='', method='get')
+                    input.site-search-input#search-terms(type='text', name='search-terms', placeholder='Print here')
+                span.glyphicon.glyphicon-remove
+        .col-sm-4.col-md-3.site-name
+            a(href='/') Mama Help
+        nav.col-sm-8.col-md-9.navbar.navbar-default
+            .navbar-header
+                button.navbar-toggle.collapsed#toggle-nav-btn(type='button' data-toggle='collapse' data-target='#navbar-collapse-1' aria-expanded='false')
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+            .navbar-collapse.collapse.navbar-left#navbar-collapse-1
+                ul.nav.navbar-nav
+                    li
+                        a.header-link-font(href='') Home
+                    li
+                        a.header-link-font(href='') Blog
+                    li
+                        a.header-link-font(href='') Forum
 
-                button.navbar-toggle.collapsed.pull-left#toggle-nav-btn(type='button' data-toggle='collapse' data-target='#navbar-collapse-1' aria-expanded='false')
-                    span.icon-bar
-                    span.icon-bar
-                    span.icon-bar
-                .collapse.navbar-collapse#navbar-collapse-1
-                    if !user
-                        ul.nav.navbar-nav
-                            li
-                                a.header-link-font(href='') Home
-                            li
-                                a.header-link-font(href='') About project
-                            li
-                                a.header-link-font(href='') Blog
-                            li
-                                a.header-link-font(href='') Forum
-                    else
-                        ul.nav.navbar-nav
-                            li
-                                a.header-link-font(href='') Connections
-                            li
-                                a.header-link-font(href='') Bookmarks
-                            li
-                                a.header-link-font(href='') Blog
-                            li
-                                a.header-link-font(href='') Forum
+            .search-holder
+                button.pull-right.js-click-unsensitive.site-search.btn-custom.navbar-btn.nav-search-label#site-search-button(type='button')
+                    span.glyphicon.glyphicon-search.nav-search-label.js-click-unsensitive
+            if !user
+                button.navbar-btn.btn-custom.pull-right(type='button', data-toggle='modal', data-target='#logInFormModal') Log in
+            else
+                .dropdown.user-menu.pull-right
+                    #userNameDropdown(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                        .user-name
+                            p.header-link-font #{user.name}
 
-            .col-xs-9.hidden-sm.hidden-md.hidden-lg
-                include user-dropdown
+                    ul.dropdown-menu.dropdown-menu-right(aria-labelledby='userNameDropdown')
+                        li
+                            a.header-link-font Bookmarks
+                        li
+                            a.header-link-font Contacts
+                        li
+                            a.header-link-font History
+                        li.divider(role='separator')
+                        li
+                            a Profile
+                        li
+                            a Settings
+                        li.divider(role='separator')
+                        li
+                            a(href="/auth/logout") Logout
 
                                 //**************LogIn modal***********************
 .modal.fade#logInFormModal(tabindex='-1', role='dialog', aria-labelledby='logInFormLabel')
@@ -61,47 +59,40 @@ header
             .modal-header
                 button.close(type='button', data-dismiss='modal', aria-label='Close')
                     span(aria-hidden='false') &times;
-            .modal-body.center-block.login-modal
-                ul.nav
-                    li
-                        form(action='/auth/twitter' method='get')
-                            button.btn-social.btn-twitter(type='submit') Login with Twitter
-                                span.fa.fa-twitter
-
-                    li
-                        form(action='/auth/facebook' method='get')
-                            button.btn-social.btn-facebook(type='submit') Login with Facebook
-                                span.fa.fa-facebook
-
-                    li
-                        form(action='/auth/google' method='get')
-                            button.btn-social.btn-google(type='submit') Login with Google
-                                span.fa.fa-google-plus
-
-
-
-
-
-
-
-    div
-        a(href='/') Mama Help
-        if !user
-            div
-                a(href="/auth/twitter") Login with Twitter
-            div
-                a(href="/auth/facebook") Login with Facebook
-            div
-                a(href="/auth/google") Login with Google
-        else
-            div #{__('Hello')} #{user.name}
-            div
-                a(href="/auth/logout") Logout
-        div
-
-
-    div Current user locale: #{locale}
-    div
-        ul
-            each val in systemLocales
-                li= val
+            .modal-body.login-modal
+                .wrapper.center-block
+                    form.login-modal-form
+                        .form-group
+                            label(for='loginUserEmail') Email address
+                            input#loginUserEmail.form-control(type='email', placeholder='Email')
+                        .form-group
+                            label(for='loginPassword') Password
+                            input#loginPassword.form-control(type='password', placeholder='Password')
+                    p.text-center or login with
+                    ul.nav
+                        li
+                            form(action='/auth/twitter' method='get')
+                                button.btn-social.btn-twitter(type='submit') Login with Twitter
+                                    span.fa.fa-twitter
+                        li
+                            form(action='/auth/facebook' method='get')
+                                button.btn-social.btn-facebook(type='submit') Login with Facebook
+                                    span.fa.fa-facebook
+                        li
+                            form(action='/auth/google' method='get')
+                                button.btn-social.btn-google(type='submit') Login with Google
+                                    span.fa.fa-google-plus
+            .modal-footer
+                .wrapper.center-block
+                    ul.list-inline
+                        li Not a user yet?
+                        li
+                            button.btn-custom Join us
+//
+    .hidden-xs.lang-switcher.pull-right
+                           ul.nav
+                               each val in systemLocales
+                                   if val != locale
+                                       li.pull-right
+                                           a(href='/#{val}')
+                                               img(src='/img/#{val}.png')
