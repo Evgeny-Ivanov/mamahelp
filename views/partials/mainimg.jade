@@ -2,7 +2,9 @@ section
     .container
         .row
             .main-img.col-xs-12
-                img.img-responsive(src='/img/running-1200x500.jpg')
+                picture
+                    source(srcset='/img/running-800x404.jpg' media='(max-width: 991px) and (min-width: 450px)')
+                    img.img-responsive#inspiration-pic(src='/img/running-1200x500.jpg' alt='running women')
                 section.main-img-content.text-center
                     if !user
                         h1 This service is for
@@ -15,5 +17,6 @@ section
                         button.btn-custom.btn-join-us Get started
                         button.btn-custom.btn-join-us Learn more
                     else
-                        button.btn-custom.btn-join-us.btn-help-search I need help
-                        button.btn-custom.btn-join-us.btn-help-search I can help
+                        section#btn-help-sch-holder
+                            button.btn-custom.btn-join-us.btn-help-search I need help
+                            button.btn-custom.btn-join-us.btn-help-search I can help

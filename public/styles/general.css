@@ -5,6 +5,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Times New Roman', serif;
+    font-size: 16px;
     color: #474B4f;
 }
 
@@ -99,17 +100,17 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: 1.2px;
 }
 
-h2 {
-    font-size: 42px;
-}
+/*h2 {*/
+/*font-size: 42px;*/
+/*}*/
 
-h3 {
-    font-size: 36px;
-}
+/*h3 {*/
+/*font-size: 36px;*/
+/*}*/
 
-h4 {
-    font-size: 24px;
-}
+/*h4 {*/
+/*font-size: 24px;*/
+/*}*/
 
 p {
     font-size: 18px;
@@ -176,7 +177,7 @@ a {
     width: 0;
     height: 0;
     z-index: 20;
-    background-color: #474B4F;
+    background-color: #474B4f;
 }
 
 #nav-search-input.search-expanded {
@@ -234,6 +235,7 @@ a {
 ***********************************************************************/
 .main-img {
     position: relative;
+    margin-bottom: 30px;
 }
 
 .main-img-content {
@@ -245,20 +247,26 @@ a {
 @media screen and (min-width: 768px) {
     /**sm-screen****/
     .main-img-content {
-        top: 25%;
-        left: 10%;
+        width: 65%;
+        top: 15%;
+        left: 8%;
     }
 }
 
 @media screen and (min-width: 992px) {
     /**md-screen****/
     .main-img-content {
-        top: 25%;
-        left: 16%;
+        top: 20%;
+        left: 10%;
     }
 }
 
 /******************************************************/
 .page-content {
     padding: 0 10%;
+}
+
+.article-entry {
+    margin-top: 30px;
+    line-height: 1.5;
 }
