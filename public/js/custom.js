@@ -24,11 +24,7 @@
         $('#nav-search-input').removeClass('search-expanded');
         $('.nav-search-label').removeClass('search-active');
     });
-    var pic = $('#inspiration-pic');
-    console.log(pic)
-    document.addEventListener('scroll', function () {
-        pic.addClass('hidden')
-    })
+
 }(window));
 
 
