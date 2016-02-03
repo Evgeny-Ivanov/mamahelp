@@ -4,8 +4,6 @@ body {
     line-height: 1;
     margin: 0;
     padding: 0;
-    font-family: 'Times New Roman', serif;
-    font-size: 16px;
     color: #474B4f;
 }
 
@@ -113,6 +111,7 @@ h1, h2, h3, h4, h5, h6 {
 /*}*/
 
 p {
+    font-family: 'Times New Roman', serif;
     font-size: 18px;
     text-indent: 18px;
     line-height: 1.5;
@@ -247,7 +246,7 @@ a {
 @media screen and (min-width: 768px) {
     /**sm-screen****/
     .main-img-content {
-        width: 65%;
+        width: 60%;
         top: 15%;
         left: 8%;
     }
@@ -261,6 +260,40 @@ a {
     }
 }
 
+/**********************Registration-form****************/
+@media screen and (min-width: 768px) {
+    /**sm-screen****/
+    .reg-form {
+        width: 50%;
+        top: 4%;
+        left: 15%;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    /**md-screen****/
+    .reg.form {
+        top: 10%;
+        left: 10%;
+    }
+}
+
+.reg-form input {
+    width: 200px;
+}
+
+.reg-form form {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.reg-form i {
+    color: #ffb400;
+}
+
+.reg-form-header {
+    margin: 0 auto;
+}
 /******************************************************/
 .page-content {
     padding: 0 10%;
@@ -269,4 +302,31 @@ a {
 .article-entry {
     margin-top: 30px;
     line-height: 1.5;
+}
+
+.field-correct {
+    color: green;
+    position: absolute;
+    top: 28px;
+    left: 220px;
+}
+
+.field-uncorrect {
+    color: red;
+    position: absolute;
+    top: 28px;
+    left: 220px;
+}
+
+.field-notification {
+    position: absolute;
+    top: 0px;
+    right: 37px;
+    font-size: 12px;
+    font-style: italic;
+    color: red;
+}
+
+.hidden {
+    display: none;
 }

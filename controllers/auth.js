@@ -96,3 +96,8 @@ exports.logout = function (req, res) {
     req.session.destroy();
     res.redirect('/');
 };
+
+exports.signup = function (req, res) {
+    console.log('aaaaaaa');
+    res.render('signup');
+};

@@ -6,7 +6,7 @@ header
                     .site-search-input-wrapper
                     span.glyphicon.glyphicon-search#glyphicon-search2
                     form(role='', action='', method='get')
-                        input.site-search-input#search-terms(type='text', name='search-terms', placeholder='Print here')
+                        input.site-search-input#search-terms(type='search', name='search-terms', placeholder='Print here')
                     span.glyphicon.glyphicon-remove
             .col-sm-4.col-md-3.site-name
                 a(href='/') Mama Help
@@ -73,21 +73,21 @@ header
                             li
                                 form(action='/auth/twitter' method='get')
                                     button.btn-social.btn-twitter(type='submit') Login with Twitter
-                                        span.fa.fa-twitter
+                                        i.fa.fa-twitter
                             li
                                 form(action='/auth/facebook' method='get')
                                     button.btn-social.btn-facebook(type='submit') Login with Facebook
-                                        span.fa.fa-facebook
+                                        i.fa.fa-facebook
                             li
                                 form(action='/auth/google' method='get')
                                     button.btn-social.btn-google(type='submit') Login with Google
-                                        span.fa.fa-google-plus
+                                        i.fa.fa-google-plus
                 .modal-footer
                     .wrapper.center-block
                         ul.list-inline
                             li Not a user yet?
                             li
-                                button.btn-custom Join us
+                                a(href='/signup').btn-custom Join us
 //
     .hidden-xs.lang-switcher.pull-right
                            ul.nav

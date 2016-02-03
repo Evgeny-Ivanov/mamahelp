@@ -109,7 +109,7 @@ var MamaHelpApp = function () {
             res.locals.systemLocales = systemLocales;
             var languageHeader = req.headers['accept-language'];
             if (languageHeader && !res.locals.locale) {
-                console.log('User locale set: ' + languageHeader);
+                //console.log('User locale set: ' + languageHeader);
                 var locale = languageHeader.split(';')[0].split(',')[1];
                 res.locals.locale = locale;
             }
@@ -125,6 +125,8 @@ var MamaHelpApp = function () {
         app.set('view engine', 'jade');
 
         var router = express.Router();
+        router.get('/signup', authController.signup);
+
         router.get('/', homeController.index);
         router.get('/auth/twitter', authController.twitter);
         router.get('/auth/twitter/callback', authController.twitterCallback, function (req, res) {
@@ -142,11 +144,12 @@ var MamaHelpApp = function () {
 
         router.get('/:locale', function (req, res) {
             var locale = req.params.locale;
-            console.log('Updating user locale: ' + locale);
+            //console.log('Updating user locale: ' + locale);
             res.cookie('i18n', locale);
             res.locals.locale = locale;
             res.redirect('/');
         });
+
 
         app.use(router);
 

@@ -1,6 +1,22 @@
 extends layout
 
 block content
+    include partials/mainimg
+        section.main-img-content.text-center
+            if !user
+                h1 This service is for
+                p
+                    | Lorem ipsum dolor sit amet, ut pede, inceptos nullam porttitor.
+                    br
+                    | Massa aenean, nunc quis. Volutpat ac praesent, at pulvinar.
+                    br
+                    | Sed viverra. Viverra scelerisque, sem sed vitae. Nisl consectetuer, leo nonummy.
+                button.btn-custom.btn-join-us Get started
+                button.btn-custom.btn-join-us Learn more
+            else
+                section#btn-help-sch-holder
+                    button.btn-custom.btn-join-us.btn-help-search I need help
+                    button.btn-custom.btn-join-us.btn-help-search I can help
     .container-fluid
         .row
             .col-md-8.col-sm-8.page-content
@@ -11,7 +27,7 @@ block content
                     p.text-justify Usu aliquam accusam tacimates ne. Voluptua recusabo vulputate vix cu, aliquando democritum vel ex. Ea doming definiebas pro, sea vidit phaedrum no. Ne brute detraxit eam, iusto impetus persecuti has ea, duo ludus aliquip aperiam ex. Per cu diamnatum.
                     p.text-justify Nobis nullam eirmod ne est, munere consulatu te his. Per eripuit accusamus in, id vis natum voluptatibus. Per ei scripta sapientem salutandi, modus illum cum et, vim cu eligendi torquatos. Ius an iudicabit euripidis abhorreant, cu mucius copiosae atomorum vix. Reque erant imperdiet et eum. Ius dicant labitur cu.
                     .text-center
-                        button.btn-custom.btn-join-us Join us
+                        a(href='/signup').btn-custom.btn-join-us Join us
                 h1 Safety tips
                 p.text-justify Mei te placerat liberavisse, vix eu tempor everti aliquip, te cum summo scribentur. Et erat patrioque dignissim eos, errem pericula petentium quo te. Ubique scripta sapientem eu nec, quo impetus delenit insolens in. Cum iusto veritus civibus ne. Cum et quem debet nullam, vivendo copiosae erroribus cum cu.
                 p.text-justify Usu aliquam accusam tacimates ne. Voluptua recusabo vulputate vix cu, aliquando democritum vel ex. Ea doming definiebas pro, sea vidit phaedrum no. Ne brute detraxit eam, iusto impetus persecuti has ea, duo ludus aliquip aperiam ex. Per cu diam natum.
