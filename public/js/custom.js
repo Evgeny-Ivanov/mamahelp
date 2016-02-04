@@ -25,171 +25,61 @@
 
 }(window));
 
-var form = document.forms.regForm;
-var firstNameInput = form.elements.firstName;
-var lastNameInput = form.elements.lastName;
-var emailInput = form.elements.email;
-var nickInput = form.elements.nickName;
-var passInput = form.elements.password;
-var confirm = form.elements.confirmPass;
+regForm = {
+    firstName: [isNotEmpty],
+    lastName: [isNotEmpty],
+    email: [isNotEmpty, isEmail],
+    nickName: [isNotEmpty],
+    password: [isNotEmpty],
+    confirmPass: [isNotEmpty, isMatchPass]
+};
+document.addEventListener('DOMContentLoaded', function () {
+    var form = document.forms.regForm;
+    for (var names in regForm) form.elements[names].addEventListener('blur', function (e) {
 
-firstNameInput.addEventListener('blur', function () {
-    if (checkIfEmpty(this)) {
-        console.log('FirstName field validation passed');
-        var e = this.closest('.form-group');
-        var formGroupPar = e.getElementsByTagName('p')[0];
-        var formGroupSpan = e.getElementsByTagName('span')[0];
-        $(formGroupSpan)
-            .removeClass()
-            .addClass('glyphicon glyphicon-ok field-correct');
-        $(formGroupPar).addClass('hidden');
-
-    } else {
-        console.log('empty field');
-        var e = this.closest('.form-group');
-        var formGroupPar = e.getElementsByTagName('p')[0];
-        var formGroupSpan = e.getElementsByTagName('span')[0];
-        $(formGroupSpan)
-            .removeClass()
-            .addClass('glyphicon glyphicon-remove field-uncorrect');
-        $(formGroupPar).removeClass('hidden');
-    }
-});
-
-lastNameInput.addEventListener('blur', function () {
-    if (checkIfEmpty(this)) {
-        console.log('LastName field validation passed');
-        var e = this.closest('.form-group');
-        var formGroupPar = e.getElementsByTagName('p')[0];
-        var formGroupSpan = e.getElementsByTagName('span')[0];
-        $(formGroupSpan)
-            .removeClass()
-            .addClass('glyphicon glyphicon-ok field-correct');
-        $(formGroupPar).addClass('hidden');
-
-    } else {
-        console.log('empty field');
-        var e = this.closest('.form-group');
-        var formGroupPar = e.getElementsByTagName('p')[0];
-        var formGroupSpan = e.getElementsByTagName('span')[0];
-        $(formGroupSpan)
-            .removeClass()
-            .addClass('glyphicon glyphicon-remove field-uncorrect');
-        $(formGroupPar).removeClass('hidden');
-    }
-});
-
-emailInput.addEventListener('blur', function () {
-    if (checkIfEmpty(this) && validateEmail(this)) {
-        console.log('emailInput field validation passed');
-        var e = this.closest('.form-group');
-        var formGroupPar = e.getElementsByTagName('p')[0];
-        var formGroupSpan = e.getElementsByTagName('span')[0];
-        $(formGroupSpan)
-            .removeClass()
-            .addClass('glyphicon glyphicon-ok field-correct');
-        $(formGroupPar).addClass('hidden');
-
-    } else {
-        console.log('empty field');
-        var e = this.closest('.form-group');
-        var formGroupPar = e.getElementsByTagName('p')[0];
-        var formGroupSpan = e.getElementsByTagName('span')[0];
-        $(formGroupSpan)
-            .removeClass()
-            .addClass('glyphicon glyphicon-remove field-uncorrect');
-        $(formGroupPar).removeClass('hidden');
-    }
-});
-
-nickInput.addEventListener('blur', function () {
-    if (checkIfEmpty(this)) {
-        console.log('nickInput field validation passed');
-        var e = this.closest('.form-group');
-        var formGroupPar = e.getElementsByTagName('p')[0];
-        var formGroupSpan = e.getElementsByTagName('span')[0];
-        $(formGroupSpan)
-            .removeClass()
-            .addClass('glyphicon glyphicon-ok field-correct');
-        $(formGroupPar).addClass('hidden');
-
-    } else {
-        console.log('empty field');
-        var e = this.closest('.form-group');
-        var formGroupPar = e.getElementsByTagName('p')[0];
-        var formGroupSpan = e.getElementsByTagName('span')[0];
-        $(formGroupSpan)
-            .removeClass()
-            .addClass('glyphicon glyphicon-remove field-uncorrect');
-        $(formGroupPar).removeClass('hidden');
-    }
-});
-
-passInput.addEventListener('blur', function () {
-    if (checkIfEmpty(this)) {
-        var e = this.closest('.form-group');
-        var formGroupPar = e.getElementsByTagName('p')[0];
-        var formGroupSpan = e.getElementsByTagName('span')[0];
-        $(formGroupSpan)
-            .removeClass()
-            .addClass('glyphicon glyphicon-ok field-correct');
-        $(formGroupPar).addClass('hidden');
-
-    } else {
-        console.log('empty field');
-        var e = this.closest('.form-group');
-        var formGroupPar = e.getElementsByTagName('p')[0];
-        var formGroupSpan = e.getElementsByTagName('span')[0];
-        $(formGroupSpan)
-            .removeClass()
-            .addClass('glyphicon glyphicon-remove field-uncorrect');
-        $(formGroupPar).removeClass('hidden');
-    }
-});
-
-confirm.addEventListener('blur', function () {
-    if (checkIfEmpty(this) && passConfirm(this)) {
-        console.log('passInput field validation passed');
-        var e = this.closest('.form-group');
-        var formGroupPar = e.getElementsByTagName('p')[0];
-        var formGroupSpan = e.getElementsByTagName('span')[0];
-        $(formGroupSpan)
-            .removeClass()
-            .addClass('glyphicon glyphicon-ok field-correct');
-        $(formGroupPar).addClass('hidden');
-
-    } else {
-        console.log('empty field');
-        var e = this.closest('.form-group');
-        var formGroupPar = e.getElementsByTagName('p')[0];
-        var formGroupSpan = e.getElementsByTagName('span')[0];
-        $(formGroupSpan)
-            .removeClass()
-            .addClass('glyphicon glyphicon-remove field-uncorrect');
-        $(formGroupPar).removeClass('hidden');
-    }
-});
+        var validationFunc = regForm[e.target.name];
+        var x = true;
+        for (var f in validationFunc) {
+            var validationResult = validationFunc[f](this);
+            if (!validationResult.result) {
+                x = false;
+                notValidMark(this, validationResult.message);
+                break;
+            } else {
+                okValidMark(this);
+            }
+        }
+    })
+})
 
 
-function checkIfEmpty(elem) {
+//var subBtn = $('#submit-reg')
+//    subBtn.addEventListener('click', regValidation());
+
+
+//function regValidation() {
+//
+//}
+
+function isNotEmpty(elem) {
     var x = elem.value;
-    if (x == null || x.trim() == '') {
-        return false;
+    if (x != null && x.trim() != '') {
+        return {result: true};
     } else {
-        return true;
+        return {result: false, message: 'Field is required'};
     }
 }
 
-function validateEmail(mail) {
+function isEmail(mail) {
     var mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
     if (mail.value.match(mailFormat)) {
-        return true;
+        return {result: true};
     } else {
-        return false;
+        return {result: false, message: 'Email incorrect'};
     }
 }
 
-function passConfirm(e) {
+function isMatchPass(e) {
     var x = e.value;
     if (x === passInput.value) {
         return true;
@@ -197,7 +87,26 @@ function passConfirm(e) {
         return false;
     }
 }
+function okValidMark(t) {
+    var e = t.closest('.form-group');
+    var formGroupPar = e.getElementsByTagName('p')[0];
+    var formGroupSpan = e.getElementsByTagName('span')[0];
+    $(formGroupSpan)
+        .removeClass()
+        .addClass('glyphicon glyphicon-ok field-correct');
+    $(formGroupPar).addClass('hidden');
+}
 
+function notValidMark(t, text) {
+    var e = t.closest('.form-group');
+    var formGroupPar = e.getElementsByTagName('p')[0];
+    var formGroupSpan = e.getElementsByTagName('span')[0];
+    $(formGroupPar).text(text);
+    $(formGroupSpan)
+        .removeClass()
+        .addClass('glyphicon glyphicon-remove field-uncorrect');
+    $(formGroupPar).removeClass('hidden');
+}
 
 
 
