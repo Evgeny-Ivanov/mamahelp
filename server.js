@@ -6,10 +6,9 @@ var express = require('express'),
     passport = require('passport'),
     session = require('express-session'),
     cookieParser = require('cookie-parser'),
-    i18n = require('i18n');
+    i18n = require('i18n'),
+    routes = require('./routes/index');
 
-var homeController = require('./controllers/home');
-var authController = require('./controllers/auth');
 
 mongoose.connect(config.get('db'));
 
@@ -124,35 +123,8 @@ var MamaHelpApp = function () {
         app.set('views', path.join(__dirname, 'views'));
         app.set('view engine', 'jade');
 
-        var router = express.Router();
-        router.get('/signup', authController.signup);
-
-        router.get('/', homeController.index);
-        router.get('/auth/twitter', authController.twitter);
-        router.get('/auth/twitter/callback', authController.twitterCallback, function (req, res) {
-            res.redirect(req.session.returnTo || '/');
-        });
-        router.get('/auth/facebook', authController.facebook);
-        router.get('/auth/facebook/callback', authController.facebookCallback, function (req, res) {
-            res.redirect(req.session.returnTo || '/');
-        });
-        router.get('/auth/google', authController.google);
-        router.get('/auth/google/callback', authController.googleCallback, function (req, res) {
-            res.redirect(req.session.returnTo || '/');
-        });
-        router.get('/auth/logout', authController.logout);
-
-        router.get('/:locale', function (req, res) {
-            var locale = req.params.locale;
-            //console.log('Updating user locale: ' + locale);
-            res.cookie('i18n', locale);
-            res.locals.locale = locale;
-            res.redirect('/');
-        });
-
-
-        app.use(router);
-
+        var routes = routes(passport);
+        app.use('/', routes);
     };
 
 

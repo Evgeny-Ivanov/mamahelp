@@ -25,6 +25,8 @@ var UserSchema = new mongoose.Schema({
     password: String,
     email: {type: String, lowercase: true, default: ''},
     name: {type: String, default: ''},
+    firstName: {type: String, default: ''},
+    lastName: {type: String, default: ''},
     created: {type: Date, default: new Date()}
 });
 
