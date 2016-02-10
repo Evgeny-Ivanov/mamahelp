@@ -24,7 +24,9 @@
     });
 
 }(window));
-
+/******
+ * regform validation
+ */
 regForm = {
     firstName: [isNotEmpty],
     lastName: [isNotEmpty],
@@ -33,33 +35,47 @@ regForm = {
     password: [isNotEmpty],
     confirmPass: [isNotEmpty, isMatchPass]
 };
+
 document.addEventListener('DOMContentLoaded', function () {
     var form = document.forms.regForm;
-    for (var names in regForm) form.elements[names].addEventListener('blur', function (e) {
-
-        var validationFunc = regForm[e.target.name];
-        var x = true;
-        for (var f in validationFunc) {
-            var validationResult = validationFunc[f](this);
-            if (!validationResult.result) {
-                x = false;
-                notValidMark(this, validationResult.message);
-                break;
-            } else {
-                okValidMark(this);
+    for (var names in regForm) {
+        form.elements[names].addEventListener('blur', function (e) {
+            var validationFunc = regForm[e.target.name];
+            var x = true;
+            for (var f in validationFunc) {
+                var validationResult = validationFunc[f](this);
+                if (!validationResult.result) {
+                    x = false;
+                    notValidMark(this, validationResult.message);
+                    break;
+                } else {
+                    okValidMark(this);
+                }
             }
-        }
-    })
+        })
+    }
 })
 
+document.getElementById('submit-reg').addEventListener('click', regValidation);
 
-//var subBtn = $('#submit-reg')
-//    subBtn.addEventListener('click', regValidation());
-
-
-//function regValidation() {
-//
-//}
+function regValidation() {
+    var form = document.forms.regForm;
+    for (var names in regForm) {
+        var field = form.elements[names];
+        var validationFunc = regForm[names];
+        var x = true;
+        for (var f in validationFunc) {
+            var validationResult = validationFunc[f](field);
+            if (!validationResult.result) {
+                x = false;
+                notValidMark(field, validationResult.message);
+                break;
+            } else {
+                okValidMark(field);
+            }
+        }
+    }
+}
 
 function isNotEmpty(elem) {
     var x = elem.value;
@@ -87,6 +103,7 @@ function isMatchPass(e) {
         return false;
     }
 }
+
 function okValidMark(t) {
     var e = t.closest('.form-group');
     var formGroupPar = e.getElementsByTagName('p')[0];
@@ -98,6 +115,7 @@ function okValidMark(t) {
 }
 
 function notValidMark(t, text) {
+    console.log('t = ' + t);
     var e = t.closest('.form-group');
     var formGroupPar = e.getElementsByTagName('p')[0];
     var formGroupSpan = e.getElementsByTagName('span')[0];
