@@ -123,7 +123,7 @@ var MamaHelpApp = function () {
         app.set('views', path.join(__dirname, 'views'));
         app.set('view engine', 'jade');
 
-        var routes = routes(passport);
+        var routes = routes.route(passport);
         app.use('/', routes);
     };
 

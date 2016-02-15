@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var homeController = require('./controllers/home');
-var authController = require('./controllers/auth');
+var homeController = require('../controllers/home');
+var authController = require('../controllers/auth');
 
 
 var isAuthenticated = function (req, res, next) {
@@ -12,9 +12,9 @@ var isAuthenticated = function (req, res, next) {
         return next();
     // if the user is not authenticated then redirect him to the login page
     res.redirect('/');
-}
+};
 
-module.exports = function (passport) {
+exports.route = function (passport) {
 
     /* GET login page. */
     router.get('/', function (req, res) {
