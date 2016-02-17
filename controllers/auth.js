@@ -101,3 +101,16 @@ exports.signup = function (req, res) {
     console.log('aaaaaaa');
     res.render('signup');
 };
+
+exports.verifyEmail = function (req, res) {
+    console.log('Verifying request');
+    var email = req.param('email');
+    console.log('Looking up for email: ' + email);
+    User.findOne({'email': email}, function (err, existingUser) {
+        if (err) {
+            throw err;
+        }
+        console.log(existingUser);
+        res.send(JSON.stringify({exist: existingUser != null}));
+    });
+};
