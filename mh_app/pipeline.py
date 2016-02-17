@@ -1,5 +1,4 @@
 from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
 from social.pipeline.partial import partial
 
 
@@ -13,3 +12,11 @@ def require_email(strategy, details, user=None, is_new=False, *args, **kwargs):
             details['email'] = email
         else:
             return redirect('mh_app:require_email')
+
+
+@partial
+def create_user(strategy, details, backend, user=None, is_new=False, *args, **kwargs):
+    if user:
+        return
+    if backend.name != 'username':
+        return redirect('mh_app:create_user')

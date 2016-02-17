@@ -1,22 +1,30 @@
 {% extends 'mh_app/base.html' %}
-{% block content %}
-    Welcome to Mamahelp!
-    {% if user.is_authenticated %}
-        <div class="user-details">
-            You are logged in as <code>{{ user.username }}</code>!
-        </div>
-    {% endif %}
-    <p>
-        <a href="{% url 'mh_app:logout' %}">Log out</a>
-    </p>
-    <p>
-        <a href="{% url 'social:begin' 'username' %}">Sign up</a>
-    </p>
-    <p>
-        <a href="{% url 'social:begin' 'google-oauth2' %}">Google</a>
-    </p>
-    <p>
-        <a href="{% url 'social:begin' 'facebook' %}">Facebook</a>
-    </p>
 
+{% block content %}
+    <div>
+        <h1>Mamahelp</h1>
+
+        <p>
+        <ul>
+            {% if user and not user.is_anonymous %}
+                <li>
+                    <a>Hello {{ user.get_full_name|default:user.username }}!</a>
+                </li>
+                <li>
+                    <a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{% url 'social:begin' 'username' %}?next={{ request.path }}">Login with your credentials</a>
+                </li>
+                <li>
+                    <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with Facebook</a>
+                </li>
+                <li>
+                    <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a>
+                </li>
+            {% endif %}
+        </ul>
+        </p>
+    </div>
 {% endblock %}
