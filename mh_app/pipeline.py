@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-
+from django.core.urlresolvers import reverse
 from social.pipeline.partial import partial
 
 

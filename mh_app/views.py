@@ -1,6 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.conf import settings
-from django.shortcuts import redirect
 from django.contrib.auth import logout as auth_logout
 from social.backends.google import GooglePlusAuth
 from social.backends.utils import load_backends
