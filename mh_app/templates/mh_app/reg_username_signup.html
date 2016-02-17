@@ -1,0 +1,30 @@
+{% extends "mh_app/base.html" %}
+
+{% block content %}
+    <form action="{% url 'social:complete' "username" %}" method="post">
+        {% csrf_token %}
+        {% if email_required %}
+            <p>
+                Email required!!!
+            </p>
+        {% endif %}
+
+        <label for="username">Username:</label>
+        <input id="username" type="text" name="username" value="{{ username }}"/>
+
+        <label for="email">Email:</label>
+        <input id="email" type="text" name="email" value="{{ email }}"/>
+
+        <label for="password">Password:</label>
+        <input id="password" type="password" name="password" value=""/>
+
+        <label for="first_name">First name:</label>
+        <input id="first_name" type="text" name="first_name" value="{{ first_name }}"/>
+
+        <label for="last_name">Last name:</label>
+        <input id="last_name" type="text" name="last_name" value="{{ last_name }}"/>
+
+        <br/>
+        <button>Signup</button>
+    </form>
+{% endblock %}
