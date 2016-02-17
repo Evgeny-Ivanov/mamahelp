@@ -24,42 +24,48 @@
     });
 
 }(window));
-
+/******
+ * regform validation
+ */
 regForm = {
     firstName: [isNotEmpty],
     lastName: [isNotEmpty],
-    email: [isNotEmpty, isEmail],
+    email: [isNotEmpty, isEmail, isEmailExist],
     nickName: [isNotEmpty],
     password: [isNotEmpty],
     confirmPass: [isNotEmpty, isMatchPass]
 };
+
+function validate(name, field) {
+    var validationFunc = regForm[name];
+    var x = true;
+    for (var f in validationFunc) {
+        var validationResult = validationFunc[f](field);
+        if (!validationResult.result) {
+            x = false;
+            notValidMark(field, validationResult.message);
+            break;
+        } else {
+            okValidMark(field);
+        }
+    }
+}
 document.addEventListener('DOMContentLoaded', function () {
     var form = document.forms.regForm;
-    for (var names in regForm) form.elements[names].addEventListener('blur', function (e) {
+    for (var names in regForm) {
+        form.elements[names].addEventListener('blur', function (e) {
+            validate(e.target.name, this);
+        })
+    }
+});
 
-        var validationFunc = regForm[e.target.name];
-        var x = true;
-        for (var f in validationFunc) {
-            var validationResult = validationFunc[f](this);
-            if (!validationResult.result) {
-                x = false;
-                notValidMark(this, validationResult.message);
-                break;
-            } else {
-                okValidMark(this);
-            }
-        }
-    })
-})
+document.getElementById('submit-reg').addEventListener('click', function () {
+    var form = document.forms.regForm;
+    for (var name in regForm) {
+        validate(name, form.elements[name]);
+    }
+});
 
-
-//var subBtn = $('#submit-reg')
-//    subBtn.addEventListener('click', regValidation());
-
-
-//function regValidation() {
-//
-//}
 
 function isNotEmpty(elem) {
     var x = elem.value;
@@ -79,6 +85,18 @@ function isEmail(mail) {
     }
 }
 
+function isEmailExist(mail) {
+    //$.get("verifyEmail?email=" + mail.value, function (data) {
+    //    console.log(data);
+    //});
+    //return {result: true};
+    var request = new XMLHttpRequest();
+    request.open('GET', 'verifyEmail?email=', true);
+    request.send(mail.value);
+
+    console.log(data);
+}
+
 function isMatchPass(e) {
     var x = e.value;
     if (x === passInput.value) {
@@ -87,6 +105,7 @@ function isMatchPass(e) {
         return false;
     }
 }
+
 function okValidMark(t) {
     var e = t.closest('.form-group');
     var formGroupPar = e.getElementsByTagName('p')[0];
@@ -107,9 +126,6 @@ function notValidMark(t, text) {
         .addClass('glyphicon glyphicon-remove field-uncorrect');
     $(formGroupPar).removeClass('hidden');
 }
-
-
-
 
 
 
