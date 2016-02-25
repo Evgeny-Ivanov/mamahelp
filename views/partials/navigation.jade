@@ -31,8 +31,7 @@ header
                 if !user
                     button.navbar-btn.btn-custom.pull-right(type='button', data-toggle='modal', data-target='#logInFormModal') Log in
                 else
-                    .dropdown.user-menu.pull-right
-                        #userNameDropdown(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                    .dropdown.user-menu.pull-right#userNameDropdown(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                             .user-name
                                 p.header-link-font #{user.name}
 

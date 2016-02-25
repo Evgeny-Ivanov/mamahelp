@@ -1,7 +1,10 @@
 {% extends 'mh_app/base.html' %}
 
 {% block content %}
-    <div>
+    {% include 'mh_app/navigation.html' %}
+    {% include 'mh_app/mainimage.html' %}
+
+    {% comment %}<div>
         <h1>Mamahelp</h1>
 
         <p>
@@ -25,6 +28,5 @@
                 </li>
             {% endif %}
         </ul>
-        </p>
-    </div>
+    </div>{% endcomment %}
 {% endblock %}
