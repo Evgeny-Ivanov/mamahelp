@@ -53,6 +53,7 @@ function validate(name, field) {
 document.addEventListener('DOMContentLoaded', function () {
     var form = document.forms.regForm;
     for (var names in regForm) {
+        console.log(names);
         form.elements[names].addEventListener('blur', function (e) {
             validate(e.target.name, this);
         })
@@ -99,10 +100,10 @@ function isEmailExist(mail) {
 
 function isMatchPass(e) {
     var x = e.value;
-    if (x === passInput.value) {
-        return true;
+    if (x === inputPass.value) {
+        return {result: true};
     } else {
-        return false;
+        return {result: false, message: 'Does not match'};
     }
 }
 

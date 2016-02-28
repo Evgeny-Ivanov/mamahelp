@@ -103,7 +103,7 @@
                     <p class="text-center">or login with</p>
                     <ul class="nav">
                         <li>
-                            <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"> Login with Facebook</a>
+                            <a class="btn-social btn-facebook" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"> Login with Facebook</a>
                         </li>
                         <li>
                             <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a>
@@ -117,7 +117,7 @@
                     <ul class="list-inline">
                         <li>Not a user yet?</li>
                         <li>
-                            <a class="btn-custom" href="">Join us</a>
+                            <a class="btn-custom" href="{% url 'social:begin' 'username' %}">Join us</a>
                         </li>
                     </ul>
                 </div>

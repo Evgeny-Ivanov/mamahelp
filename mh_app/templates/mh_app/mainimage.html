@@ -6,21 +6,3 @@
                 <source srcset="{% static 'mh_app/img/running-800x404.jpg' %}" media='(max-width: 850px) and (min-width: 450px)'>
                 <img class="img-responsive" id="inspiration-pic" src="{% static 'mh_app/img/running-1200x500.jpg' %}"alt='running women'>
             </picture>
-            <section class="main-img-content text-center">
-                {% if user and not user.is_anonymous %}
-                    <section id="#btn-help-sch-holder">
-                        <button class="btn-custom btn-join-us btn-help-search"> I need help</button>
-                        <button class="btn-custom btn-join-us btn-help-search"> I can help</button>
-                    </section>
-                {% else %}
-                    <h1>This service is for</h1>
-                    <p>Lorem ipsum dolor sit amet, ut pede, inceptos nullam porttitor.<br>
-                        Massa aenean, nunc quis. Volutpat ac praesent, at pulvinar.<br>
-                        Sed viverra. Viverra scelerisque, sem sed vitae. Nisl consectetuer, leo nonummy.</p>
-                    <button class="btn-custom btn-join-us" href="">Get started</button>
-                    <button class="btn-custom btn-join-us">Learn more</button>
-                {% endif %}
-            </section>
-        </div>
-    </div>
-</div>
