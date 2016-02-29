@@ -28,10 +28,10 @@
  * regform validation
  */
 regForm = {
-    firstName: [isNotEmpty],
-    lastName: [isNotEmpty],
-    email: [isNotEmpty, isEmail, isEmailExist],
-    nickName: [isNotEmpty],
+    first_name: [isNotEmpty],
+    last_name: [isNotEmpty],
+    email: [isNotEmpty, isEmail],
+    username: [isNotEmpty],
     password: [isNotEmpty],
     confirmPass: [isNotEmpty, isMatchPass]
 };
@@ -92,10 +92,16 @@ function isEmailExist(mail) {
     //});
     //return {result: true};
     var request = new XMLHttpRequest();
-    request.open('GET', 'verifyEmail?email=', true);
-    request.send(mail.value);
+    request.open('GET', '/verifyEmail?email=' + mail.value, true);
+    request.send();
+    request.onreadystatechange = function() {
+        if (request.readyState === 4) {
+            if(request.status === 200) {
+                console.log(request.responseText);
+            }
+        }
+    }
 
-    console.log(data);
 }
 
 function isMatchPass(e) {
