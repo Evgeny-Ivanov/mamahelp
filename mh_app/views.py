@@ -4,6 +4,10 @@ from django.contrib.auth import logout as auth_logout
 from social.backends.google import GooglePlusAuth
 from social.backends.utils import load_backends
 from mh_app.decorators import render_to
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from mh_app.models import CustomUser
 
 
 # Create your views here.
@@ -86,6 +90,28 @@ def require_email(request):
 def create_user(request):
     details = request.session['partial_pipeline']['kwargs']['details']
     return details
+
+
+@api_view(['GET'])
+def verify_email(request):
+    email = request.query_params['email']
+    exist = False
+    if email is not None and email.strip() != '':
+        users = CustomUser.objects.filter(email__exact=email.strip())
+        exist = len(users) > 0
+
+    return Response({'exist': exist})
+
+
+@api_view(['GET'])
+def verify_username(request):
+    username = request.query_params['username']
+    exist = False
+    if username is not None and username.strip() != '':
+        users = CustomUser.objects.filter(username__exact=username.strip())
+        exist = len(users) > 0
+
+    return Response({'exist': exist})
 
 #
 #

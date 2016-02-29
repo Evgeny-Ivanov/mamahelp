@@ -8,5 +8,7 @@ urlpatterns = [
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^email/$', views.require_email, name='require_email'),
     url(r'^signup/$', views.create_user, name='create_user'),
+    url(r'^verifyEmail/$', views.verify_email, name='verify_email'),
+    url(r'^verifyUsername/$', views.verify_username, name='verify_username'),
 
 ]
