@@ -1,0 +1,5 @@
+signup page -> {% url 'social:begin' 'username' %}
+facebpook login form -> {% url 'social:begin' 'facebook' %}
+google login -> {% url 'social:begin' 'google-oauth2' %}
+logout and navigate home -> {% url 'logout' %}
+home/index -> {% url 'index' %}

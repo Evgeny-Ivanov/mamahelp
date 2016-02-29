@@ -78,14 +78,14 @@ def context(**extra):
 #     )
 #
 #
-@render_to('mh_app/reg_username_signup.html')
+@render_to('mh_app/signup.html')
 def require_email(request):
     details = request.session['partial_pipeline']['kwargs']['details']
     details['email_required'] = True
     return details
 
 
-@render_to('mh_app/reg_username_signup.html')
+@render_to('mh_app/signup.html')
 def create_user(request):
     details = request.session['partial_pipeline']['kwargs']['details']
     return details

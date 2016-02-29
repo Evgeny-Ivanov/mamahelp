@@ -1,8 +1,22 @@
 {% extends 'mh_app/base.html' %}
 
 {% block content %}
-    {% include 'mh_app/navigation.html' %}
     {% include 'mh_app/mainimage.html' %}
+    <section class="main-img-content text-center">
+        {% if user and not user.is_anonymous %}
+            <section id="#btn-help-sch-holder">
+                <button class="btn-custom btn-join-us btn-help-search"> I need help</button>
+                <button class="btn-custom btn-join-us btn-help-search"> I can help</button>
+            </section>
+        {% else %}
+            <h1>This service is for</h1>
+            <p>Lorem ipsum dolor sit amet, ut pede, inceptos nullam porttitor.<br>
+                Massa aenean, nunc quis. Volutpat ac praesent, at pulvinar.<br>
+                Sed viverra. Viverra scelerisque, sem sed vitae. Nisl consectetuer, leo nonummy.</p>
+            <a class="btn-custom btn-join-us" role="button" href="{% url 'social:begin' 'username' %}">Get started</a>
+            <button class="btn-custom btn-join-us">Learn more</button>
+        {% endif %}
+    </section>
 
     {% comment %}<div>
         <h1>Mamahelp</h1>

@@ -121,6 +121,10 @@ a {
     color: #4169E1;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 /*******************Navbar style*****************/
 .navbar-default {
     background-color: #474B4f;
