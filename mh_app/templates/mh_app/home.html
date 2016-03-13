@@ -1,14 +1,16 @@
 {% extends 'mh_app/base.html' %}
 
 {% block content %}
+    <main>
     {% include 'mh_app/mainimage.html' %}
 {% comment %}continue of mainimage.html{% endcomment %}
-    <section class="main-img-content text-center">
+
+    <section class="main-img-content text-center " id="img-content">
         {% if user and not user.is_anonymous %}
-            <section id="#btn-help-sch-holder">
+            <div id="btn-help-sch-holder">
                 <button class="btn-custom btn-join-us btn-help-search"> I need help</button>
                 <button class="btn-custom btn-join-us btn-help-search"> I can help</button>
-            </section>
+           </div>
         {% else %}
             <h1>This service is for</h1>
             <p>Lorem ipsum dolor sit amet, ut pede, inceptos nullam porttitor.<br>
@@ -22,11 +24,63 @@
     </div>
     </div>
     </div>
-    <main>
-        <div class="container-fluid">
+        <div class="container-fluid page-content">
             <div class="row">
-                <div class="col-sm-8 col-md-8 page-content">
+                <div class="col-sm-8">
                     {% if user and not user.is_anonymous %}
+                        <p>Lorem ipsum dolor sit amet, has no iuvaret inimicus contentiones, cu sed graece
+                            libris ridens. Eu elit corrumpit vel. Et sea elit decore diceret, ut nam regione
+                            expetenda assentior. Impedit adipisci mandamus sea ad. Prima omnes expetenda nam in.
+                            Prodesset ullamcorper per an. Nam sint falli iudicabit an, elitr pertinacia
+                            intellegebat an sed.
+                        </p>
+                        <p>
+                            Qui te discere nonumes eligendi. Ut his nominavi tractatos, vim te tritani
+                            laoreet. Graecis offendit corrumpit ne vis, an euismod nominati laboramus eam.
+                            Est commodo philosophia id. Sit case delicatissimi no, tollit doming pro an. Cu
+                            has porro corrumpit consequat, his in posse option.
+                        </p>
+                        <p>
+                            Postea persequeris instructior ne nec. His nominati torquatos et. Per adipisci
+                            adolescens ut, cum id habeo quaestio adversarium. Autem putant aliquid ad sed.
+                            Essent malorum cum eu, quidam iisque alterum nam in, id vocent oportere iudicabit
+                            vix.
+                        </p>
+                        <p>
+                            Qui ea homero primis lobortis, no elitr albucius omittantur cum. Cum ut quod case
+                            habemus, mei tantas eligendi no, et sit tempor admodum indoctum. Ad odio viderer
+                            sit. Mei falli aeque argumentum eu, no voluptua contentiones mei, vix rebum
+                            fastidii te. Id eleifend postulant nam. Nonumy fabulas salutatus vel ne, an inani
+                            scaevola electram mea.
+                        </p>
+                        <p>
+                            Ex expetenda dissentias vis, vel et magna falli, novum civibus eos in. Sed summo
+                            argumentum inciderint eu, decore neglegentur id vix, eos ei regione definiebas.
+                            No dicunt habemus voluptua duo, te eos aeterno integre oportere. Mediocrem
+                            scripserit an usu, ad hinc aeterno sea. Cum ea debitis incorrupte consequuntur.
+                            Mel ne vide eruditi, iusto fabellas persecuti id eum.
+                        </p>
+                        <p>
+                            Vim stet deleniti ex, deseruisse repudiandae vim at. Eu mea pericula consetetur,
+                            velit prompta vel ei. Mea magna quando ad, magna brute at vix, in quod rationibus
+                            reprimique qui. Sea alia prima mentitum no, ex pri debet mucius dignissim.
+                        </p>
+                        <p>
+                            Ad qualisque philosophia conclusionemque sea. Sed in civibus alienum temporibus,
+                            ea putent iriure eum. Commune recteque his eu. Tritani delicata cotidieque sit id,
+                            sit impetus praesent disputando ut. Probo dissentiunt mea no, feugiat persequeris
+                            sea cu. Ei usu partem recusabo delicata, iusto inermis apeirian sit id, eu mei
+                            facer semper officiis.
+                        </p>
+                        <p>
+                            Cibo ignota aliquip duo cu, has ut prodesset scribentur. Legere detracto nam ne,
+                            eu meliore civibus eum. Pro ne detracto offendit consequat, ut blandit mediocrem
+                            mea, his docendi voluptatibus ad. Vix viris electram ea, eam facer delenit
+                            persequeris no. Sed in putant aliquip, utroque habemus ius ut, no vis reformidans
+                            consectetuer. Epicuri dissentiunt ea mei, apeirian ocurreret explicari ut pri,
+                            impetus omnesque assueverit eu nam. Ad est alienum propriae conclusionemque, at
+                            habeo altera tractatos pro.
+                        </p>
                     {% else %}
                         <h1>Why MamaHelp</h1>
                         <p class="text-justify">Lorem ipsum dolor sit amet, mei ex iusto putent consectetuer. Sed ex
@@ -62,9 +116,51 @@
 
                     {% endif %}
                 </div>
+                <aside class="col-sm-4 clearfix">
+                    <div class="sidebar-body">
+                        <div class="recent-articles">
+                            <h1>Recent stories</h1>
+                            <hr>
+                            <div class="article-entry">
+                                <h3>Icecream forever</h3>
+                                <em>Jelly sugar plum topping. Jelly beans candy...
+                                    <a>Read article</a>
+                                </em>
+
+                            </div>
+                            <div class="article-entry">
+                                <h3>Kids like veggies, are you kidding me?!</h3>
+                                <em>Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi...
+                                    <a>Read article</a>
+                                </em>
+                            </div>
+                            <div class="article-entry">
+                                <h3>Best gifts for 6th to 9th birthday</h3>
+                                <em>Eat stuck in a tree lick biting shed everywhere sleep on your keyboard...
+                                    <a>Read article</a>
+                                </em>
+                            </div>
+                            <div class="article-entry">
+                                <h3>Best gifts for 6th to 9th birthday</h3>
+                                <em>Eat stuck in a tree lick biting shed everywhere sleep on your keyboard...
+                                    <a>Read article</a>
+                                </em>
+                            </div>
+                            <div class="article-entry">
+                                <h3>Best gifts for 6th to 9th birthday</h3>
+                                <em>Eat stuck in a tree lick biting shed everywhere sleep on your keyboard...
+                                    <a>Read article</a>
+                                </em>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </aside>
             </div>
         </div>
     </main>
+
 
     {% comment %}<div>
         <h1>Mamahelp</h1>

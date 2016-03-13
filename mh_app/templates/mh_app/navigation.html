@@ -1,4 +1,5 @@
 {% load staticfiles %}
+<nav class="navbar-fixed-top">
 <header class="container-fluid header-top">
     <div class="row">
         <div class="col-xs-12">
@@ -78,6 +79,7 @@
     </div>
 
 </header>
+</nav>
 
 {% comment %}**************LogIn modal***********************{% endcomment %}
 <div class="modal fade" id="logInFormModal"  tabindex="-1" role="dialog">
@@ -98,13 +100,33 @@
                         <div class="form-group">
                             <label for="loginPassword">Password</label>
                             <input id="loginPassword" class="form-control" type="password" placeholder="Password">
+                            <a>Forgot password?</a>
                         </div>
+                        <div class="text-center">
+                            <button class="btn-custom" id="" type="submit">Sign up</button>
+                        </div>
+
                     </form>
-                    <p class="text-center">or login with</p>
+                    <p class="text-center">or</p>
                     <ul class="nav">
                         <li>
-                            <a class="btn-social btn-facebook" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"> Login with Facebook</a>
+                            <form action="" method="get">
+                                <button class="btn-social btn-facebook" onclick="location.href='{% url 'social:begin' 'facebook' %}'" type="submit">Login with Facebook
+                                    <i class="fa fa-facebook"></i>
+                                </button>
+                            </form>
+                            <a class="btn btn-social btn-facebook" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"> Login with Facebook
+                                <i class="fa fa-facebook"></i>
+                            </a>
                         </li>
+                        <form action="" method="get">
+                            <button class="btn-social btn-google" type="submit">Login with Google
+                                <i class="fa fa-google"></i>
+                            </button>
+                        </form>
+
+
+
                         <li>
                             <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a>
                         </li>
