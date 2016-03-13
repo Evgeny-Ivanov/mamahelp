@@ -1,71 +1,72 @@
-
 {% extends "mh_app/base.html" %}
 {% load staticfiles %}
 {% block content %}
     {% include 'mh_app/mainimage.html' %}
-        <section class="main-img-content reg-form col-md-12">
-            <div class="reg-form-header text-center">
-                <h1>Registration form</h1>
-            </div>
-            <div class="row">
-                <form class="col-sm-12" name="regForm" action="{% url 'social:complete' "username" %}" method="post">
-                    {% csrf_token %}
-                    <div class="form-group col-sm-5">
-                        <label for="inputFirstName">First name</label>
-                        <i class="fa fa-asterisk"></i>
-                        <p class="hidden field-notification">field is required</p>
-                        <span class="sp"></span>
-                        <input class="form-control" id="inputFirstName" name="firstName" type="" placeholder="First name">
-                    </div>
+    <section class="main-img-content reg-form col-md-12">
+        <div class="reg-form-header text-center">
+            <h1>Registration form</h1>
+        </div>
+        <div class="row">
+            <form class="col-sm-12" name="regForm" action="{% url 'social:complete' "username" %}" method="post">
+                {% csrf_token %}
+                <div class="form-group col-sm-5">
+                    <label for="first_name">First name</label>
+                    <i class="fa fa-asterisk"></i>
+                    <p class="hidden field-notification">field is required</p>
+                    <span class="sp"></span>
+                    <input class="form-control" id="first_name" name="first_name" type="text" placeholder="First name">
+                </div>
 
-                    <div class="form-group col-sm-5 col-sm-push-2">
-                        <label for="inputLastName">Last name</label>
-                        <i class="fa fa-asterisk"></i>
-                        <p class="hidden field-notification">field is required</p>
-                        <span class="sp"></span>
-                        <input class="form-control" id="inputLastName" name="lastName" type="" placeholder="Last name">
-                    </div>
+                <div class="form-group col-sm-5 col-sm-push-2">
+                    <label for="last_name">Last name</label>
+                    <i class="fa fa-asterisk"></i>
+                    <p class="hidden field-notification">field is required</p>
+                    <span class="sp"></span>
+                    <input class="form-control" id="last_name" name="last_name" type="text" placeholder="Last name">
+                </div>
 
-                    <div class="form-group col-sm-5">
-                        <label for="inputEmail">Email</label>
-                        <i class="fa fa-asterisk"></i>
-                        <p class="hidden field-notification">field is required</p>
-                        <span class="sp"></span>
-                        <input class="form-control" id="inputEmail" name="email" type="email" placeholder="Email">
-                    </div>
+                <div class="form-group col-sm-5">
+                    <label for="email">Email</label>
+                    <i class="fa fa-asterisk"></i>
+                    <p class="hidden field-notification">field is required</p>
+                    <span class="sp"></span>
+                    <input class="form-control" id="email" name="email" type="email" placeholder="Email">
+                </div>
 
-                    <div class="form-group col-sm-5 col-sm-push-2">
-                        <label for="inputNickName">Nickname</label>
-                        <i class="fa fa-asterisk"></i>
-                        <p class="hidden field-notification">field is required</p>
-                        <span class="sp"></span>
-                        <input class="form-control" id="inputNickName" name="nickName" type="" placeholder="Nickname">
-                    </div>
+                <div class="form-group col-sm-5 col-sm-push-2">
+                    <label for="username">Nickname</label>
+                    <i class="fa fa-asterisk"></i>
+                    <p class="hidden field-notification">field is required</p>
+                    <span class="sp"></span>
+                    <input class="form-control" id="username" name="username" type="text" placeholder="Nickname">
+                </div>
 
-                    <div class="form-group col-sm-5">
-                        <label for="inputPass">Password</label>
-                        <i class="fa fa-asterisk"></i>
-                        <p class="hidden field-notification">field is required</p>
-                        <span class="sp"></span>
-                        <input class="form-control" id="inputPass" name="password" type="password" placeholder="Password">
-                    </div>
+                <div class="form-group col-sm-5">
+                    <label for="inputPass">Password</label>
+                    <i class="fa fa-asterisk"></i>
+                    <p class="hidden field-notification">field is required</p>
+                    <span class="sp"></span>
+                    <input class="form-control" id="inputPass" name="password" type="password" placeholder="Password">
+                </div>
 
-                    <div class="form-group col-sm-5 col-sm-push-2">
-                        <label for="confirmPass">Confirm Password</label>
-                        <i class="fa fa-asterisk"></i>
-                        <p class="hidden field-notification">field is required</p>
-                        <span class="sp"></span>
-                        <input class="form-control" id="confirmPass" name="confirmPass" type="password" placeholder="Confirm password">
-                    </div>
+                <div class="form-group col-sm-5 col-sm-push-2">
+                    <label for="confirmPass">Confirm Password</label>
+                    <i class="fa fa-asterisk"></i>
+                    <p class="hidden field-notification">field is required</p>
+                    <span class="sp"></span>
+                    <input class="form-control" id="confirmPass" name="confirmPass" type="password"
+                           placeholder="Confirm password">
+                </div>
 
-                </form>
                 <div class="col-sm-12 text-center">
                     <i class="fa fa-asterisk"></i>
                     <em class="small">Required fields</em>
                     <button class="btn-custom btn-join-us" id="submit-reg" type="submit">Submit</button>
                 </div>
-            </div>
-        </section>
+            </form>
+
+        </div>
+    </section>
     </div>
     </div>
     </div>

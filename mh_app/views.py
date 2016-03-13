@@ -80,9 +80,8 @@ def context(**extra):
 #
 #
 @render_to('mh_app/signup.html')
-def require_email(request):
+def validate_form_inputs(request):
     details = request.session['partial_pipeline']['kwargs']['details']
-    details['email_required'] = True
     return details
 
 
