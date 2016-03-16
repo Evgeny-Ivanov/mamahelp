@@ -2,12 +2,12 @@
 // * regform validation
 // */
 regForm = {
-    first_name: [isNotEmpty],
-    last_name: [isNotEmpty],
-    email: [isNotEmpty, isEmail],
-    username: [isNotEmpty],
-    password: [isNotEmpty],
-    confirmPass: [isNotEmpty, isMatchPass]
+    //first_name: [isNotEmpty],
+    //last_name: [isNotEmpty],
+    //email: [isNotEmpty, isEmail],
+    //username: [isNotEmpty],
+    //password: [isNotEmpty],
+    //password_confirm: [isNotEmpty, isMatchPass]
 };
 
 function validate(name, field) {

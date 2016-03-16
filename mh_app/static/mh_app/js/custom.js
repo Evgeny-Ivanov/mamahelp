@@ -25,8 +25,8 @@
 
 }(window));
 
-$(document).on("scrollstart",function(){
-console.log("Started scrolling!");
+$(document).on("scrollstart", function () {
+    console.log("Started scrolling!");
 });
 
 $(window).load(function () {
@@ -56,9 +56,30 @@ $(window).load(function () {
     }
 });
 
+var sign_in_validate = function (form_id) {
+    // get all the inputs into an array.
+    var $inputs = $('#' + form_id + ' :input');
+
+    // not sure if you wanted this, but I thought I'd add it.
+    // get an associative array of just the values.
+    var values = {};
+    $inputs.each(function () {
+        values[this.name] = $(this).val();
+    });
+    console.log(values);
+
+    $.post(sing_in_url, values, function (data) {
+        if (data.valid) {
+            $('#' + form_id).submit()
+        } else {
+            console.log('non valid');
+        }
+    })
+};
 
 
-
-
+$('#id_sign_in_form').submit(function () {
+    console.log('aaaaaaaa______')
+});
 
 

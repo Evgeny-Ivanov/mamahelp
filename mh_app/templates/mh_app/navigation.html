@@ -1,4 +1,7 @@
 {% load staticfiles %}
+<script>
+    var sing_in_url = '{% url 'mh_app:check_login' %}'
+</script>
 <nav class="navbar-fixed-top">
 <header class="container-fluid header-top">
     <div class="row">
@@ -13,76 +16,81 @@
 {#                </div>#}
             </div>
 
-        </div>
-        <div class="col-sm-4 col-md-3 site-name">
-            <a href="{% url 'mh_app:index' %}">Mama help</a>
-        </div>
-        <nav class="col-sm-8 col-md-9 navbar navbar-default">
-            <div class="navbar-header">
-                <button class="navbar-toggle collapsed" id="toggle-nav-btn" type="button" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
             </div>
-            <div class="navbar-collapse collapse navbar-left" id="navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a class="header-link-font" href="">Home</a>
-                    </li>
-                    <li>
-                        <a class="header-link-font" href="">Articles</a>
-                    </li>
-                    <li>
-                        <a class="header-link-font" href="">Forum</a>
-                    </li>
-                </ul>
+            <div class="col-sm-4 col-md-3 site-name">
+                <a href="{% url 'mh_app:index' %}">Mama help</a>
             </div>
-            <div class="search-holder">
-                <button class="pull-right js-click-unsensitive site-search btn-custom navbar-btn nav-search-label" id="site-search-button" type="button">
-                    <span class="glyphicon glyphicon-search nav-search-label js-click-unsensitive"></span>
-                </button>
-            </div>
-
-            {% if user and not user.is_anonymous %}
-                <div class="dropdown user-menu pull-right">
-                    <div class="user-name" id="userNameDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <p class="header-link-font">{{ user.get_full_name|default:user.username }}</p>
-                    </div>
-                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="userNameDropdown">
+            <nav class="col-sm-8 col-md-9 navbar navbar-default">
+                <div class="navbar-header">
+                    <button class="navbar-toggle collapsed" id="toggle-nav-btn" type="button" data-toggle="collapse"
+                            data-target="#navbar-collapse-1" aria-expanded="false">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse navbar-left" id="navbar-collapse-1">
+                    <ul class="nav navbar-nav">
                         <li>
-                            <a class="header-link-font">Bookmarks</a>
+                            <a class="header-link-font" href="">Home</a>
                         </li>
                         <li>
-                            <a class="header-link-font">Contacts</a>
+                            <a class="header-link-font" href="">Articles</a>
                         </li>
                         <li>
-                            <a class="header-link-font">History</a>
-                        </li>
-                        <li class="divider" role='separator'></li>
-                        <li>
-                            <a>Profile</a>
-                        </li>
-                        <li>
-                            <a>Settings</a>
-                        </li>
-                        <li class="divider" role='separator'></li>
-                        <li>
-                            <a href="{% url 'mh_app:logout' %}">Logout</a>
+                            <a class="header-link-font" href="">Forum</a>
                         </li>
                     </ul>
                 </div>
-            {% else %}
-                <button class="navbar-btn btn-custom pull-right" type="button" data-toggle="modal" data-target="#logInFormModal">Log in</button>
-            {% endif %}
-        </nav>
-    </div>
+                <div class="search-holder">
+                    <button class="pull-right js-click-unsensitive site-search btn-custom navbar-btn nav-search-label"
+                            id="site-search-button" type="button">
+                        <span class="glyphicon glyphicon-search nav-search-label js-click-unsensitive"></span>
+                    </button>
+                </div>
 
-</header>
+                {% if user and not user.is_anonymous %}
+                    <div class="dropdown user-menu pull-right">
+                        <div class="user-name" id="userNameDropdown" type="button" data-toggle="dropdown"
+                             aria-haspopup="true" aria-expanded="false">
+                            <p class="header-link-font">{{ user.get_full_name|default:user.username }}</p>
+                        </div>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="userNameDropdown">
+                            <li>
+                                <a class="header-link-font">Bookmarks</a>
+                            </li>
+                            <li>
+                                <a class="header-link-font">Contacts</a>
+                            </li>
+                            <li>
+                                <a class="header-link-font">History</a>
+                            </li>
+                            <li class="divider" role='separator'></li>
+                            <li>
+                                <a href="{% url 'mh_app:user_profile' %}">Profile</a>
+                            </li>
+                            <li>
+                                <a>Settings</a>
+                            </li>
+                            <li class="divider" role='separator'></li>
+                            <li>
+                                <a href="{% url 'mh_app:logout' %}">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <button class="navbar-btn btn-custom pull-right" type="button" data-toggle="modal"
+                            data-target="#logInFormModal">Log in
+                    </button>
+                {% endif %}
+            </nav>
+        </div>
+
+    </header>
 </nav>
 
 {% comment %}**************LogIn modal***********************{% endcomment %}
-<div class="modal fade" id="logInFormModal"  tabindex="-1" role="dialog">
+<div class="modal fade" id="logInFormModal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -92,18 +100,23 @@
             </div>
             <div class="modal-body login-modal">
                 <div class="wrapper center-block">
-                    <form class="login-modal-form">
+                    <form class="login-modal-form" id="id_sign_in_form" action="{% url 'social:complete' 'email' %}"
+                          method="POST">
+                        {% csrf_token %}
                         <div class="form-group">
                             <label for="loginUserEmail">Email adress</label>
-                            <input id="loginUserEmail" class="form-control" type="email" placeholder="Email">
+                            <input id="id_email" name="email" class="form-control" type="email" placeholder="Email">
                         </div>
                         <div class="form-group">
                             <label for="loginPassword">Password</label>
-                            <input id="loginPassword" class="form-control" type="password" placeholder="Password">
+                            <input id="id_password" name="password" class="form-control" type="password"
+                                   placeholder="Password">
                             <a>Forgot password?</a>
                         </div>
                         <div class="text-center">
-                            <button class="btn-custom" id="" type="submit">Sign up</button>
+                            <button class="btn-custom" id="id_sign_in_button"
+                                    onclick="sign_in_validate('id_sign_in_form')" type="button">Sign in
+                            </button>
                         </div>
 
                     </form>
@@ -111,11 +124,14 @@
                     <ul class="nav">
                         <li>
                             <form action="" method="get">
-                                <button class="btn-social btn-facebook" onclick="location.href='{% url 'social:begin' 'facebook' %}'" type="submit">Login with Facebook
+                                <button class="btn-social btn-facebook"
+                                        onclick="location.href='{% url 'social:begin' 'facebook' %}'" type="submit">
+                                    Login with Facebook
                                     <i class="fa fa-facebook"></i>
                                 </button>
                             </form>
-                            <a class="btn btn-social btn-facebook" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"> Login with Facebook
+                            <a class="btn btn-social btn-facebook"
+                               href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"> Login with Facebook
                                 <i class="fa fa-facebook"></i>
                             </a>
                         </li>
@@ -126,9 +142,9 @@
                         </form>
 
 
-
                         <li>
-                            <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a>
+                            <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with
+                                Google</a>
                         </li>
                     </ul>
                 </div>
@@ -139,7 +155,7 @@
                     <ul class="list-inline">
                         <li>Not a user yet?</li>
                         <li>
-                            <a class="btn-custom" href="{% url 'social:begin' 'username' %}">Join us</a>
+                            <a class="btn-custom" href="{% url 'mh_app:signup' %}">Join us</a>
                         </li>
                     </ul>
                 </div>
