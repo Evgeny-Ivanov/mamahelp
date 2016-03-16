@@ -38,9 +38,11 @@ $(window).load(function () {
                 $('#img-content').addClass('content-fixed-top');
                 $('.page-content').css('margin-top', '60px');
 
-                var lastScrollTop = 0;
+               var lastScrollTop = $(window).scrollTop();
+
                 $(window).scroll(function(){
                     var st = $(this).scrollTop();
+                    console.log(st);
                     if (st > lastScrollTop){
 
                         $('#img-content').addClass('hidden');

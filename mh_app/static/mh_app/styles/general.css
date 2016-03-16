@@ -85,7 +85,6 @@ button {
     word-spacing: 5px;
     padding: 0 10px;
     border-color: #474B4f;
-    margin: 30px 40px 0 40px;
 }
 
 .btn-help-search {
@@ -191,7 +190,7 @@ a:hover {
 }
 
 /***********Expandable search-field**************/
-#nav-search-input, .hidden {
+#nav-search-input {
     visibility: collapse;
     position: relative;
     top: 0;
@@ -337,19 +336,41 @@ a:hover {
 }
 /******************************************************/
 .content-fixed-top {
+    visibility: visible;
     position: fixed;
     top: 70px;
-    background: rgba(255,255,255,.97);
+    background: rgba(255,255,255, .80);
     width: 100%;
+    height: 100px;
     z-index: 1000;
     margin-left: -15px;
     padding-bottom: 20px;
-
     box-shadow: 0 0 7px rgba(0,0,0,.25);
-    transition: height 400ms ease-in-out, padding 400ms ease-in-out;
+    transition: height 200ms ease-in-out, padding 400ms ease-in-out;
 
 }
 
+.content-fixed-top > .btn-help-sch-holder {
+    position: absolute;
+    bottom: 10px;
+    z-index: 1000;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
+.content-fixed-top.hidden {
+    height: 0;
+    visibility: collapse;
+}
+
+.btn-help-search:first-child {
+    margin-right: 10%;
+}
+
+.btn-help-search:last-child {
+    margin-left: 10%;
+}
 
 .article-entry {
     margin-top: 30px;
