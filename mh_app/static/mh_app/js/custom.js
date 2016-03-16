@@ -24,109 +24,39 @@
     });
 
 }(window));
-/******
- * regform validation
- */
-regForm = {
-    //first_name: [isNotEmpty],
-    //last_name: [isNotEmpty],
-    //email: [isNotEmpty, isEmail],
-    //username: [isNotEmpty],
-    //password: [isNotEmpty],
-    //confirmPass: [isNotEmpty, isMatchPass]
-};
 
-function validate(name, field) {
-    var validationFunc = regForm[name];
-    var x = true;
-    for (var f in validationFunc) {
-        var validationResult = validationFunc[f](field);
-        if (!validationResult.result) {
-            x = false;
-            notValidMark(field, validationResult.message);
-            break;
-        } else {
-            okValidMark(field);
-        }
-    }
-}
-document.addEventListener('DOMContentLoaded', function () {
-    var form = document.forms.regForm;
-    for (var names in regForm) {
-        console.log(names);
-        form.elements[names].addEventListener('blur', function (e) {
-            validate(e.target.name, this);
+$(document).on("scrollstart",function(){
+console.log("Started scrolling!");
+});
+
+$(window).load(function () {
+    if (!userAnonymous) {
+        $(window).scroll(function () {
+            if ($(window).scrollTop() >= $('#inspiration-pic').height()) {
+                $('#inspiration-pic').css("display", "none").fadeOut('slow');
+                $('#img-content').removeClass('main-img-content');
+                $('#img-content').addClass('content-fixed-top');
+                $('.page-content').css('margin-top', '60px');
+
+                var lastScrollTop = 0;
+                $(window).scroll(function(){
+                    var st = $(this).scrollTop();
+                    if (st > lastScrollTop){
+
+                        $('#img-content').addClass('hidden');
+                    } else {
+                        $('#img-content').removeClass('hidden');
+                    }
+                    lastScrollTop = st;
+                });
+            }
         })
     }
 });
 
-document.getElementById('submit-reg').addEventListener('click', function () {
-    var form = document.forms.regForm;
-    for (var name in regForm) {
-        validate(name, form.elements[name]);
-    }
-});
 
 
-function isNotEmpty(elem) {
-    var x = elem.value;
-    if (x != null && x.trim() != '') {
-        return {result: true};
-    } else {
-        return {result: false, message: 'Field is required'};
-    }
-}
 
-function isEmail(mail) {
-    var mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
-    if (mail.value.match(mailFormat)) {
-        return {result: true};
-    } else {
-        return {result: false, message: 'Email incorrect'};
-    }
-}
-
-function isEmailExist(mail) {
-    //$.get("verifyEmail?email=" + mail.value, function (data) {
-    //    console.log(data);
-    //});
-    //return {result: true};
-    var request = new XMLHttpRequest();
-    request.open('GET', 'verifyEmail?email=', true);
-    request.send(mail.value);
-
-    console.log(data);
-}
-
-function isMatchPass(e) {
-    var x = e.value;
-    if (x === inputPass.value) {
-        return {result: true};
-    } else {
-        return {result: false, message: 'Does not match'};
-    }
-}
-
-function okValidMark(t) {
-    var e = t.closest('.form-group');
-    var formGroupPar = e.getElementsByTagName('p')[0];
-    var formGroupSpan = e.getElementsByTagName('span')[0];
-    $(formGroupSpan)
-        .removeClass()
-        .addClass('glyphicon glyphicon-ok field-correct');
-    $(formGroupPar).addClass('hidden');
-}
-
-function notValidMark(t, text) {
-    var e = t.closest('.form-group');
-    var formGroupPar = e.getElementsByTagName('p')[0];
-    var formGroupSpan = e.getElementsByTagName('span')[0];
-    $(formGroupPar).text(text);
-    $(formGroupSpan)
-        .removeClass()
-        .addClass('glyphicon glyphicon-remove field-uncorrect');
-    $(formGroupPar).removeClass('hidden');
-}
 
 
 

@@ -6417,7 +6417,7 @@ button.close {
     border: 0
 }
 
-.hidden {
+.disp-none {
     display: none !important
 }
 

@@ -1,8 +1,8 @@
 {% load staticfiles %}
 <div class="container-fluid">
     <div class="row">
-        <div class="main-img col-xs-12">
-            <picture>
+        <div class="main-img col-xs-12 clearfix">
+            <picture id="pic-inspire">
                 <source srcset="{% static 'mh_app/img/running-800x404.jpg' %}" media='(max-width: 850px) and (min-width: 450px)'>
                 <img class="img-responsive" id="inspiration-pic" src="{% static 'mh_app/img/running-1200x500.jpg' %}"alt='running women'>
             </picture>
