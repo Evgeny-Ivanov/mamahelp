@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.conf import settings
 from django.contrib.auth import logout as auth_logout
 from social.backends.google import GooglePlusAuth
@@ -8,6 +8,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from mh_app.models import CustomUser
+from mh_app.forms import SignupForm
+from django.template import RequestContext
 
 
 # Create your views here.
@@ -79,10 +81,19 @@ def context(**extra):
 #     )
 #
 #
-@render_to('mh_app/signup.html')
+# @render_to('mh_app/signup.html')
 def validate_form_inputs(request):
-    details = request.session['partial_pipeline']['kwargs']['details']
-    return details
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+    else:
+        form = SignupForm()
+    # details = request.session['partial_pipeline']['kwargs']['details']
+    # details['form'] = form
+    return render_to_response('mh_app/signup.html', {'form': form}, RequestContext(request))
+
+
+def user_profile(request):
+    return render(request, 'mh_app/user_profile.html', {})
 
 
 @render_to('mh_app/signup.html')
@@ -112,20 +123,23 @@ def verify_username(request):
 
     return Response({'exist': exist})
 
-#
-#
-# @psa('social:complete')
-# def ajax_auth(request, backend):
-#     if isinstance(request.backend, BaseOAuth1):
-#         token = {
-#             'oauth_token': request.REQUEST.get('access_token'),
-#             'oauth_token_secret': request.REQUEST.get('access_token_secret'),
-#         }
-#     elif isinstance(request.backend, BaseOAuth2):
-#         token = request.REQUEST.get('access_token')
-#     else:
-#         raise HttpResponseBadRequest('Wrong backend type')
-#     user = request.backend.do_auth(token, ajax=True)
-#     login(request, user)
-#     data = {'id': user.id, 'username': user.username}
-#     return HttpResponse(json.dumps(data), mimetype='application/json')
+
+@api_view(['POST'])
+def check_login(request):
+    if 'email' in request.POST and 'password' in request.POST:
+        username = request.POST.get('email')
+        password = request.POST.get('password')
+        user = CustomUser.objects.filter(email=username)
+        if len(user) > 0:
+            return Response({'valid': user[0].validate_password(password)})
+    return Response({'valid': False})
+
+
+def signup(request):
+    if request.method == 'GET':
+        form = SignupForm()
+    else:
+        form = SignupForm(request.POST)
+        if not form.is_valid():
+            print('Signup form is invalid')
+    return render(request, 'mh_app/signup.html', {'form': form})
