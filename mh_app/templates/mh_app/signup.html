@@ -15,66 +15,127 @@
                         <h1>Registration form</h1>
                     </div>
                     <div class="row">
-                        <form class="col-sm-12" name="regForm" action="{% url 'social:complete' "username" %}"
+                        <form class="col-sm-12" name="regForm" action="{% url 'social:complete' "email" %}"
                               method="post">
                             {% csrf_token %}
                             <div class="form-group col-sm-5">
-                                <label for="first_name">First name</label>
+                                <label for="id_first_name">First name</label>
                                 <i class="fa fa-asterisk"></i>
-                                <p class="disp-none field-notification">field is required</p>
-                                <span class="sp"></span>
-                                <input class="form-control" id="first_name" name="first_name" type=""
-                                       placeholder="First name">
+                                {% if form.first_name.errors %}
+                                    <p class="field-notification">
+                                        {% for error in form.first_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </p>
+                                    <span class="sp glyphicon glyphicon-remove field-uncorrect"></span>
+                                {% else %}
+                                    <p class="field-notification"></p>
+                                    <span class="sp"></span>
+                                {% endif %}
+                                <input class="form-control" id="id_first_name" name="first_name" type="text"
+                                       placeholder="First name"
+                                       value="{{ form.first_name.value | default_if_none:'' }}">
                             </div>
 
                             <div class="form-group col-sm-5 col-sm-push-2">
-                                <label for="last_name">Last name</label>
+                                <label for="id_last_name">Last name</label>
                                 <i class="fa fa-asterisk"></i>
-                                <p class="disp-none field-notification">field is required</p>
-                                <span class="sp"></span>
-                                <input class="form-control" id="last_name" name="last_name" type=""
-                                       placeholder="Last name">
+                                {% if form.last_name.errors %}
+                                    <p class="field-notification">
+                                        {% for error in form.last_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </p>
+                                    <span class="sp glyphicon glyphicon-remove field-uncorrect"></span>
+                                {% else %}
+                                    <p class="field-notification"></p>
+                                    <span class="sp"></span>
+                                {% endif %}
+                                <input class="form-control" id="id_last_name" name="last_name" type="text"
+                                       placeholder="Last name" value="{{ form.last_name.value | default_if_none:'' }}">
                             </div>
 
                             <div class="form-group col-sm-5">
-                                <label for="email">Email</label>
+                                <label for="id_email">Email</label>
                                 <i class="fa fa-asterisk"></i>
-                                <p class="disp-none field-notification">field is required</p>
-                                <span class="sp"></span>
-                                <input class="form-control" id="email" name="email" type="email" placeholder="Email">
+                                {% if form.email.errors %}
+                                    <p class="field-notification">
+                                        {% for error in form.email.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </p>
+                                    <span class="sp glyphicon glyphicon-remove field-uncorrect"></span>
+                                {% else %}
+                                    <p class="field-notification"></p>
+                                    <span class="sp"></span>
+                                {% endif %}
+                                <input class="form-control" id="id_email" name="email" type="email" placeholder="Email"
+                                       value="{{ form.email.value | default_if_none:'' }}">
                             </div>
 
                             <div class="form-group col-sm-5 col-sm-push-2">
-                                <label for="username">Nickname</label>
+                                <label for="id_username">Nickname</label>
                                 <i class="fa fa-asterisk"></i>
-                                <p class="disp-none field-notification">field is required</p>
-                                <span class="sp"></span>
-                                <input class="form-control" id="username" name="username" type=""
-                                       placeholder="Nickname">
+                                {% if form.username.errors %}
+                                    <p class="field-notification">
+                                        {% for error in form.username.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </p>
+                                    <span class="sp glyphicon glyphicon-remove field-uncorrect"></span>
+                                {% else %}
+                                    <p class="field-notification"></p>
+                                    <span class="sp"></span>
+                                {% endif %}
+                                <input class="form-control" id="id_username" name="username" type="text"
+                                       placeholder="Nickname" value="{{ form.username.value| default_if_none:'' }}">
                             </div>
 
                             <div class="form-group col-sm-5">
-                                <label for="inputPass">Password</label>
+                                <label for="id_password">Password</label>
                                 <i class="fa fa-asterisk"></i>
-                                <p class="disp-none field-notification">field is required</p>
-                                <span class="sp"></span>
-                                <input class="form-control" id="inputPass" name="password" type="password"
-                                       placeholder="Password">
+                                {% if form.password.errors %}
+                                    <p class="field-notification">
+                                        {% for error in form.password.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </p>
+                                    <span class="sp glyphicon glyphicon-remove field-uncorrect"></span>
+                                {% else %}
+                                    <p class="field-notification"></p>
+                                    <span class="sp"></span>
+                                {% endif %}
+                                <input class="form-control" id="id_password" name="password" type="password"
+                                       placeholder="Password" value="{{ form.password.value | default_if_none:'' }}">
                             </div>
 
                             <div class="form-group col-sm-5 col-sm-push-2">
-                                <label for="confirmPass">Confirm Password</label>
+                                <label for="id_password_confirm">Confirm Password</label>
                                 <i class="fa fa-asterisk"></i>
-                                <p class="disp-none field-notification">field is required</p>
-                                <span class="sp"></span>
-                                <input class="form-control" id="confirmPass" name="confirmPass" type="password"
-                                       placeholder="Confirm password">
+                                {% if form.password_confirm.errors %}
+                                    <p class="field-notification">
+                                        {% for error in form.password_confirm.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </p>
+                                    <span class="sp glyphicon glyphicon-remove field-uncorrect"></span>
+                                {% else %}
+                                    <p class="field-notification"></p>
+                                    <span class="sp"></span>
+                                {% endif %}
+                                <input class="form-control" id="id_password_confirm" name="password_confirm"
+                                       type="password"
+                                       placeholder="Confirm password"
+                                       value="{{ form.password_confirm.value | default_if_none:'' }}">
                             </div>
+                            {{ form.non_field_errors }}
+
                             <div class="col-sm-12 text-center">
                                 <i class="fa fa-asterisk"></i>
                                 <em class="small">Required fields</em>
                                 <button class="btn-custom btn-join-us" id="submit-reg"
-                                        type="submit" onclick="return validateSubmitForm()">Submit</button>
+                                        type="submit" onclick="return validateSubmitForm()">Submit
+                                </button>
                             </div>
                         </form>
 

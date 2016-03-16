@@ -1,22 +1,31 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from social.pipeline.partial import partial
+from mh_app.forms import SignupForm
+from django.contrib.auth import hashers
 
 
-@partial
-def require_email(strategy, details, user=None, is_new=False, *args, **kwargs):
-    if user and user.email:
-        return
-    if is_new and not details.get('email'):
-        email = strategy.request_data().get('email')
-        if email:
-            details['email'] = email
+def validate_form_inputs(strategy, details, backend, user=None, is_new=False, *args, **kwargs):
+    if not user and (backend.name == 'email' or backend.name == 'username'):
+        form = SignupForm(strategy.request.POST)
+        if form.is_valid():
+            for key in form.fields:
+                if 'password' == key:
+                    details[key] = hashers.make_password(strategy.request_data().get(key))
+                else:
+                    details[key] = strategy.request_data().get(key)
         else:
-            return redirect('mh_app:require_email')
+            return render(strategy.request, 'mh_app/signup.html', {'form': form})
 
 
-@partial
-def create_user(strategy, details, backend, user=None, is_new=False, *args, **kwargs):
-    if user:
+def user_password(strategy, user, backend, is_new=False, *args, **kwargs):
+    if backend.name != 'email' and backend.name != 'username' or not user:
         return
-    if backend.name != 'username':
-        return redirect('mh_app:create_user')
+
+    password = strategy.request_data()['password']
+    if is_new:
+        user.set_password(password)
+        user.save()
+    elif not user.validate_password(password):
+        return {'user': None, 'social': None}
+        # raise AuthException(strategy.backend)
+
