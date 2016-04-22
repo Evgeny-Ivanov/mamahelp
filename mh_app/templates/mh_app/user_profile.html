@@ -1,15 +1,266 @@
 {% extends 'mh_app/base.html' %}
 
 {% block content %}
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div>{{ user.first_name }}</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+                <img src="http://placehold.it/150x150">
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation" class="active"><a class="btn-custom" href="#">I can help with</a></li>
+                    <li role="presentation"><a class="btn-custom" href="#">My requests</a></li>
+                    <li role="presentation"><a class="btn-custom" href="#">Contacts</a></li>
+                    <li role="presentation"><a class="btn-custom" href="#">History</a></li>
+                    <li role="presentation"><a class="btn-custom" href="#">General info</a></li>
+                    <li role="presentation"><a class="btn-custom" href="#">Settings</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-8">
+                <div>
+                    <button id='new-help' class="btn-custom btn-join-us colapsed" type="button" data-toggle="collapse"
+                            data-target="#give-help" aria-expanded="false" aria-controls="give-help">Suggest new help
+                    </button>
+                    <div class="collapse" id="give-help" aria-expanded="false">
+                        <form id="give-help-form">
+                            <input type="hidden" id="helpId">
+                            <div class="form-group">
+                                <label for="selCity">Select city</label>
+                                <select class="form-control" id="selCity">
+                                    <option value="" selected disabled>...</option>
+                                    <option value="City 1">City 1</option>
+                                    <option value="City 2">City 2</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="selDist">District</label>
+                                <select class="form-control" id="selDist">
+                                    <option value="" selected disabled>...</option>
+                                    <option value="district 1">District 1</option>
+                                    <option value="district 2">District 2</option>
+                                    <option value="district 3">District 3</option>
+                                    <option value="district 4">District 4</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="selDays">Days of week</label>
+                                <div id="selDays">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox-mon" value="monday"> Monday
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox-tue" value="tuesday"> Tuesday
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox-wed" value="wednesday">Wednesday
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox-thur" value="thursday"> Thursday
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox-fri" value="friday"> Friday
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox-sat" value="saturday"> Saturday
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox-sun" value="sunday"> Sunday
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="hours">Select hours</label>
+                                <div id="hours" class="form-inline">
+                                    <label for="selFrom">From</label>
+                                    <select class="form-control" id="selFrom">
+                                        <option value="" selected disabled>...</option>
+                                        <option value="8.00">8:00</option>
+                                        <option value="8.30">8:30</option>
+                                        <option value="9.00">9:00</option>
+                                        <option value="9.30">9:30</option>
+                                    </select>
+                                    <label for="selTo" class="form-inline">To</label>
+                                    <select class="form-control" id="selTo">
+                                        <option value="" selected disabled>...</option>
+                                        <option value="9.00">9:00</option>
+                                        <option value="9.30">9:30</option>
+                                        <option value="10.00">10:00</option>
+                                        <option value="10.30">10:30</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="chNumber">Number of children</label>
+                                <input type="number" id="chNumber" placeholder="number of children">
+                            </div>
+                            <div class="form-group" id="age">
+
+                                <div id="childAge" class="form-inline">
+
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="more-info-1">Additional information</label>
+                                <textarea id="more-info-1" placeholder="Give more information" class="form-control"
+                                          rows="5"></textarea>
+                            </div>
+                            <button id="saveMyHelp" class="btn-custom btn-join-us colapsed" type="button" data-toggle="collapse"
+                                    data-target="#give-help" aria-expanded="false" aria-controls="give-help">Save
+                            </button>
+
+
+                        </form>
+                    </div>
+                </div>
+                <div id="my-help-entry-1">
+
+                </div>
+
+            </div>
+            <div>{{ user.first_name }}</div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script language="JavaScript">
+    //display label for Age-div///
+    $('#chNumber').change(function () {
+        if ($('#label-age').length == 0) {
+            var label1 = $('<label>').attr('for', 'childAge').attr('id', 'label-age').text('Specify age');
+            $('#age').prepend(label1);
+        }
+    });
+//Add-remove children age field for selected number of kids//
+    var oldNumber = 0;
+    var newNumber = 0;
+
+    $('#chNumber').change(function () {
+        oldNumber = newNumber;
+        newNumber = parseInt($('#chNumber').val());
+        if (oldNumber === 0) {
+            AddField(oldNumber, newNumber);
+        }
+        else {
+            if (oldNumber < newNumber) {
+                AddField(oldNumber, newNumber);
+            } else {
+                removeField(oldNumber, newNumber);
+            }
+        }
+    });
+    function AddField(on, nn) {
+        for (var i = on; i < nn; i++) {
+            var childId = (i + 1);
+            var label = $('<label>').attr('for', 'child' + childId + 'Age');
+            var id = ('child' + childId + 'Age');
+            var select = $('<select>').attr('id', id).attr('class', 'form-control').attr('class', 'select-age');
+            label.text('Child' + childId);
+            $('#childAge').append(label);
+            $('#childAge').append(select);
+            var optionDef = $('<option></option>').attr('value', '#').attr('selected', true).text('...');
+            select.append(optionDef);
+            for (var j = 0; j < 15; j++) {
+
+                var option = $('<option></option>').attr('value', j + 1).text(j + 1);
+                select.append(option)
+            }
+        }
+    }
+
+    function removeField(on, nn) {
+        for (var i = nn; i < on; i++) {
+            var idToRemove = ('#child' + (i + 1) + 'Age');
+            var labelAttr = ('label[for=child' + (i + 1) + 'Age]');
+            $('label[for=Parent]');
+            $(idToRemove).remove();
+            $(labelAttr).remove();
+        }
+
+    }
+//save button click actions//
+    var myHelpCount = 0;
+    var myHelps = {};
+
+    var saveMyHelp = function(myHelp) {
+        if (myHelp.id == null) {
+            myHelp.id = "Help_" + myHelpCount;
+            myHelpCount += 1;
+            myHelp['createdDatetime'] = new Date();
+            myHelp['updatedDatetime'] = new Date();
+            myHelps[myHelp.id] = myHelp;
+        } else {
+            myHelp['updatedDatetime'] = new Date();
+            myHelps[myHelp.id] = myHelp;
+        }
+    };
+
+    var getMyHelps = function() {
+        var values = [];
+        for (var key in myHelps) {
+            values.push(myHelps[key])
+
+        }
+
+        return values;
+    };
+
+    //hide 'create new help button//
+    $('#new-help').click(function() {
+        var attr = $('#give-help').attr('aria-expanded');
+        if (attr) {
+            $('#new-help').hide();
+        }
+    });
+
+
+
+    $('#saveMyHelp').click(function() {
+        $('#new-help').show();
+
+        var myHelp = {};
+        myHelp["city"] = $('#selCity').val();
+        myHelp["district"] = $('#selDist').val();
+        myHelp["days"] = getCheckboxValues('#selDays');
+        myHelp["hoursFrom"] = $('#selFrom').val();
+        myHelp["hoursTo"] = $('#selTo').val();
+        myHelp["children"] = getInputValues('#childAge');
+        myHelp["info"]=$('#more-info-1').val();
+        saveMyHelp(myHelp);
+        $('#give-help-form')[0].reset();
+        //--------------//
+        var allHelps = getMyHelps();
+        console.log("All helps length: " + allHelps.length);
+        for (var i in allHelps) {
+            var help = allHelps[i];
+            console.log("Help id: " + help.id);
+            console.log("Help city: " + help["city"]);
+        }
+    });
+
+
+
+function getCheckboxValues(id) {
+    console.log(id);
+    var input = $(id+ ' :checkbox');
+    var selectedDays = [];
+    for (var i=0; i<input.length; i++){
+        if (input[i].checked) {
+            selectedDays.push(input[i].value)
+        }
+    }
+    return (selectedDays);
+    }
+function getInputValues(id) {
+    var input = $('.select-age');
+    var ages = [];
+    for (var i=0; i<input.length; i++) {
+        ages.push(input[i].value);
+    }
+    return (ages);
+
+}
+
+</script>
 {% endblock %}

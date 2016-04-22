@@ -2,6 +2,9 @@
  * Created by yulia on 1/8/2016.
  */
 /*** Site Search expand-collapse...*/
+
+
+
 (function (window) {
     var input = $('#nav-search-input');
     var label = $('.nav-search-label');
@@ -25,36 +28,52 @@
 
 }(window));
 
-$(document).on("scrollstart", function () {
-    console.log("Started scrolling!");
-});
-
-$(window).load(function () {
-    if (!userAnonymous) {
-        $(window).scroll(function () {
-            if ($(window).scrollTop() >= $('#inspiration-pic').height()) {
-                $('#inspiration-pic').css("display", "none").fadeOut('slow');
-                $('#img-content').removeClass('main-img-content');
-                $('#img-content').addClass('content-fixed-top');
-                $('.page-content').css('margin-top', '60px');
-
-               var lastScrollTop = $(window).scrollTop();
-
-                $(window).scroll(function(){
-                    var st = $(this).scrollTop();
-                    console.log(st);
-                    if (st > lastScrollTop){
-
-                        $('#img-content').addClass('hidden');
-                    } else {
-                        $('#img-content').removeClass('hidden');
-                    }
-                    lastScrollTop = st;
-                });
-            }
-        })
-    }
-});
+//var firstScroll = true;
+//
+//$(window).load(function () {
+//    if (!userAnonymous) {
+//        $(window).scroll(function () {
+//            if ($(window).scrollTop() >= $('#main-img-bckgrd').height()) {
+//
+//
+//                //$('#main-img-bckgrd').remove();
+//                //$('#inspiration-pic').css("display", "none");
+//                //$('#img-content').removeClass('main-img-content');
+//                //$('#img-content').addClass('content-fixed-top');
+//                //$('.page-content').css('margin-top', '60px');
+//                //$('.page-content').addClass('page-content-backrg');
+//                //console.log('------------->' + firstScroll);
+//                if (firstScroll) {
+//
+//                        firstScroll = false;
+//                        //$('#img-content').addClass('hidden');
+//                    }
+//                }
+//
+//                if (!firstScroll) {
+//                    var lastScrollTop = $(window).scrollTop();
+//                    $('#main-img-bckgrd').remove();
+//                    $('#inspiration-pic').css("display", "none");
+//                    $('#img-content').removeClass('main-img-content');
+//                    $('#img-content').addClass('content-fixed-top');
+//                    $('.page-content').css('margin-top', '60px');
+//                    $('.page-content').addClass('page-content-backrg');
+//                    $(window).scroll(function () {
+//                        var st = $(this).scrollTop();
+//                        console.log(st);
+//                        if (st > lastScrollTop) {
+//
+//                            $('#img-content').addClass('hidden');
+//                        } else {
+//                            $('#img-content').removeClass('hidden');
+//                        }
+//                        lastScrollTop = st;
+//                    });
+//                }
+//            }
+//        })
+//    }
+//});
 
 var sign_in_validate = function (form_id) {
     // get all the inputs into an array.
@@ -81,5 +100,15 @@ var sign_in_validate = function (form_id) {
 $('#id_sign_in_form').submit(function () {
     console.log('aaaaaaaa______')
 });
+
+
+
+
+
+
+
+
+
+
 
 

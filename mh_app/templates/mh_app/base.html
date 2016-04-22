@@ -21,8 +21,18 @@
 {% include 'mh_app/navigation.html' %}
 {% block content %}
 {% endblock %}
+
 <script src="{% static 'mh_app/jquery/jquery-2.1.4.min.js' %}"></script>
 <script src="{% static 'mh_app/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'mh_app/jquery/jquery.js' %}"></script>
+<script src="{% static 'mh_app/jquery/jquery.stickem.js' %}"></script>
 <script src="{% static 'mh_app/js/custom.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $('.container').stickem();
+    });
+</script>
+{% block scripts %}
+{% endblock %}
 </body>
 </html>
