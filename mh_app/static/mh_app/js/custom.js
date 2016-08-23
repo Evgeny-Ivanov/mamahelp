@@ -98,7 +98,7 @@ var sign_in_validate = function (form_id) {
 
 
 $('#id_sign_in_form').submit(function () {
-    console.log('aaaaaaaa______')
+    console.log('aaaaaaaaa______')
 });
 
 
