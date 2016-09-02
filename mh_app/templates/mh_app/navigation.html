@@ -79,8 +79,8 @@
                         </ul>
                     </div>
                 {% else %}
-                    <button class="navbar-btn btn-custom pull-right" type="button" data-toggle="modal"
-                            data-target="#logInFormModal">Log in
+                    <button class="navbar-btn btn-custom pull-right" id="login-btn" type="button" data-toggle="modal"
+                            data-target="#logInFormModal" onclick="clearForm('#sign-in-form')">Log in
                     </button>
                 {% endif %}
             </nav>
@@ -100,22 +100,22 @@
             </div>
             <div class="modal-body login-modal">
                 <div class="wrapper center-block">
-                    <form class="login-modal-form" id="id_sign_in_form" action="{% url 'social:complete' 'email' %}"
-                          method="POST">
+                    <form class="login-modal-form" id="sign-in-form" action="{% url 'social:complete' 'email' %}"
+                          method="POST" onsubmit="return formValidation('#sign-in-form')">
                         {% csrf_token %}
                         <div class="form-group">
-                            <label for="loginUserEmail">Email adress</label>
-                            <input id="id_email" name="email" class="form-control" type="email" placeholder="Email">
+                            <label for="login-email">Email adress</label>
+                            <input id="login-email" name="email" class="form-control" type="email" placeholder="Email">
                         </div>
                         <div class="form-group">
-                            <label for="loginPassword">Password</label>
-                            <input id="id_password" name="password" class="form-control" type="password"
+                            <label for="login-password">Password</label>
+                            <input id="login-password" name="password" class="form-control" type="password"
                                    placeholder="Password">
                             <a>Forgot password?</a>
                         </div>
                         <div class="text-center">
-                            <button class="btn-custom" id="id_sign_in_button"
-                                    onclick="sign_in_validate('id_sign_in_form')" type="button">Sign in
+                            <button class="btn-custom" id="sign-in-button"
+                                    type="submit">Sign in
                             </button>
                         </div>
 
@@ -123,29 +123,21 @@
                     <p class="text-center">or</p>
                     <ul class="nav">
                         <li>
-                            <form action="" method="get">
-                                <button class="btn-social btn-facebook"
-                                        onclick="location.href='{% url 'social:begin' 'facebook' %}'" type="submit">
-                                    Login with Facebook
-                                    <i class="fa fa-facebook"></i>
-                                </button>
-                            </form>
+                            <form action="" method="get"></form>
                             <a class="btn btn-social btn-facebook"
                                href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"> Login with Facebook
                                 <i class="fa fa-facebook"></i>
                             </a>
                         </li>
-                        <form action="" method="get">
-                            <button class="btn-social btn-google" type="submit">Login with Google
-                                <i class="fa fa-google"></i>
-                            </button>
-                        </form>
-
-
                         <li>
-                            <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with
-                                Google</a>
-                        </li>
+                        <form action="" method="get"></form>
+                            <a class=" btn btn-social btn-google"
+                               href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with
+                            Google
+                                <i class="fa fa-google"></i>
+                            </a>
+                        <li>
+
                     </ul>
                 </div>
 
@@ -155,7 +147,8 @@
                     <ul class="list-inline">
                         <li>Not a user yet?</li>
                         <li>
-                            <a class="btn-custom" href="{% url 'mh_app:signup' %}">Join us</a>
+                            <a class="btn-custom" href="{% url 'mh_app:signup' %}"
+                               onclick="clearForm('#reg-form')">Join us</a>
                         </li>
                     </ul>
                 </div>

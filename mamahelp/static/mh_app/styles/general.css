@@ -8,7 +8,7 @@ body {
 
 }
 
-main {
+.page-content {
     position: relative;
     top: 90px;
 }
@@ -26,6 +26,11 @@ main {
     opacity: 0.9;
     filter: alpha(opacity=90);
 }
+/*!*remove yellow-banana background in inputs*!*/
+/*input:-webkit-autofill, input:-webkit-autofill:focus {*/
+    /*-webkit-box-shadow: inset 0 0 0px 9999px white;*/
+/*}*/
+
 /*******************Custom button*********************/
 button {
     outline: none;
@@ -71,10 +76,15 @@ button {
     border-radius: 25px 0 25px 25px;
 }
 
+.nav > li > a {
+    padding-left: 50px;    /***rewrite bootstrap css for social buttons in log-in form****/
+}
+
 .btn-social > :first-child {
     padding-left: 4px;
     width: 40px;
 }
+
 
 .btn-join-us,
 .btn-join-us:focus {
@@ -115,18 +125,6 @@ h1, h2, h3, h4, h5, h6 {
     word-spacing: 4px;
     letter-spacing: 1.2px;
 }
-
-/*h2 {*/
-/*font-size: 42px;*/
-/*}*/
-
-/*h3 {*/
-/*font-size: 36px;*/
-/*}*/
-
-/*h4 {*/
-/*font-size: 24px;*/
-/*}*/
 
 p {
     font-family: 'Times New Roman', serif;
@@ -435,18 +433,16 @@ margin-bottom: 30px;
 }
 
 .field-correct {
-    color: green;
-    position: absolute;
-    top: 28px;
-    left: 220px;
+    border-color: #06fdbd;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(11, 201, 15, 0.84);
 }
 
-.field-uncorrect {
-    color: red;
-    position: absolute;
-    top: 28px;
-    left: 220px;
+
+.field-incorrect, .field-incorrect:focus {
+    border-color: #FF0000;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
 }
+
 
 .field-notification {
     position: absolute;

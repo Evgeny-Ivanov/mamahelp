@@ -2,12 +2,12 @@
 // * regform validation
 // */
 regForm = {
-    //first_name: [isNotEmpty],
-    //last_name: [isNotEmpty],
-    //email: [isNotEmpty, isEmail],
-    //username: [isNotEmpty],
-    //password: [isNotEmpty],
-    //password_confirm: [isNotEmpty, isMatchPass]
+    first_name: [isNotEmpty],
+    last_name: [isNotEmpty],
+    email: [isNotEmpty, isEmail],
+    username: [isNotEmpty],
+    password: [isNotEmpty],
+    password_confirm: [isNotEmpty, isMatchPass]
 };
 
 function validate(name, field) {
@@ -64,7 +64,16 @@ function isEmail(mail) {
         return {result: false, message: 'Email incorrect'};
     }
 }
-
+// function isMatchPass(field) {
+//     var x = field.value;
+//     var pass = $('#input-password').val();
+//     if (x === pass) {
+//         displayValid($('#' + field.id))
+//         displayValid($('#input-password'))
+//     } else {
+//         displayNotValid($('#' + field.id))
+//     }
+// }
 //function isEmailExist(mail) {
 //    $.get("verifyEmail?email=" + mail.value, function (data) {
 //        console.log(data);
@@ -92,32 +101,5 @@ function isEmail(mail) {
 //    return {result: true};
 //}
 
-function isMatchPass(e) {
-    var x = e.value;
-    if (x === inputPass.value) {
-        return {result: true};
-    } else {
-        return {result: false, message: 'Does not match'};
-    }
-}
 
-function okValidMark(t) {
-    var e = t.closest('.form-group');
-    var formGroupPar = e.getElementsByTagName('p')[0];
-    var formGroupSpan = e.getElementsByTagName('span')[0];
-    $(formGroupSpan)
-        .removeClass()
-        .addClass('glyphicon glyphicon-ok field-correct');
-    $(formGroupPar).addClass('hidden');
-}
 
-function notValidMark(t, text) {
-    var e = t.closest('.form-group');
-    var formGroupPar = e.getElementsByTagName('p')[0];
-    var formGroupSpan = e.getElementsByTagName('span')[0];
-    $(formGroupPar).text(text);
-    $(formGroupSpan)
-        .removeClass()
-        .addClass('glyphicon glyphicon-remove field-uncorrect');
-    $(formGroupPar).removeClass('hidden');
-}

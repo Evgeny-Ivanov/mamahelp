@@ -1,7 +1,7 @@
 {% extends "mh_app/base.html" %}
 {% load staticfiles %}
 {% block content %}
-    <div class="container-fluid">
+    <div class="container-fluid page-content">
         <div class="row">
             <div class="main-img col-xs-12 clearfix">
                 <picture id="pic-inspire">
@@ -13,128 +13,130 @@
                 <section class="main-img-content reg-form col-md-12">
                     <div class="reg-form-header text-center">
                         <h1>Registration form</h1>
+                        <em class="small">All fields are required</em>
                     </div>
                     <div class="row">
-                        <form class="col-sm-12" name="regForm" action="{% url 'social:complete' "email" %}"
-                              method="post">
+                        <form class="col-sm-12" id="reg-form" name="regForm" action="{% url 'social:complete' "email" %}"
+                              method="post"
+{#                              onsubmit="return formValidation('#reg-form')"#}
+                        >
                             {% csrf_token %}
                             <div class="form-group col-sm-5">
-                                <label for="id_first_name">First name</label>
-                                <i class="fa fa-asterisk"></i>
-                                {% if form.first_name.errors %}
-                                    <p class="field-notification">
-                                        {% for error in form.first_name.errors %}
-                                            {{ error }}
-                                        {% endfor %}
-                                    </p>
-                                    <span class="sp glyphicon glyphicon-remove field-uncorrect"></span>
-                                {% else %}
-                                    <p class="field-notification"></p>
-                                    <span class="sp"></span>
-                                {% endif %}
-                                <input class="form-control" id="id_first_name" name="first_name" type="text"
+                                <label for="reg-first-name">First name</label>
+
+{#                                {% if form.first_name.errors %}#}
+{#                                    <p class="field-notification">#}
+{#                                        {% for error in form.first_name.errors %}#}
+{#                                            {{ error }}#}
+{#                                        {% endfor %}#}
+{#                                    </p>#}
+{#                                    <span class="sp glyphicon glyphicon-remove field-incorrect"></span>#}
+{#                                {% else %}#}
+{#                                    <p class="field-notification"></p>#}
+{#                                    <span class="sp"></span>#}
+{#                                {% endif %}#}
+                                <input class="form-control" id="reg-first-name" name="first_name" type="text"
                                        placeholder="First name"
                                        value="{{ form.first_name.value | default_if_none:'' }}">
                             </div>
 
                             <div class="form-group col-sm-5 col-sm-push-2">
-                                <label for="id_last_name">Last name</label>
-                                <i class="fa fa-asterisk"></i>
-                                {% if form.last_name.errors %}
-                                    <p class="field-notification">
-                                        {% for error in form.last_name.errors %}
-                                            {{ error }}
-                                        {% endfor %}
-                                    </p>
-                                    <span class="sp glyphicon glyphicon-remove field-uncorrect"></span>
-                                {% else %}
-                                    <p class="field-notification"></p>
-                                    <span class="sp"></span>
-                                {% endif %}
-                                <input class="form-control" id="id_last_name" name="last_name" type="text"
+                                <label for="reg-last-name">Last name</label>
+
+{#                                {% if form.last_name.errors %}#}
+{#                                    <p class="field-notification">#}
+{#                                        {% for error in form.last_name.errors %}#}
+{#                                            {{ error }}#}
+{#                                        {% endfor %}#}
+{#                                    </p>#}
+{#                                    <span class="sp glyphicon glyphicon-remove field-incorrect"></span>#}
+{#                                {% else %}#}
+{#                                    <p class="field-notification"></p>#}
+{#                                    <span class="sp"></span>#}
+{#                                {% endif %}#}
+                                <input class="form-control" id="reg-last-name" name="last_name" type="text"
                                        placeholder="Last name" value="{{ form.last_name.value | default_if_none:'' }}">
                             </div>
 
                             <div class="form-group col-sm-5">
-                                <label for="id_email">Email</label>
-                                <i class="fa fa-asterisk"></i>
-                                {% if form.email.errors %}
-                                    <p class="field-notification">
-                                        {% for error in form.email.errors %}
-                                            {{ error }}
-                                        {% endfor %}
-                                    </p>
-                                    <span class="sp glyphicon glyphicon-remove field-uncorrect"></span>
-                                {% else %}
-                                    <p class="field-notification"></p>
-                                    <span class="sp"></span>
-                                {% endif %}
-                                <input class="form-control" id="id_email" name="email" type="email" placeholder="Email"
+                                <label for="reg-email">Email</label>
+
+{#                                {% if form.email.errors %}#}
+{#                                    <p class="field-notification">#}
+{#                                        {% for error in form.email.errors %}#}
+{#                                            {{ error }}#}
+{#                                        {% endfor %}#}
+{#                                    </p>#}
+{#                                    <span class="sp glyphicon glyphicon-remove field-incorrect"></span>#}
+{#                                {% else %}#}
+{#                                    <p class="field-notification"></p>#}
+{#                                    <span class="sp"></span>#}
+{#                                {% endif %}#}
+                                <input class="form-control" id="reg-email" name="email" type="email" placeholder="Email"
+                                       onblur="return checkEmail(this)"
                                        value="{{ form.email.value | default_if_none:'' }}">
                             </div>
 
                             <div class="form-group col-sm-5 col-sm-push-2">
-                                <label for="id_username">Nickname</label>
-                                <i class="fa fa-asterisk"></i>
-                                {% if form.username.errors %}
-                                    <p class="field-notification">
-                                        {% for error in form.username.errors %}
-                                            {{ error }}
-                                        {% endfor %}
-                                    </p>
-                                    <span class="sp glyphicon glyphicon-remove field-uncorrect"></span>
-                                {% else %}
-                                    <p class="field-notification"></p>
-                                    <span class="sp"></span>
-                                {% endif %}
-                                <input class="form-control" id="id_username" name="username" type="text"
+                                <label for="reg-username">Nickname</label>
+
+{#                                {% if form.username.errors %}#}
+{#                                    <p class="field-notification">#}
+{#                                        {% for error in form.username.errors %}#}
+{#                                            {{ error }}#}
+{#                                        {% endfor %}#}
+{#                                    </p>#}
+{#                                    <span class="sp glyphicon glyphicon-remove field-incorrect"></span>#}
+{#                                {% else %}#}
+{#                                    <p class="field-notification"></p>#}
+{#                                    <span class="sp"></span>#}
+{#                                {% endif %}#}
+                                <input class="form-control" id="reg-username" name="username" type="text"
                                        placeholder="Nickname" value="{{ form.username.value| default_if_none:'' }}">
                             </div>
 
                             <div class="form-group col-sm-5">
-                                <label for="id_password">Password</label>
-                                <i class="fa fa-asterisk"></i>
-                                {% if form.password.errors %}
-                                    <p class="field-notification">
-                                        {% for error in form.password.errors %}
-                                            {{ error }}
-                                        {% endfor %}
-                                    </p>
-                                    <span class="sp glyphicon glyphicon-remove field-uncorrect"></span>
-                                {% else %}
-                                    <p class="field-notification"></p>
-                                    <span class="sp"></span>
-                                {% endif %}
-                                <input class="form-control" id="id_password" name="password" type="password"
+                                <label for="reg-password">Password</label>
+
+{#                                {% if form.password.errors %}#}
+{#                                    <p class="field-notification">#}
+{#                                        {% for error in form.password.errors %}#}
+{#                                            {{ error }}#}
+{#                                        {% endfor %}#}
+{#                                    </p>#}
+{#                                    <span class="sp glyphicon glyphicon-remove field-incorrect"></span>#}
+{#                                {% else %}#}
+{#                                    <p class="field-notification"></p>#}
+{#                                    <span class="sp"></span>#}
+{#                                {% endif %}#}
+                                <input class="form-control" id="reg-password" name="password" type="password"
                                        placeholder="Password" value="{{ form.password.value | default_if_none:'' }}">
                             </div>
 
                             <div class="form-group col-sm-5 col-sm-push-2">
-                                <label for="id_password_confirm">Confirm Password</label>
-                                <i class="fa fa-asterisk"></i>
-                                {% if form.password_confirm.errors %}
-                                    <p class="field-notification">
-                                        {% for error in form.password_confirm.errors %}
-                                            {{ error }}
-                                        {% endfor %}
-                                    </p>
-                                    <span class="sp glyphicon glyphicon-remove field-uncorrect"></span>
-                                {% else %}
-                                    <p class="field-notification"></p>
-                                    <span class="sp"></span>
-                                {% endif %}
-                                <input class="form-control" id="id_password_confirm" name="password_confirm"
-                                       type="password"
-                                       placeholder="Confirm password"
+                                <label for="password-confirm">Confirm Password</label>
+
+{#                                {% if form.password_confirm.errors %}#}
+{#                                    <p class="field-notification">#}
+{#                                        {% for error in form.password_confirm.errors %}#}
+{#                                            {{ error }}#}
+{#                                        {% endfor %}#}
+{#                                    </p>#}
+{#                                    <span class="sp glyphicon glyphicon-remove field-incorrect"></span>#}
+{#                                {% else %}#}
+{#                                    <p class="field-notification"></p>#}
+{#                                    <span class="sp"></span>#}
+{#                                {% endif %}#}
+                                <input class="form-control" id="password-confirm" name="password_confirm"
+                                       type="password" placeholder="Confirm password"
+                                       onblur="return checkPass(this)"
                                        value="{{ form.password_confirm.value | default_if_none:'' }}">
                             </div>
                             {{ form.non_field_errors }}
 
                             <div class="col-sm-12 text-center">
-                                <i class="fa fa-asterisk"></i>
-                                <em class="small">Required fields</em>
                                 <button class="btn-custom btn-join-us" id="submit-reg"
-                                        type="submit" onclick="return validateSubmitForm()">Submit
+                                        type="submit">Submit
                                 </button>
                             </div>
                         </form>

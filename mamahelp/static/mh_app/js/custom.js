@@ -75,35 +75,120 @@
 //    }
 //});
 
-var sign_in_validate = function (form_id) {
-    // get all the inputs into an array.
-    var $inputs = $('#' + form_id + ' :input');
+/***************************** Log-in form *********************************************/
 
-    // not sure if you wanted this, but I thought I'd add it.
-    // get an associative array of just the values.
-    var values = {};
-    $inputs.each(function () {
-        values[this.name] = $(this).val();
+function getFormObjects(form) {
+    var formObjects = {};
+    var inputs = $(form + ' .form-control');
+    inputs.each(function (idx, input) {
+        formObjects[input.id] = {
+            "id": input.id,
+            "name": input.name,
+            "type": input.type,
+            "placeholder": input.placeholder
+        };
     });
-    console.log(values);
+    return formObjects;
+}
 
-    $.post(sing_in_url, values, function (data) {
-        if (data.valid) {
-            $('#' + form_id).submit()
+//called from html "onblur" event on field//
+function checkEmail(field) {
+    if (isEmail(field.value)) {
+        displayValid($('#' + field.id))
+    } else {
+        displayNotValid($('#' + field.id))
+    }
+}
+// function checkPass(field) {
+//     if (isNotEmpty($('#reg-password'))) {
+//         if (isMatchPass(field.value)) {
+//             displayValid($('#' + field.id))
+//         } else {
+//             displayNotValid($('#' + field.id), "password doesn't match")
+//     }
+//     }
+// }
+
+$("#login-email").focusout (function() {
+    if (isEmail(this.value)) {
+        displayValid($('#' + this.id))
+
+    } else {
+        displayNotValid($('#' + this.id))
+    }
+})
+// $("#reg-email").focusout(function () {
+//     if (isEmail(this.value)) {
+//         displayValid($('#' + this.id))
+//
+//     } else {
+//         displayNotValid($('#' + this.id))
+//     }
+// })
+
+function formValidation(form) {
+    var formValid = true;
+    var formObjects = getFormObjects(form);
+    // console.log(formObjects['reg-first-name']['type'])
+
+    $.each(formObjects, function (key, value) {
+        var field = $("#" + value.id);
+        if (isNotEmpty(field)) {
+            displayValid(field);
+
         } else {
-            console.log('non valid');
+            displayNotValid(field, "field is required");
+            formValid = false;
         }
     })
-};
 
+    if (!isEmail($('#login-email').val())){
+        displayNotValid($('#login-email'));
+        formValid = false;
+    } else {
+        displayValid($('#login-email'))
+    }
 
-$('#id_sign_in_form').submit(function () {
-    console.log('aaaaaaaaa______')
-});
+    return formValid;
+}
 
+function isNotEmpty(elem) {
+    var x = elem.val();
+    return (x != null && x.trim() != '');
+}
 
+function isEmail(mail) {
+    var mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+    return mail.match(mailFormat);
+}
 
+function isMatchPass(text) {
+    var pass = $('#reg-password').val();
+    return  (text === pass)
+    // {
+    //     displayValid($('#' + field.id))
+    //     displayValid($('#input-password'))
+    // } else {
+    //     displayNotValid($('#' + field.id))
+    // }
+}
 
+function displayNotValid(element) {
+    element.removeClass('field-correct');
+    element.addClass('field-incorrect');
+    element.attr('placeholder')
+
+}
+
+function displayValid(element) {
+    element.removeClass('field-incorrect');
+    element.addClass('field-correct');
+}
+
+function clearForm(form) {
+    $(form).find("input").val("").removeClass('field-incorrect').removeClass('field-correct');
+
+}
 
 
 

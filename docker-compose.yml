@@ -1,0 +1,6 @@
+postgres:
+  image: postgres:9.5.4
+  container_name: postgres
+  environment:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
