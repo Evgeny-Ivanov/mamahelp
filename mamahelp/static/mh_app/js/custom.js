@@ -78,6 +78,7 @@
 /***************************** Log-in form *********************************************/
 
 function getFormObjects(form) {
+    console.log(form);
     var formObjects = {};
     var inputs = $(form + ' .form-control');
     inputs.each(function (idx, input) {
@@ -99,55 +100,72 @@ function checkEmail(field) {
         displayNotValid($('#' + field.id))
     }
 }
-// function checkPass(field) {
-//     if (isNotEmpty($('#reg-password'))) {
-//         if (isMatchPass(field.value)) {
-//             displayValid($('#' + field.id))
-//         } else {
-//             displayNotValid($('#' + field.id), "password doesn't match")
-//     }
-//     }
-// }
-
-$("#login-email").focusout (function() {
-    if (isEmail(this.value)) {
-        displayValid($('#' + this.id))
-
-    } else {
-        displayNotValid($('#' + this.id))
+function checkPass(field) {
+    if (isNotEmpty($('#reg-password'))) {
+        if (isMatchPass(field.value)) {
+            displayValid($('#' + field.id))
+        } else {
+            displayNotValid($('#' + field.id))
     }
-})
-// $("#reg-email").focusout(function () {
-//     if (isEmail(this.value)) {
-//         displayValid($('#' + this.id))
-//
-//     } else {
-//         displayNotValid($('#' + this.id))
-//     }
-// })
-
+    }
+}
 function formValidation(form) {
     var formValid = true;
     var formObjects = getFormObjects(form);
-    // console.log(formObjects['reg-first-name']['type'])
 
     $.each(formObjects, function (key, value) {
         var field = $("#" + value.id);
         if (isNotEmpty(field)) {
             displayValid(field);
-
         } else {
             displayNotValid(field, "field is required");
             formValid = false;
         }
     })
-
-    if (!isEmail($('#login-email').val())){
-        displayNotValid($('#login-email'));
-        formValid = false;
-    } else {
-        displayValid($('#login-email'))
+    if (formObjects['password-confirm']) {
+        var value = ($('#password-confirm').val())
+        if (isMatchPass(value)) {
+            displayValid($('#password-confirm'))
+        } else {
+            displayNotValid($('#password-confirm'))
+            formValid = false;
+        }
     }
+    if (formObjects['login-email']) {
+    console.log(formObjects['login-email'])
+        var value = ($('#login-email').val())
+        if (isEmail(value)) {
+            displayValid($('#login-email'))
+        } else {
+            displayNotValid($('#login-email'))
+                formValid = false;
+        }
+    }
+    if (formObjects['reg-email']) {
+        console.log(formObjects['reg-email'])
+        var value = ($('#reg-email').val())
+        if (isEmail(value)) {
+            displayValid($('#reg-email'))
+        } else {
+            displayNotValid($('#reg-email'))
+            formValid = false;
+        }
+    }
+
+
+    // if (!isEmail($('#login-email').val())){
+    //     displayNotValid($('#login-email'));
+    //     formValid = false;
+    // } else {
+    //     displayValid($('#login-email'))
+    // }
+    //
+    // if (!isEmail($('#reg-email').val())){
+    //     displayNotValid($('#reg-email'));
+    //     formValid = false;
+    // } else {
+    //     displayValid($('#reg-email'))
+    // }
 
     return formValid;
 }
@@ -173,10 +191,10 @@ function isMatchPass(text) {
     // }
 }
 
-function displayNotValid(element) {
+function displayNotValid(element, text) {
     element.removeClass('field-correct');
     element.addClass('field-incorrect');
-    element.attr('placeholder')
+    element.attr('placeholder', text)
 
 }
 
