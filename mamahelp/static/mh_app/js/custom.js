@@ -75,7 +75,7 @@
 //    }
 //});
 
-/***************************** Log-in form *********************************************/
+/***************************** LOG-IN and REGISTRATION FORMS*********************************************/
 
 function getFormObjects(form) {
     console.log(form);
@@ -92,7 +92,19 @@ function getFormObjects(form) {
     return formObjects;
 }
 
-//called from html "onblur" event on field//
+function getFormValues(form) {
+    var formData = {};
+    var inputs = $(form + ' :input:not(:checkbox):not(:button):not(:hidden)').toArray();
+    for (var i in inputs) {
+        var key = $('#' + inputs[i].id).attr('name')
+        var value = $('#' + inputs[i].id).val();
+        console.log (key + ': ' + value)
+        formData[key] = value;
+    }
+    console.log(formData);
+}
+
+/*******************called from html "onblur" event on field************************/
 function checkEmail(field) {
     if (isEmail(field.value)) {
         displayValid($('#' + field.id))
@@ -106,11 +118,24 @@ function checkPass(field) {
             displayValid($('#' + field.id))
         } else {
             displayNotValid($('#' + field.id))
-    }
+        }
     }
 }
+function formProcessing(form) {
+    try {
+        if (formValidation(form)) {
+            console.log('ready for submit');
+            getFormValues(form);
+        }
+    } catch (e) {
+        console.log("Error occured: " + e);
+    }
+    return false;
+}
+
+
 function formValidation(form) {
-    var formValid = true;
+    var status = true;
     var formObjects = getFormObjects(form);
 
     $.each(formObjects, function (key, value) {
@@ -118,58 +143,43 @@ function formValidation(form) {
         if (isNotEmpty(field)) {
             displayValid(field);
         } else {
-            displayNotValid(field, "field is required");
-            formValid = false;
+            displayNotValid(field, "Field is required");
+            status = false;
         }
-    })
+    });
     if (formObjects['password-confirm']) {
         var value = ($('#password-confirm').val())
         if (isMatchPass(value)) {
             displayValid($('#password-confirm'))
         } else {
             displayNotValid($('#password-confirm'))
-            formValid = false;
+            status = false;
         }
     }
     if (formObjects['login-email']) {
-    console.log(formObjects['login-email'])
+        console.log(formObjects['login-email'])
         var value = ($('#login-email').val())
         if (isEmail(value)) {
             displayValid($('#login-email'))
         } else {
             displayNotValid($('#login-email'))
-                formValid = false;
+            status = false;
         }
     }
     if (formObjects['reg-email']) {
-        console.log(formObjects['reg-email'])
+
         var value = ($('#reg-email').val())
         if (isEmail(value)) {
             displayValid($('#reg-email'))
         } else {
             displayNotValid($('#reg-email'))
-            formValid = false;
+            status = false;
         }
     }
 
-
-    // if (!isEmail($('#login-email').val())){
-    //     displayNotValid($('#login-email'));
-    //     formValid = false;
-    // } else {
-    //     displayValid($('#login-email'))
-    // }
-    //
-    // if (!isEmail($('#reg-email').val())){
-    //     displayNotValid($('#reg-email'));
-    //     formValid = false;
-    // } else {
-    //     displayValid($('#reg-email'))
-    // }
-
-    return formValid;
+    return status;
 }
-
+/********************Field validation small functions**************/
 function isNotEmpty(elem) {
     var x = elem.val();
     return (x != null && x.trim() != '');
@@ -182,13 +192,7 @@ function isEmail(mail) {
 
 function isMatchPass(text) {
     var pass = $('#reg-password').val();
-    return  (text === pass)
-    // {
-    //     displayValid($('#' + field.id))
-    //     displayValid($('#input-password'))
-    // } else {
-    //     displayNotValid($('#' + field.id))
-    // }
+    return (text === pass)
 }
 
 function displayNotValid(element, text) {

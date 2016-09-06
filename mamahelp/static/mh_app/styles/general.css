@@ -62,7 +62,10 @@ button {
 }
 
 .btn-custom:hover,
-.btn-custom:active {
+.btn-custom:active,
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
     color: #fff;
     border-color: #fff;
     background-color: #474B4f;
@@ -78,6 +81,10 @@ button {
 
 .nav > li > a {
     padding-left: 50px;    /***rewrite bootstrap css for social buttons in log-in form****/
+}
+
+.nav-pills > li > a {
+    border-radius: 25px 0 25px 25px;
 }
 
 .btn-social > :first-child {
@@ -277,7 +284,7 @@ margin-bottom: 30px;
 
 .main-img-content {
     position: absolute;
-    top: 55%;
+    top: 20%;
     right: 450px;
     left: 15%;
     min-width: 450px;
@@ -411,22 +418,6 @@ margin-bottom: 30px;
     right: 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .article-entry {
     margin-top: 30px;
     line-height: 1.5;
@@ -452,8 +443,6 @@ margin-bottom: 30px;
     font-style: italic;
     color: red;
 }
-
-
 
 /**********************Registration-form****************/
 @media screen and (min-width: 768px) {
@@ -489,5 +478,15 @@ margin-bottom: 30px;
 .reg-form-header {
     margin: 0 auto;
 }
-/******************************************************/
+/**********************User profile********************************/
+.user-photo {
+    margin: 0 5px 10px 5px;
+}
 
+li.user-profile {
+    margin: 5px 0px;
+}
+
+.btn-edit-help {
+
+}
