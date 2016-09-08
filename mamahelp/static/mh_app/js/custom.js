@@ -98,7 +98,7 @@ function getFormValues(form) {
     for (var i in inputs) {
         var key = $('#' + inputs[i].id).attr('name')
         var value = $('#' + inputs[i].id).val();
-        console.log (key + ': ' + value)
+        console.log(key + ': ' + value)
         formData[key] = value;
     }
     console.log(formData);
@@ -211,9 +211,170 @@ function clearForm(form) {
     $(form).find("input").val("").removeClass('field-incorrect').removeClass('field-correct');
 
 }
+/****************************PROFILE CONTENT "NEED HELP"******************************************/
+var button = $("<button class='btn-custom btn-join-us' id='btn-need-help' type='button'></button>");
+var btnNeedHelp = button.addClass('need-help')
+btnNeedHelp.text('I need help');
+$('#need-help').append(btnNeedHelp);
+
+$('#btn-need-help').click(function () {
+    console.log(this.id);
+    deleteElement('#' + this.id);
+    $("#need-st1").show("slow")
+});
 
 
+// $(".open1").click(function () {
+//     // if (v.form()) {
+//     $(".frm").hide("fast");
+//     $("#need-st2-bbsitting").show("slow");
+//     // }
+// });
 
+$(".back2").click(function () {
+    $(".frm").hide("fast");
+    $("#need-st1").show("slow");
+});
+var helpData = {};
+function st1Submit(formId) {
+
+
+    st1CheckedValue(helpData);
+
+    if (helpData.helpType === "babysitting") {
+        $(".frm").hide("fast");
+        $("#need-st2-bbsitting").show("slow");
+    }
+    if (helpData.helpType === "transportation") {
+        $(".frm").hide("fast");
+        $("#need-st2-transportation").show("slow");
+    }
+}
+
+$('#need-st2-bbsitting').ready(function displayForm() {
+    addTime();
+});
+function st1CheckedValue(h) {
+    var value = $('input[name="need-type"]:checked').val()
+    var key = 'helpType';
+    h[key] = value;
+}
+
+function addTime() {
+    // add time options to 'select'
+    var arrTime = [], i, j;
+    for (i = 0; i < 24; i++) {
+        for (j = 0; j < 2; j++) {
+            arrTime.push(i + ":" + (j === 0 ? "00" : 30 * j));
+        }
+    }
+    for (var t = 0; t < arrTime.length; t++) {
+        var timeOption = $('<option></option>').attr('value', arrTime[t]).text(arrTime[t]);
+        $('.time-from').append(timeOption);
+    }
+    var startIndex = 0;
+    $('.time-from').change(function () {
+        $('.time-to').find('option').remove();
+        var timeFrom = $('.time-from').val();
+        startIndex = $.inArray(timeFrom, arrTime) + 1;
+        for (var f = startIndex; f < arrTime.length; f++) {
+            var timeOption = $('<option></option>').attr('value', arrTime[f]).text(arrTime[f]);
+            $('.time-to').append(timeOption);
+        }
+    });
+}
+
+//---------------------------------------display label for Age-div--------------------------------///
+var oldNumber = 0;
+var newNumber = 0;
+$('#need-children').change(function () {
+    if ($('#label-age').length == 0) {
+        var label1 = $('<label>').attr('for', 'childAge').attr('id', 'label-age').text('Specify age');
+        $('#age').prepend(label1);
+    }
+});
+//---------------------------Add-remove children age field for selected number of kids-------------//
+
+$('#need-children').change(function () {
+    oldNumber = newNumber;
+    newNumber = parseInt($('#need-children').val());
+    if (oldNumber === 0) {
+        AddField(oldNumber, newNumber);
+    }
+    else {
+        if (oldNumber < newNumber) {
+            AddField(oldNumber, newNumber);
+        } else {
+            removeField(oldNumber, newNumber);
+        }
+    }
+});
+function AddField(on, nn) {
+    for (var i = on; i < nn; i++) {
+        var childId = (i + 1);
+        var label = $('<label>').attr('for', 'need-child' + childId + 'Age');
+        var id = ('need-child' + childId + 'Age');
+        var select = $('<select>').attr('id', id).attr('class', 'form-control').attr('class', 'select-age');
+        label.text('Child' + childId);
+        $('#need-age').append(label).append(select);
+        var optionDef = $('<option></option>').attr('value', '#').attr('selected', true).text('...');
+        select.append(optionDef);
+        for (var j = 0; j < 15; j++) {
+
+            var option = $('<option></option>').attr('value', j + 1).text(j + 1);
+            select.append(option)
+        }
+    }
+}
+
+function removeField(on, nn) {
+    for (var i = nn; i < on; i++) {
+        var idToRemove = ('#need-child' + (i + 1) + 'Age');
+        var labelAttr = ('label[for=need-child' + (i + 1) + 'Age]');
+        $(idToRemove).remove();
+        $(labelAttr).remove();
+    }
+}
+function deleteElement(id) {
+    $(id).remove();
+
+}
+function addElement(div, id) {
+    var element = $(id);
+    $(div).append(element);
+}
+
+function helpSubmit(formId) {
+    try {
+        console.log(formId)
+        getMyHelps(formId);
+    } catch (e) {
+        console.log("Error occured: " + e);
+    }
+    return false;
+
+
+}
+
+function getMyHelps(form) {
+    var allCheckbox = $(form).find(':checkbox');
+    var selectedDays = [];
+    for (var i = 0; i < allCheckbox.length; i++) {
+        if (allCheckbox[i].checked) {
+            selectedDays.push(allCheckbox[i].value)
+        }
+    }
+    helpData.days = selectedDays;
+
+    var radios = $(form).find(':radio');
+    for (var r in radios) {
+        if (radios[r].checked) {
+            helpData.place = radios[r].value
+        }
+    }
+
+    console.log(helpData)
+}
 
 
 

@@ -6,22 +6,217 @@
             <div class="col-sm-2">
                 <img class="user-photo" src="http://placehold.it/150x150">
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="user-profile" role="presentation"><a class="btn btn-custom" href="#">I can help with</a></li>
-                    <li class="user-profile" role="presentation" class="active"><a class="btn btn-custom" href="#">I need help</a></li>
+                    <li class="user-profile" role="presentation"><a class="btn btn-custom" href="#">I can help with</a>
+                    </li>
+                    <li class="user-profile active" role="presentation"><a class="btn btn-custom" href="#">I need
+                        help</a></li>
                     <li class="user-profile" role="presentation"><a class="btn btn-custom" href="#">Contacts</a></li>
                     <li class="user-profile" role="presentation"><a class="btn btn-custom" href="#">History</a></li>
-                    <li class="user-profile" role="presentation"><a class="btn btn-custom" href="#">General info</a></li>
+                    <li class="user-profile" role="presentation"><a class="btn btn-custom" href="#">General info</a>
+                    </li>
                     <li class="user-profile" role="presentation"><a class="btn btn-custom" href="#">Settings</a></li>
                 </ul>
             </div>
-            <div class="col-xs-8">
-                <div class="col-xs-10" id="my-helps"></div>
+            {#            <div class="col-xs-8">#}
+            {#                <div class="col-xs-10" id="my-helps"></div>#}
+            {##}
+            {#                <div id="can-help">#}
+            {#                </div>#}
+            {#            </div>#}
+            <div class="col-xs-8 profile-content" id="need-help">
+                <form class="frm" id="need-st1" name="" style="display: none">
+                    {#                    <div class="frm" id="need-st1">#}
+                    <legend>Step 1 Select type of help</legend>
+                    {#                    make possible 'SUBMIT' action after press ENTER#}
+                    {#                    <input type="submit" onsubmit="st1Submit()"#}
+                    {#                           style="position: absolute; left: -9999px; width: 1px; height: 1px;"#}
+                    {#                           tabindex="-1"/>#}
 
-                <div id="can-help">
-                </div>
+                    <div class="radio-inline">
+                        <label>
+                            <input type="radio" name="need-type" id="" value="babysitting" checked>
+                            Babysitting
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            <input type="radio" name="need-type" id="" value="transportation">
+                            Transportation
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-2">
+                            <!-- open1 is given in the class that is binded with the click event -->
+                            <button class="btn-custom btn-join-us btn-primary open1" type="button"
+                                    onclick="st1Submit('#need-st1')">Next <span
+                                    class="fa fa-arrow-right"></span></button>
+                        </div>
+                    </div>
+                </form>
+                {#                    </div>#}
+
+                <form class="frm" id="need-st2-bbsitting" style="display: none" action="" method="post" onsubmit="return helpSubmit('#need-st2-bbsitting')">
+                    <fieldset>
+                        <legend>Step 2 Add details (Babysitting)</legend>
+                        <div class="form-group">
+                            <label for="need-days">Days of week</label>
+                            <div id="need-days">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="need-mon" value="monday">Monday
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="need-tued" value="tuesday">Tuesday
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="need-wed" value="wednesday">Wednesday
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="need-thurs" value="thursday">Thursday
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="need-fri" value="friday">Friday
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="need-sat" value="saturday">Saturday
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="need-sun" value="sunday">Sunday
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="need-bbsitting-time">Select hours</label>
+                            <div id="need-bbsitting-time" class="form-inline">
+                                <label for="need-from" class="form-inline">From</label>
+                                <select class="form-control time-from" id="need-from">
+                                    <option value="" selected>...</option>
+                                </select>
+                                <label for="need-to" class="form-inline">To</label>
+                                <select class="form-control time-to" id="need-to">
+                                    <option disabled>choose from first</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="need-babysitting-address">Address</label>
+                            <input id="need-babysitting-address">
+
+                        </div>
+                        <div class="form-group">
+                            <div class="radio-inline">
+                                <label>
+                                    <input type="radio" name="option-place" id="" value="indoor">
+                                    Indoor
+                                </label>
+                            </div>
+                            <div class="radio-inline">
+                                <label>
+                                    <input type="radio" name="option-place" id="" value="outdoor">
+                                    Outdoor
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <div class='form-group form-inline'>
+                            <label for="need-children">Number of children</label>
+                            <input type="number" id="need-children">
+                            <div class="form-group" id="need-age">
+                                <div class="form-inline" id="need-age"></div>
+                            </div>
+                        </div>
+                        <div class='form-group'><label for='need-bbsitting-info'>Additional information</label>
+                            <textarea id='need-bbsitting-info' placeholder='Give more information'
+                                      class="form-control" rows='5'></textarea>
+                        </div>
+                        <div class="form-group col-lg-10 col-lg-offset-2">
+
+                            <button class="btn-custom btn-join-us btn-warning back2" type="button"><span
+                                    class="fa fa-arrow-left"></span> Back
+                            </button>
+
+                            {#                                <button class="btn-custom btn-join-us btn-primary open2" type="button">Next <span#}
+                            {#                                        class="fa fa-arrow-right"></span></button>#}
+                            <button class="btn-custom btn-join-us"
+                                    type="submit">Submit
+                            </button>
+
+                        </div>
+                    </fieldset>
+                </form>
+                <form class="frm" id="need-st2-transportation" style="display: none">
+                    <fieldset>
+                        <legend>Step 2 Add details (Transportation)></legend>
+                        <div class="form-group">
+                            <label for="need-days">Days of week</label>
+                            <div id="need-days">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="need-mon" value="monday">Monday
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="need-tued" value="tuesday">Tuesday
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="need-wed" value="wednesday">Wednesday
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="need-thurs" value="thursday">Thursday
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="need-fri" value="friday">Friday
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="need-sat" value="saturday">Saturday
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="need-sun" value="sunday">Sunday
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group form-inline">
+                            <label for="pick-up-time">Pick up at: </label>
+                            <select class="form-control time-from" id="pick-up-time">
+                                <option value="" selected>...</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-inline">
+                            <label for="pick-up-location">Pick up location: </label>
+                            <input class="form-control location-from" id="pick-up-location">
+                        </div>
+
+                        <div class="form-group form-inline">
+                            <label for="drop-off-time">Drop off at: </label>
+                            <select class="form-control time-to" id="drop-off-time">
+                                <option value="" selected>...</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-inline">
+                            <label for="drop-off-location">Drop off location: </label>
+                            <input class="form-control location-to" id="drop-off-location">
+                        </div>
+                        <div class='form-group'><label for='need-transportation-info'>Additional information</label>
+                            <textarea id='need-transportation-info'
+                                      placeholder="Give more information (way of transportation, payment for tickets, child age, etc"
+                                      class="form-control" rows='5'></textarea>
+                        </div>
+                        <div class=" form-group col-lg-10 col-lg-offset-2">
+
+                            <button class="btn-custom btn-join-us btn-warning back2" type="button"><span
+                                    class="fa fa-arrow-left"></span> Back
+                            </button>
+                        </div>
+                    </fieldset>
+                </form>
+
             </div>
+
         </div>
     </div>
+
 
 {% endblock %}
 
@@ -55,7 +250,7 @@
 {#        var myHelpCount = 0;#}
 {#        var myHelps = {};#}
 {#        addElement("#can-help", newHelpButton);#}
-        {#------------------------------Suggest-help button action -----------------------------#}
+{#------------------------------Suggest-help button action -----------------------------#}
 {#        function suggestHelp() {#}
 {#            var div = $("<div id='give-help'></div>");#}
 {#            $("#can-help").append(div);#}
@@ -65,7 +260,7 @@
 {#            $('#my-helps').toggleClass('hide');#}
 {#        }#}
 {##}
-        {#------------------------------ADD INPUT HELP FORM------------------------------------#}
+{#------------------------------ADD INPUT HELP FORM------------------------------------#}
 {#        function addForm() {#}
 {#            var form = $('#give-help-form');#}
 {#            var city = $("<div class='form-group'><label for='selCity'>Select city</label>" +#}
@@ -126,69 +321,8 @@
 {#                    "type='button'>Save </button>");#}
 {#            form.append(saveButton);#}
 {##}
-            {#        add time options to 'select'#}
-{#            var arrTime = [], i, j;#}
-{#            for (i = 0; i < 24; i++) {#}
-{#                for (j = 0; j < 2; j++) {#}
-{#                    arrTime.push(i + ":" + (j === 0 ? "00" : 30 * j));#}
-{#                }#}
-{#            }#}
-{#            for (var t = 0; t < arrTime.length; t++) {#}
-{#                var timeOption = $('<option></option>').attr('value', arrTime[t]).text(arrTime[t]);#}
-{#                $('#selFrom').append(timeOption);#}
-{#            }#}
-{#            var startIndex = 0;#}
-{#            $('#selFrom').change(function () {#}
-{#                $('#selTo').find('option').remove();#}
-{#                var timeFrom = $('#selFrom').val();#}
-{#                startIndex = $.inArray(timeFrom, arrTime) + 1;#}
-{#                for (var f = startIndex; f < arrTime.length; f++) {#}
-{#                    var timeOption = $('<option></option>').attr('value', arrTime[f]).text(arrTime[f]);#}
-{#                    $('#selTo').append(timeOption);#}
-{#                }#}
-{#            });#}
-{#            //---------------------------------------display label for Age-div--------------------------------///#}
-{#            var oldNumber = 0;#}
-{#            var newNumber = 0;#}
-{#            $('#chNumber').change(function () {#}
-{#                if ($('#label-age').length == 0) {#}
-{#                    var label1 = $('<label>').attr('for', 'childAge').attr('id', 'label-age').text('Specify age');#}
-{#                    $('#age').prepend(label1);#}
-{#                }#}
-{#            });#}
-{#            //---------------------------Add-remove children age field for selected number of kids-------------//#}
-{##}
-{#            $('#chNumber').change(function () {#}
-{#                oldNumber = newNumber;#}
-{#                newNumber = parseInt($('#chNumber').val());#}
-{#                if (oldNumber === 0) {#}
-{#                    AddField(oldNumber, newNumber);#}
-{#                }#}
-{#                else {#}
-{#                    if (oldNumber < newNumber) {#}
-{#                        AddField(oldNumber, newNumber);#}
-{#                    } else {#}
-{#                        removeField(oldNumber, newNumber);#}
-{#                    }#}
-{#                }#}
-{#            });#}
-{#            function AddField(on, nn) {#}
-{#                for (var i = on; i < nn; i++) {#}
-{#                    var childId = (i + 1);#}
-{#                    var label = $('<label>').attr('for', 'child' + childId + 'Age');#}
-{#                    var id = ('child' + childId + 'Age');#}
-{#                    var select = $('<select>').attr('id', id).attr('class', 'form-control').attr('class', 'select-age');#}
-{#                    label.text('Child' + childId);#}
-{#                    $('#childAge').append(label).append(select);#}
-{#                    var optionDef = $('<option></option>').attr('value', '#').attr('selected', true).text('...');#}
-{#                    select.append(optionDef);#}
-{#                    for (var j = 0; j < 15; j++) {#}
-{##}
-{#                        var option = $('<option></option>').attr('value', j + 1).text(j + 1);#}
-{#                        select.append(option)#}
-{#                    }#}
-{#                }#}
-{#            }#}
+
+
 {##}
 {#            deleteElement('#new-help');#}
 {#        }#}
@@ -256,11 +390,11 @@
 {#            return false;#}
 {#        }#}
 {#        function addHelpEntry(help) {#}
-            {#            create div #}
+{#            create div #}
 {#            var entryId = 'entry_' + (help.id);#}
 {#            var helpDiv = $('<div></div>').attr('id', entryId);#}
 {#            $('#my-helps').prepend(helpDiv);#}
-            {#            add h3 to div#}
+{#            add h3 to div#}
 {#            var id = help.id;#}
 {#            var h3Id = 'h3_' + id;#}
 {#            var h3 = $('<h3></h3>').attr('class', 'clearfix').attr('id', h3Id);#}
@@ -321,7 +455,7 @@
 {#            $('#label-age').remove();#}
 {#            deleteElement('#give-help');#}
 {#            addElement("#can-help", newHelpButton);#}
-            {#            }#}
+{#            }#}
 {#        }#}
 {##}
 {##}
@@ -349,15 +483,7 @@
 {#            return (ages);#}
 {##}
 {#        }#}
-{#        function removeField(on, nn) {#}
-{#            for (var i = nn; i < on; i++) {#}
-{#                var idToRemove = ('#child' + (i + 1) + 'Age');#}
-{#                var labelAttr = ('label[for=child' + (i + 1) + 'Age]');#}
-{#                $(idToRemove).remove();#}
-{#                $(labelAttr).remove();#}
-{#            }#}
-{##}
-{#        }#}
+
 {#        function deleteElement(id) {#}
 {#            $(id).remove();#}
 {#        }#}

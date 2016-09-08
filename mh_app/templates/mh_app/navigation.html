@@ -100,7 +100,7 @@
             </div>
             <div class="modal-body login-modal">
                 <div class="wrapper center-block">
-                    <form class="login-modal-form" id="sign-in-form" action="{% url 'social:complete' 'email' %}" novalidate
+                    <form class="login-modal-form" id="sign-in-form" action="{% url 'social:complete' 'email' %}"  novalidate
                           method="POST" onsubmit="return formProcessing('#sign-in-form')">
                         {% csrf_token %}
                         <div class="form-group">
