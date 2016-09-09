@@ -288,10 +288,13 @@ function addTime() {
 var oldNumber = 0;
 var newNumber = 0;
 $('#need-children').change(function () {
+
     if ($('#label-age').length == 0) {
         var label1 = $('<label>').attr('for', 'childAge').attr('id', 'label-age').text('Specify age');
-        $('#age').prepend(label1);
+        $('#need-age').prepend(label1);
     }
+
+
 });
 //---------------------------Add-remove children age field for selected number of kids-------------//
 
@@ -308,16 +311,19 @@ $('#need-children').change(function () {
             removeField(oldNumber, newNumber);
         }
     }
+    if (newNumber === 0) {
+        deleteElement('#label-age');
+    }
 });
 function AddField(on, nn) {
     for (var i = on; i < nn; i++) {
         var childId = (i + 1);
         var label = $('<label>').attr('for', 'need-child' + childId + 'Age');
         var id = ('need-child' + childId + 'Age');
-        var select = $('<select>').attr('id', id).attr('class', 'form-control').attr('class', 'select-age');
+        var select = $('<select>').attr('id', id).attr('class', 'form-control').attr('class', 'select-age').attr('name', 'child-age');
         label.text('Child' + childId);
         $('#need-age').append(label).append(select);
-        var optionDef = $('<option></option>').attr('value', '#').attr('selected', true).text('...');
+        var optionDef = $('<option></option>').attr('value', '').attr('selected', true).text('...');
         select.append(optionDef);
         for (var j = 0; j < 15; j++) {
 
@@ -364,14 +370,41 @@ function getMyHelps(form) {
             selectedDays.push(allCheckbox[i].value)
         }
     }
-    helpData.days = selectedDays;
+
 
     var radios = $(form).find(':radio');
-    for (var r in radios) {
+    $.each(radios, function (r, value) {
         if (radios[r].checked) {
             helpData.place = radios[r].value
         }
+    });
+    // radios.each(function (r, value) {
+    //     console.log(r);
+    // });
+
+    var allSelect = $(form).find('select');
+    var selectsId = [];
+    $.each(allSelect, function (s, value) {
+        selectsId.push(allSelect[s].id);
+    });
+
+    var childAge = [];
+    for (d in selectsId) {
+        var field = $("#" + selectsId[d] + " option:selected");
+        var text = field.val();
+        if (field.parent().hasClass('select-age')) {
+            childAge.push(text)
+        } else {
+            var key = field.parent().attr('name');
+            helpData[key] = text;
+        }
     }
+    var moreInfo = $(form).find('textarea').val();
+
+    helpData.days = selectedDays;
+    helpData.childAge = childAge;
+    helpData.info = moreInfo;
+
 
     console.log(helpData)
 }

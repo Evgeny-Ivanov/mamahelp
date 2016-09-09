@@ -65,7 +65,7 @@
                                     <input type="checkbox" id="need-mon" value="monday">Monday
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" id="need-tued" value="tuesday">Tuesday
+                                    <input type="checkbox" id="need-tues" value="tuesday">Tuesday
                                 </label>
                                 <label class="checkbox-inline">
                                     <input type="checkbox" id="need-wed" value="wednesday">Wednesday
@@ -90,11 +90,11 @@
                             <label for="need-bbsitting-time">Select hours</label>
                             <div id="need-bbsitting-time" class="form-inline">
                                 <label for="need-from" class="form-inline">From</label>
-                                <select class="form-control time-from" id="need-from">
+                                <select class="form-control time-from" id="need-from" name="time-from">
                                     <option value="" selected>...</option>
                                 </select>
                                 <label for="need-to" class="form-inline">To</label>
-                                <select class="form-control time-to" id="need-to">
+                                <select class="form-control time-to" id="need-to" name="time-to">
                                     <option disabled>choose from first</option>
                                 </select>
 
@@ -158,7 +158,7 @@
                                     <input type="checkbox" id="need-mon" value="monday">Monday
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" id="need-tued" value="tuesday">Tuesday
+                                    <input type="checkbox" id="need-tues" value="tuesday">Tuesday
                                 </label>
                                 <label class="checkbox-inline">
                                     <input type="checkbox" id="need-wed" value="wednesday">Wednesday
@@ -179,7 +179,7 @@
                         </div>
                         <div class="form-group form-inline">
                             <label for="pick-up-time">Pick up at: </label>
-                            <select class="form-control time-from" id="pick-up-time">
+                            <select class="form-control time-from" id="pick-up-time" name="pick-up-time">
                                 <option value="" selected>...</option>
                             </select>
                         </div>
@@ -190,7 +190,7 @@
 
                         <div class="form-group form-inline">
                             <label for="drop-off-time">Drop off at: </label>
-                            <select class="form-control time-to" id="drop-off-time">
+                            <select class="form-control time-to" id="drop-off-time" name="drop-off-time">
                                 <option value="" selected>...</option>
                             </select>
                         </div>
