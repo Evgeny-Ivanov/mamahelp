@@ -2,8 +2,38 @@
  * Created by yulia on 1/8/2016.
  */
 /*** Site Search expand-collapse...*/
-
-
+// window.onload = function() {
+//     // var startPos;
+//     // var geoOptions = {
+//     //     timeout: 10 * 1000
+//     // };
+//     var latlng1;
+//     function getLocation() {
+//         navigator.geolocation.getCurrentPosition (function (position){
+//             var coords = position.coords.latitude + "," + position.coords.longitude;
+//             latlng1 = coords;
+//             callback();
+//         })
+//     }
+//     getLocation (function(){
+//       console.log(latlng1);
+//     })
+// var geoSuccess = function(position) {
+//     startPos = position;
+//     document.getElementById('startLat').innerHTML = startPos.coords.latitude;
+//     document.getElementById('startLon').innerHTML = startPos.coords.longitude;
+//     console.log(position.latitude)
+// };
+// var geoError = function(error) {
+//     console.log('Error occurred. Error code: ' + error.code);
+//     // error.code can be:
+//     //   0: unknown error
+//     //   1: permission denied
+//     //   2: position unavailable (error response from location provider)
+//     //   3: timed out
+// };
+// navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+// };
 
 (function (window) {
     var input = $('#nav-search-input');
@@ -218,46 +248,90 @@ btnNeedHelp.text('I need help');
 $('#need-help').append(btnNeedHelp);
 
 $('#btn-need-help').click(function () {
-    console.log(this.id);
+
     deleteElement('#' + this.id);
     $("#need-st1").show("slow")
 });
 
-
-// $(".open1").click(function () {
+// back and next buttons
+// $(".open2").click(function () {
 //     // if (v.form()) {
 //     $(".frm").hide("fast");
-//     $("#need-st2-bbsitting").show("slow");
+//     $("#need-st3-bbsitting").show("slow");
 //     // }
 // });
-
-$(".back2").click(function () {
-    $(".frm").hide("fast");
-    $("#need-st1").show("slow");
-});
+//
+// $(".back2").click(function () {
+//     $(".frm").hide("fast");
+//     $("#need-st1").show("slow");
+// });
+// // $(".back3").click(function () {
+// //     $(".frm").hide("fast");
+// //     $("#need-bbst2-address").show("slow");
+// // });
 var helpData = {};
 function st1Submit(formId) {
-
+    helpData = {};
 
     st1CheckedValue(helpData);
 
     if (helpData.helpType === "babysitting") {
         $(".frm").hide("fast");
         $("#need-st2-bbsitting").show("slow");
+        initMap('map-holder-bb');
+        add1Marker();
+        fieldAutocomplete('need-babysitting-address', marker);
+
     }
     if (helpData.helpType === "transportation") {
         $(".frm").hide("fast");
         $("#need-st2-transportation").show("slow");
+        initMap('map-holder-tr');
+        add2Markers();
+        fieldAutocomplete('pick-up-location', markerA);
+        fieldAutocomplete('drop-off-location', markerB);
     }
 }
 
-$('#need-st2-bbsitting').ready(function displayForm() {
+function st2Submit(formId) {
+    st2Value(helpData, formId)
+    $(".frm").hide("fast");
+    if (formId === 'need-st2-bbsitting') {
+        formStep('need-st3-bbsitting');
+    } else {
+        formStep('need-st3-transportation')
+    }
+}
+function formStep(form) {
+    $(".frm").hide("fast");
+    $("#" + form).show("slow");
+}
+
+
+$('#need-st3-bbsitting').ready(function displayForm() {
     addTime();
 });
 function st1CheckedValue(h) {
+
     var value = $('input[name="need-type"]:checked').val()
     var key = 'helpType';
     h[key] = value;
+}
+function st2Value(h, f) {
+    $("form#" + f + " :input.address-input").each(function () {
+        var input = $(this);
+        var key = input.attr('id');
+        var value = input.val();
+        geocoder.geocode({'address': value}, function (results, status) {
+            if (status === 'OK') {
+                h[key + 'Lat'] = results[0].geometry.location.lat();
+                h[key + 'Lng'] = results[0].geometry.location.lng();
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+        h[key] = value;
+    });
 }
 
 function addTime() {
@@ -350,6 +424,7 @@ function addElement(div, id) {
     $(div).append(element);
 }
 
+//------------------------------------submit form actions---------------------------------------//
 function helpSubmit(formId) {
     try {
         console.log(formId)
@@ -378,9 +453,6 @@ function getMyHelps(form) {
             helpData.place = radios[r].value
         }
     });
-    // radios.each(function (r, value) {
-    //     console.log(r);
-    // });
 
     var allSelect = $(form).find('select');
     var selectsId = [];
@@ -408,6 +480,142 @@ function getMyHelps(form) {
 
     console.log(helpData)
 }
+function getInputs(form) {
+    var allInputs = []
+    allInputs.push($(form).find('input'));
+    console.log(allInputs);
+
+}
+//-----------------------GOOGLE MAPS, FIELD AUTOCOMPLETE, MAP MARKERS, GEOLOCATION----------------------//
+var geocoder;
+var map;
+var marker;
+var markerA, markerB;
+//var newAddress is for changing address in input field when marker dragged
+var newAddress;
+var defaultBounds;
+
+function initMap(id) {
+    geocoder = new google.maps.Geocoder();
+    var mapDiv = document.getElementById(id);
+    map = new google.maps.Map(mapDiv, {
+        center: {lat: 50.4501, lng: 30.4135},
+        // center: {lat: 50.4501, lng: 30.5234},
+        zoom: 12
+    });
+    defaultBounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(50.278160, 30.253885),
+        new google.maps.LatLng(50.651240, 30.827552));
+    //next three lines of code are added to prevent map from being loaded partially on top left corner
+    // http://stackoverflow.com/questions/17059816/google-maps-v3-load-partially-on-top-left-corner-resize-event-does-not-work?noredirect=1&lq=1
+    google.maps.event.addListenerOnce(map, 'idle', function () {
+        console.log("Triggering resize on google map");
+        google.maps.event.trigger(map, 'resize');
+    });
+}
+
+function add1Marker() {
+     marker = new google.maps.Marker({
+        map: map,
+        position: {lat: 50.4501, lng: 30.5234},
+        title: "Hello World!",
+        icon: '/static/mh_app/img/map-marker.png',
+        draggable: true
+    });
+    google.maps.event.addListener(marker, 'dragend', function () {
+        var newLat = this.getPosition().lat();
+        var newLng = this.getPosition().lng();
+        getReverseGeocodingData(newLat, newLng, 'need-babysitting-address');
+
+
+    });
+}
+
+function add2Markers() {
+    var locations = {
+        from: {
+            lat: 50.4501,
+            lng: 30.5234,
+            label: 'A'
+        },
+        to: {
+            lat: 50.4501,
+            lng: 30.5634,
+            label: 'B'
+        }
+    }
+
+     markerA = new google.maps.Marker({
+        map: map,
+        position: new google.maps.LatLng(locations['from'].lat, locations['from'].lng),
+        label: locations['from'].label,
+        icon: '/static/mh_app/img/map-marker.png',
+        draggable: true
+    });
+
+    markerB = new google.maps.Marker({
+        map: map,
+        position: new google.maps.LatLng(locations['to'].lat, locations['to'].lng),
+        label: locations['to'].label,
+        icon: '/static/mh_app/img/map-marker.png',
+        draggable: true
+    });
+    google.maps.event.addListener(markerA, 'dragend', function () {
+        var newLat = this.getPosition().lat();
+        var newLng = this.getPosition().lng();
+        getReverseGeocodingData(newLat, newLng, 'pick-up-location');
+
+
+    });
+    google.maps.event.addListener(markerB, 'dragend', function () {
+        var newLat = this.getPosition().lat();
+        var newLng = this.getPosition().lng();
+        getReverseGeocodingData(newLat, newLng, 'drop-off-location');
+    });
+}
+
+function fieldAutocomplete(id, mark) {
+    var options = {
+        bounds: defaultBounds
+    };
+    var input = document.getElementById(id);
+    var searchbox = new google.maps.places.Autocomplete(input, options);
+    google.maps.event.addListener(searchbox, 'place_changed', function () {
+
+        codeAddress(id, mark);
+    });
+}
+
+function codeAddress(id, mark) {
+    var address = $('#' + id).val();
+    geocoder.geocode({'address': address}, function (results, status) {
+        if (status === 'OK') {
+            map.setCenter(results[0].geometry.location);
+            mark.setPosition(results[0].geometry.location);
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+}
+function getReverseGeocodingData(lat, lng, id) {
+    var latlng = new google.maps.LatLng(lat, lng);
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'latLng': latlng}, function (results, status) {
+        if (status !== google.maps.GeocoderStatus.OK) {
+            alert(status);
+        }
+        if (status == google.maps.GeocoderStatus.OK) {
+
+            newAddress = (results[0].formatted_address);
+            changeAddress('#' + id, newAddress);
+        }
+    });
+}
+function changeAddress(input, text) {
+    $(input).val(text);
+}
+// /*************************************/
+
 
 
 
