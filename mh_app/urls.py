@@ -13,6 +13,8 @@ urlpatterns = [
     url(r'^verifyEmail/$', views.verify_email, name='verify_email'),
     url(r'^verifyUsername/$', views.verify_username, name='verify_username'),
 
-    url(r'^userProfile/$', views.user_profile, name='user_profile')
+    url(r'^userProfile/$', views.user_profile, name='user_profile'),
+    url(r'^userProfile/generalinfo/$', views.profile_general_info, name='profile_general_info'),
+    url(r'^userProfile/needhelp/$', views.profile_need_help, name='profile_need_help')
 
 ]

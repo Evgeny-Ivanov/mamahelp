@@ -52,10 +52,6 @@ request.onerror = function (event) {
     console.log("error: " + event);
 };
 
-request.onsuccess = function (event) {
-    db = request.result;
-    console.log("success: " + db);
-};
 
 request.onerror = function (event) {
     // Handle errors.
@@ -63,43 +59,39 @@ request.onerror = function (event) {
 request.onupgradeneeded = function (event) {
     console.log("Initializing mamahelp DB...");
     var db = event.target.result;
-
-    // Create an objectStore to hold information about our customers. We're
-    // going to use "ssn" as our key path because it's guaranteed to be
-    // unique - or at least that's what I was told during the kickoff meeting.
     var objectStore = db.createObjectStore("my_helps", {keyPath: "id"});
-
-    // Create an index to search customers by name. We may have duplicates
-    // so we can't use a unique index.
-    // objectStore.createIndex("name", "name", { unique: false });
-
-    // Create an index to search customers by email. We want to ensure that
-    // no two customers have the same email, so use a unique index.
-    // objectStore.createIndex("email", "email", { unique: true });
-
-    // Use transaction oncomplete to make sure the objectStore creation is
-    // finished before adding data into it.
-    // objectStore.transaction.oncomplete = function(event) {
-    //     console.log("objectStore.transaction.oncomplete");
-    //     Store values in the newly created objectStore.
-    // var customerObjectStore = db.transaction("customers", "readwrite").objectStore("my_helps");
-    // for (var i in customerData) {
-    //     console.log("Adding customer to storage: " + customerData[i]);
-    //     customerObjectStore.add(customerData[i]);
-    // }
-    // };
     objectStore.transaction.oncomplete = function () {
         console.log("Mamahelp DB initializing completed.")
     }
 };
 
 function saveMyHelp(myHelp) {
+
     try {
-        myHelp.id = guid();
         var objectStore = db.transaction(["my_helps"], "readwrite").objectStore("my_helps");
-        var request = objectStore.add(myHelp);
+        var request;
+        if (!myHelp.id || myHelp.id === null) {
+            myHelp.id = guid();
+            request = objectStore.add(myHelp);
+        } else {
+            console.log('dont change id');
+            request = objectStore.put(myHelp);
+        }
         request.onsuccess = function (event) {
             console.log("My help stored in DB");
+        };
+    } catch (e) {
+        console.log("Error: " + e);
+    }
+}
+
+function deleteMyHelp(helpId) {
+
+    try {
+        var objectStore = db.transaction(["my_helps"], "readwrite").objectStore("my_helps");
+        var request = objectStore.delete(helpId);
+        request.onsuccess = function (event) {
+            console.log("My help with id " + helpId + " was deleted.");
         };
     } catch (e) {
         console.log("Error: " + e);
@@ -340,197 +332,8 @@ function clearForm(form) {
     $(form).find("input").val("").removeClass('field-incorrect').removeClass('field-correct');
 
 }
-/**************************operations with user profile navtabs*****************/
+/**************************end*****************************************/
 
-
-// $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-//     var target = $(e.target).attr("href");// activated tab
-//     alert(target);
-// });
-/****************************PROFILE CONTENT "NEED HELP"******************************************/
-$("[aria-controls='need-help']").on('click', function () {
-    readAllMyHelps(function (myHelp) {
-        var templateObject = createTemplate(myHelp.id, '#need-all-myHelps');
-
-        helpEntryContent(myHelp, templateObject);
-    });
-});
-/*****************need all my helps content (add onload)*****************************************/
-
-/*******************************************()*****************************************************/
-
-var button = $("<button class='btn-custom btn-join-us' id='btn-need-help' type='button'></button>");
-var btnNeedHelp = button.addClass('need-help');
-btnNeedHelp.text('I need help');
-$('#need-help').append(btnNeedHelp);
-var myHelps = [];
-var helpData = {};
-
-
-btnNeedHelp.click(function () {
-    deleteElement('#' + this.id);
-    btnNeedHelp.hide();
-    var template = $("template[id='need-help-form']").html();
-    $('#for-need-help-form').append(template);
-    $("#need-st1").show("slow");
-    $('#need-all-myHelps').empty();
-    helpData = {};
-});
-
-
-function st1Submit() {
-
-    var helpType = getHelpType();
-    if (helpData.helpType !== helpType) {
-        helpData = {
-            "helpType": helpType
-        };
-    }
-    if (helpData.helpType === "babysitting") {
-        $(".frm").hide("fast");
-        $("#need-st2-bbsitting").show("slow");
-        initMap('map-holder-bb');
-        add1Marker();
-        fieldAutocomplete('need-babysitting-address', marker);
-    }
-    if (helpData.helpType === "transportation") {
-        $(".frm").hide("fast");
-        $("#need-st2-transportation").show("slow");
-        initMap('map-holder-tr');
-        add2Markers();
-        fieldAutocomplete('pick-up-location', markerA);
-        fieldAutocomplete('drop-off-location', markerB);
-    }
-
-}
-
-function st2Submit(fieldId) {
-    st2Value(helpData, fieldId)
-    $(".frm").hide("fast");
-    var timeFromSelector;
-    var timeToSelector
-    if (fieldId === 'need-st2-bbsitting') {
-        formStep('need-st3-bbsitting');
-        timeFromSelector = '#need-from';
-        timeToSelector = '#need-to';
-    } else {
-        formStep('need-st3-transportation')
-        timeFromSelector = '#pick-up-time';
-        timeToSelector = '#drop-off-time';
-    }
-    addTime(timeFromSelector, timeToSelector);
-}
-function formStep(form) {
-    $(".frm").hide("fast");
-    $("#" + form).show("slow");
-}
-
-function getHelpType() {
-    var value = $('input[name="helpType"]:checked').val();
-    return value;
-}
-function st2Value(h, f) {
-    $("fieldset#" + f + " :input.address-input").each(function () {
-        var input = $(this);
-        var key = input.attr('name');
-        var value = input.val();
-        geocoder.geocode({'address': value}, function (results, status) {
-            if (status === 'OK') {
-                h[key + 'Lat'] = results[0].geometry.location.lat();
-                h[key + 'Lng'] = results[0].geometry.location.lng();
-            } else {
-                console.log('Geocode was not successful for the following reason: ' + status);
-            }
-        });
-        h[key] = value;
-    });
-}
-
-function addTime(timeFromSelector, timeToSelector) {
-
-    clearTimeTo(timeToSelector)
-    var arrTime = [], i, j;
-    for (i = 0; i < 24; i++) {
-        for (j = 0; j < 2; j++) {
-            arrTime.push(i + ":" + (j === 0 ? "00" : 30 * j));
-        }
-    }
-
-    for (var t = 0; t < arrTime.length; t++) {
-        var timeOption = $('<option></option>').attr('value', arrTime[t]).text(arrTime[t]);
-        $(timeFromSelector).append(timeOption);
-    }
-    var startIndex = 0;
-    $(timeFromSelector).change(function () {
-        console.log("time change listener");
-        $(timeToSelector).find('option').remove();
-        var timeFromElements = $(timeFromSelector);
-        var timeFrom = timeFromElements.val();
-        startIndex = $.inArray(timeFrom, arrTime) + 1;
-        console.log("time change listener" + startIndex);
-        for (var f = startIndex; f < arrTime.length; f++) {
-            var timeOption = $('<option></option>').attr('value', arrTime[f]).text(arrTime[f]);
-            $(timeToSelector).append(timeOption);
-        }
-    });
-}
-function clearTimeTo(timeToSelector) {
-    $(timeToSelector).find('option').remove();
-    $(timeToSelector).append($("<option disabled>choose from first</option>"))
-}
-
-//---------------------------------------display label for Age-div--------------------------------///
-var oldNumber = 0;
-var newNumber = 0;
-//---------------------------Add-remove children age field for selected number of kids-------------//
-
-$(document).on('change', '#need-children', function () {
-    if ($('#label-age').length == 0) {
-        var label1 = $('<label>').attr('for', 'childAge').attr('id', 'label-age').text('Specify age');
-        $('#need-age').prepend(label1);
-    }
-    oldNumber = newNumber;
-    newNumber = parseInt($('#need-children').val());
-    if (oldNumber === 0) {
-        addField(oldNumber, newNumber);
-    }
-    else {
-        if (oldNumber < newNumber) {
-            addField(oldNumber, newNumber);
-        } else {
-            removeField(oldNumber, newNumber);
-        }
-    }
-    if (newNumber === 0) {
-        deleteElement('#label-age');
-    }
-});
-function addField(on, nn) {
-    for (var i = on; i < nn; i++) {
-        var childId = (i + 1);
-        var label = $('<label>').attr('for', 'need-child' + childId + 'Age');
-        var id = ('need-child' + childId + 'Age');
-        var select = $('<select>').attr('id', id).attr('class', 'form-control').attr('class', 'select-age').attr('name', 'child-age');
-        label.text('Child' + childId);
-        $('#need-age').append(label).append(select);
-        var optionDef = $('<option></option>').attr('selected', true).attr('value', -1).text('...');
-        select.append(optionDef);
-        for (var j = 0; j < 15; j++) {
-
-            var option = $('<option></option>').attr('value', j + 1).text(j + 1);
-            select.append(option)
-        }
-    }
-}
-
-function removeField(on, nn) {
-    for (var i = nn; i < on; i++) {
-        var idToRemove = ('#need-child' + (i + 1) + 'Age');
-        var labelAttr = ('label[for=need-child' + (i + 1) + 'Age]');
-        $(idToRemove).remove();
-        $(labelAttr).remove();
-    }
-}
 function deleteElement(id) {
     $(id).remove();
 
@@ -539,336 +342,6 @@ function addElement(div, id) {
     var element = $(id);
     $(div).append(element);
 }
-
-//------------------------------------submit form actions---------------------------------------//
-
-
-function helpSubmit(formId) {
-
-    $('.frm').children().addClass('hidden');
-    try {
-        saveFormData(formId);
-    } catch (e) {
-        console.log("Error occured: " + e);
-    }
-    console.log(helpData);
-    document.getElementById(formId).reset();
-    $('#need-age').empty();
-    clearTimeTo('#drop-off-time');
-    clearTimeTo('#need-to');
-    oldNumber = 0;
-    newNumber = 0;
-    $(".frm").hide("fast");
-
-    btnNeedHelp.show();
-
-    readAllMyHelps(function (myHelp) {
-        var templateObject = createTemplate(myHelp.id, '#need-all-myHelps');
-
-        helpEntryContent(myHelp, templateObject);
-    });
-    return false;
-
-}
-
-function saveFormData(form) {
-    var allCheckbox = $('#' + form).find(':checkbox');
-    var selectedDays = [];
-    for (var i = 0; i < allCheckbox.length; i++) {
-        if (allCheckbox[i].checked) {
-            selectedDays.push(allCheckbox[i].value)
-        }
-    }
-
-    var radios = $('#' + form).find(':radio');
-    $.each(radios, function (r) {
-        var radioName = radios[r].name;
-
-        if (radios[r].checked && radioName === 'option-place') {
-            helpData.place = radios[r].value;
-        }
-    });
-
-    var allSelect = $('#' + form).find('select');
-    var selectsId = [];
-    $.each(allSelect, function (s, value) {
-        selectsId.push(allSelect[s].id);
-    });
-
-    var childAge = [];
-    for (d in selectsId) {
-        var field = $("#" + selectsId[d] + " option:selected");
-        var text = field.val();
-        if (field.parent().hasClass('select-age')) {
-            childAge.push(text)
-        } else {
-            var key = field.parent().attr('name');
-            helpData[key] = text;
-        }
-    }
-    var allTextarea = $('#' + form).find('textarea');
-
-    $.each(allTextarea, function (t) {
-        if ($(allTextarea[t]).val()) {
-            helpData.info = $(allTextarea[t]).val();
-        }
-    })
-
-    helpData.days = selectedDays;
-    helpData.childAge = childAge;
-
-    if (helpData.id == null) {
-        helpData['createdDatetime'] = new Date();
-        helpData['updatedDatetime'] = new Date();
-
-    } else {
-        helpData['updatedDatetime'] = new Date();
-
-    }
-    saveMyHelp(helpData);
-    // myHelps.push(helpData);
-    console.log(myHelps);
-
-    // console.log(Object.keys(myHelps));
-    // $.each(Object.keys(myHelps), function(id, value) {
-    //     console.log("key: " + value);
-    // });
-}
-var createTemplate = function (entryId, div) {
-
-    var entryDiv = $("<div class='col-xs-12'></div>");
-    entryDiv.attr('id', entryId);
-    $(div).prepend(entryDiv);
-
-    var btnHolderDiv = $("<div class='col-xs-3 pull-right myHelps-btn'></div>");
-    btnHolderDiv.attr('id', 'bntHolder' + entryId);
-    entryDiv.append(btnHolderDiv);
-
-    var editBtnP = $("<p></p>");
-    var editBtn = $("<button class='btn btn-primary btn-block' type='button' onclick='editHelp(this)'>Edit </button>")
-    editBtn.attr('helpid', entryId);
-    editBtnP.append(editBtn);
-    btnHolderDiv.append(editBtnP);
-
-    var h3 = $('<h3></h3>').attr('class', 'clearfix').attr('id', '');
-    entryDiv.prepend(h3);
-    h3.text(entryId);
-
-    return {
-        "entryDiv": entryDiv,
-        "buttonHolder": btnHolderDiv,
-        "h3": h3
-    };
-    // return entryDiv;
-};
-
-var helpEntryContent = function (help, templateObject) {
-    var entryDiv = templateObject.entryDiv;
-
-
-    var pType = $("<p><strong>I need help with: </strong></p>");
-    var pLoc = $("<p><strong>My location is: </strong></p>");
-    var pLocFrom = $("<p><strong>Pick up from: </strong></p>")
-    var pLocTo = $("<p><strong>Drop off at: </strong></p>");
-    var pDays = $("<p></p>");
-    var pTime = $("<p><strong>Time: </strong></p>");
-    var pTimeFrom = $("<span><strong> at </strong></span>");
-    var pTimeTo = $("<span><strong> at </strong></span>");
-    var pChildren = $("<p><strong>Children information: </strong></p>");
-    var pInfo = $("<p><strong>Additional information: </strong></p>");
-    var pDateCreated = $("<p class='text-muted'></p>");
-    var pDateUpdated = $("<p class='text-muted'>Updated: </p>");
-
-    pType.append(help.helpType);
-    entryDiv.append(pType);
-    pDateCreated.text('Created: ' + help.createdDatetime);
-    templateObject.h3.append(pDateCreated);
-    pDateUpdated.text('Updated: ' + help.updatedDatetime);
-    templateObject.h3.append(pDateUpdated);
-
-    displayRes(help.bbAddress, pLoc, entryDiv);
-    displayRes(help.addressFrom, pLocFrom, entryDiv);
-    displayRes(help.addressTo, pLocTo, entryDiv);
-
-    if (help.timeFrom && help.timeFrom.length !== 0) {
-        pTime.append(help.timeFrom);
-        entryDiv.append(pTime);
-        if (help.timeTo && help.timeTo.length !== 0) {
-            pTime.append(' - ' + help.timeTo);
-        }
-    }
-    if (help.pickUpTime && help.pickUpTime.length !== 0) {
-        pTimeFrom.append(help.pickUpTime);
-        pLocFrom.append(pTimeFrom);
-        if (help.dropOffTime && help.dropOffTime.length !== 0) {
-            pTimeTo.append(help.dropOffTime);
-            pLocTo.append(pTimeTo);
-        }
-    }
-
-    if (help.days && help.days.length !== 0) {
-        $.each(help.days, function (d) {
-            pDays.append(help.days[d].capitalizeFirstLetter() + ", ")
-        });
-        var days = pDays.text().slice(0, -2);
-        pDays.html('<strong>Days: </strong>' + days);
-        entryDiv.append(pDays);
-    }
-
-    if (help.childAge && help.childAge.length !== 0 || help.info && help.info.length > 0) {
-        var divShowMore = addShowMore(help.id, templateObject);
-
-        if (help.childAge && help.childAge.length !== 0) {
-            var span1;
-            if (help.childAge.length === 1) {
-                span1 = $("<span> child.</span>")
-            }
-            else {
-                span1 = $("<span> children.</span>")
-            }
-            span1.prepend(help.childAge.length);
-            pChildren.append(span1);
-            divShowMore.append(pChildren);
-
-            var parentId = entryDiv.parent().attr('id');
-            if (parentId === 'need-all-myHelps') {
-                var span2 = ownHelpAge(help);
-                pChildren.append(span2);
-            }
-        }
-        displayRes(help.info, pInfo, divShowMore);
-    }
-}
-function displayRes(helpKey, p, div) {
-    if (helpKey && helpKey.length !== 0) {
-        p.append(helpKey);
-        div.append(p);
-    }
-}
-
-
-function addShowMore(id, templateObject) {
-    var showMoreContent = $("<div class='collapse'></div>").attr('id', 'showMore' + id);
-    templateObject.entryDiv.append(showMoreContent);
-    var showMoreP = $("<p></p>");
-    var showMoreBtn = $("<button class='btn btn-primary btn-block show-more ' type='button' data-toggle='collapse' " +
-        " aria-expanded='false' onclick='showMoreAction(this)' >Show more" +
-        "</button>");
-    showMoreP.append(showMoreBtn);
-    templateObject.buttonHolder.prepend(showMoreP);
-
-    showMoreBtn.attr('id', 'btn' + id).attr('data-target', '#showMore' + id).attr('aria-controls', 'showMore' + id);
-    templateObject.buttonHolder.prepend(showMoreP);
-
-    return showMoreContent;
-
-}
-
-function showMoreAction(element) {
-    var button = $(element);
-    button.html(button.html() == 'Show more' ? 'Show less' : 'Show more');
-}
-
-function ownHelpAge(help) {
-
-    var atLeastOneAgeFilled = false;
-    for (var i = 0; i < help.childAge.length; i++) {
-        var age = help.childAge[i];
-        if (age != -1) {
-            atLeastOneAgeFilled = true;
-        }
-    }
-
-    if (atLeastOneAgeFilled) {
-        var span = $("<span> Age: </span>")
-        for (var i = 0; i < help.childAge.length; i++) {
-            var age = help.childAge[i];
-            var text;
-            if (age != -1) {
-                text = age + ' years, ';
-            } else {
-                text = '_ years, ';
-            }
-            span.append(text);
-        }
-        return (span);
-    }
-}
-
-function editHelp(element) {
-    $('#need-all-myHelps').hide();
-    $('#for-need-help-form').show();
-    var template = $("template[id='need-help-form']").html();
-    $('#for-need-help-form').append(template);
-    $("#need-st1").show("slow");
-
-    var id = $(element).attr('helpid');
-    var helpToEdit;
-    readMyHelp(id, function (helpData) {
-        helpToEdit = helpData;
-        console.log(helpToEdit)
-        var key = Object.keys(helpToEdit);
-        // var checkbox = $("form input:checkbox");
-        // console.log(checkbox);
-
-        $.each(key, function (k) {
-
-            var nameOfField = key[k];
-            var value = helpToEdit[nameOfField];
-            var input = $('input[name=' + nameOfField + ']');
-            var textarea = $('textarea[name=' + nameOfField + ']');
-
-            if (input.attr('type') === 'text') {
-                input.val(helpToEdit[nameOfField]);
-            }
-            if (textarea) {
-                textarea.val(helpToEdit[nameOfField])
-            }
-            if (nameOfField === 'helpType') {
-                value = helpToEdit[nameOfField]
-                $(":input[value=" + value + "]").prop("checked","true");
-            }
-
-            if (nameOfField === 'days') {
-                var day = helpToEdit[nameOfField]
-                $.each(day, function (d) {
-                   var value = day[d];
-                    $(":checkbox[value=" + value + "]").prop("checked","true");
-
-                })
-            }
-
-            if (helpToEdit[nameOfField] && nameOfField === 'pickUpTime') {
-                addTime('#pick-up-time', '#drop-off-time')
-               $("#pick-up-time option[value=' ']").removeAttr('selected');
-             $("#pick-up-time option[value='" +helpToEdit[nameOfField] +  "']").attr('selected','selected');
-
-            }
-
-            if (helpToEdit[nameOfField] && nameOfField === 'dropOffTime') {
-                var timeOption = $('<option></option>').attr('value', helpToEdit[nameOfField])
-                    .attr('selected', 'selected').text(helpToEdit[nameOfField]);
-                $("#drop-off-time").append(timeOption)
-            }
-
-
-        })
-
-
-    })
-}
-
-
-// var allInputs = $('#help-request-form').find('input');
-// $.each(allInputs, function(i, helpToEdit) {
-//     var inputName = $(allInputs[i]).attr('name');
-//     // console.log(inputName);
-//     // console.log(allInputs[i])
-//     // console.log(helpToEdit);
-//     if(helpToEdit[inputName]) {
-//         $(allInputs[i]).innerHTML = helpToEdit[inputName];
-//     }
-// })
 
 
 //-----------------------GOOGLE MAPS, FIELD AUTOCOMPLETE, MAP MARKERS, GEOLOCATION----------------------//
@@ -898,65 +371,7 @@ function initMap(id) {
     });
 }
 
-function add1Marker() {
-    marker = new google.maps.Marker({
-        map: map,
-        position: {lat: 50.4501, lng: 30.5234},
-        title: "Hello World!",
-        icon: '/static/mh_app/img/map-marker.png',
-        draggable: true
-    });
-    google.maps.event.addListener(marker, 'dragend', function () {
-        var newLat = this.getPosition().lat();
-        var newLng = this.getPosition().lng();
-        getReverseGeocodingData(newLat, newLng, 'need-babysitting-address');
 
-
-    });
-}
-
-function add2Markers() {
-    var locations = {
-        from: {
-            lat: 50.4501,
-            lng: 30.5234,
-            label: 'A'
-        },
-        to: {
-            lat: 50.4501,
-            lng: 30.5634,
-            label: 'B'
-        }
-    }
-
-    markerA = new google.maps.Marker({
-        map: map,
-        position: new google.maps.LatLng(locations['from'].lat, locations['from'].lng),
-        label: locations['from'].label,
-        icon: '/static/mh_app/img/map-marker.png',
-        draggable: true
-    });
-
-    markerB = new google.maps.Marker({
-        map: map,
-        position: new google.maps.LatLng(locations['to'].lat, locations['to'].lng),
-        label: locations['to'].label,
-        icon: '/static/mh_app/img/map-marker.png',
-        draggable: true
-    });
-    google.maps.event.addListener(markerA, 'dragend', function () {
-        var newLat = this.getPosition().lat();
-        var newLng = this.getPosition().lng();
-        getReverseGeocodingData(newLat, newLng, 'pick-up-location');
-
-
-    });
-    google.maps.event.addListener(markerB, 'dragend', function () {
-        var newLat = this.getPosition().lat();
-        var newLng = this.getPosition().lng();
-        getReverseGeocodingData(newLat, newLng, 'drop-off-location');
-    });
-}
 
 function fieldAutocomplete(id, mark) {
     var options = {

@@ -96,6 +96,14 @@ def user_profile(request):
     return render(request, 'mh_app/user_profile.html', {})
 
 
+def profile_need_help(request):
+    return render(request, 'mh_app/profile_need_help.html', {})
+
+
+def profile_general_info(request):
+    return render(request, 'mh_app/profile_general_info.html', {})
+
+
 @render_to('mh_app/signup.html')
 def create_user(request):
     details = request.session['partial_pipeline']['kwargs']['details']
