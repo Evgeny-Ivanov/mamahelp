@@ -1,7 +1,11 @@
 /**
  * Created by yulia on 1/8/2016.
  */
+/****************DECLARE VARIABLES***************************************/
+var button = $("<button class='btn-custom btn-join-us' type='button'></button>");
+var helpData
 /*** Site Search expand-collapse...*/
+
 // window.onload = function() {
 //     // var startPos;
 //     // var geoOptions = {
@@ -85,6 +89,18 @@ function saveMyHelp(myHelp) {
     }
 }
 
+function searchHelps(myHelpCriteria, callback) {
+    var objectStore = db.transaction("my_helps").objectStore("my_helps");
+    objectStore.openCursor().onsuccess = function (event) {
+        var cursor = event.target.result;
+
+        if (cursor) {
+            callback(cursor.value);
+            cursor.continue();
+        }
+    }
+}
+
 function deleteMyHelp(helpId) {
 
     try {
@@ -111,18 +127,23 @@ function readMyHelp(id, callback) {
 }
 
 
-function readAllMyHelps(myHelpCallback) {
+function readAllMyHelps(myHelpCallback, helpKind) {
     var objectStore = db.transaction("my_helps").objectStore("my_helps");
     objectStore.openCursor().onsuccess = function (event) {
         var cursor = event.target.result;
 
         if (cursor) {
-            myHelpCallback(cursor.value);
+            var help = cursor.value;
+
+            if (!helpKind || help.kind === helpKind) {
+                myHelpCallback(help);
+            }
             cursor.continue();
         }
     }
 
 }
+
 
 (function (window) {
     var input = $('#nav-search-input');
@@ -334,8 +355,9 @@ function clearForm(form) {
 }
 /**************************end*****************************************/
 
-function deleteElement(id) {
-    $(id).remove();
+function deleteElement(element) {
+    console.log(element);
+    $(element).remove();
 
 }
 function addElement(div, id) {
@@ -419,6 +441,21 @@ function getReverseGeocodingData(lat, lng, id) {
 
 function changeAddress(input, text) {
     $(input).val(text);
+}
+
+function add1Marker(div) {
+    marker = new google.maps.Marker({
+        map: map,
+        position: {lat: 50.4501, lng: 30.5234},
+        title: "Hello World!",
+        icon: '/static/mh_app/img/map-marker.png',
+        draggable: true
+    });
+    google.maps.event.addListener(marker, 'dragend', function () {
+        var newLat = this.getPosition().lat();
+        var newLng = this.getPosition().lng();
+        getReverseGeocodingData(newLat, newLng, div);
+    });
 }
 // /*************************************/
 

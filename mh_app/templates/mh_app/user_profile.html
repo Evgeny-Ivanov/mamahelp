@@ -13,8 +13,10 @@
                         <a class="btn btn-custom" id="profile-need-btn"
                            href="{% url 'mh_app:profile_need_help' %}">I need help</a>
                     </li>
-                    <li class="user-profile"><a class="btn btn-custom">I can help with</a></li>
-                    <li class="user-profile"><a class="btn btn-custom">Contacts</a></li>
+                    <li class="user-profile">
+                        <a class="btn btn-custom"
+                           href="{% url 'mh_app:profile_can_help' %}">I can help with</a></li>
+                    <li class=" user-profile"><a class="btn btn-custom">Contacts</a></li>
                     <li class="user-profile"><a class="btn btn-custom">History</a></li>
                     <li class="user-profile"><a class="btn btn-custom">Settings</a></li>
                 </ul>

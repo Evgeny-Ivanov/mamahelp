@@ -284,7 +284,7 @@ margin-bottom: 30px;
 
 .main-img-content {
     position: absolute;
-    top: 20%;
+    top: 1%;
     right: 450px;
     left: 15%;
     min-width: 450px;
@@ -339,15 +339,15 @@ margin-bottom: 30px;
     visibility: collapse;
 }
 
-.btn-help-search:first-child {
-    position: absolute;
-    left: 0;
-}
+/*.btn-help-search:first-child {*/
+    /*position: absolute;*/
+    /*left: 0;*/
+/*}*/
 
-.btn-help-search:last-child {
-    position: absolute;
-    right: 0;
-}
+/*.btn-help-search:last-child {*/
+    /*position: absolute;*/
+    /*right: 0;*/
+/*}*/
 
 .content-fixed-top .btn-help-sch-holder {
     width: 50%;

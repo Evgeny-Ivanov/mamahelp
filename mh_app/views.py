@@ -100,6 +100,10 @@ def profile_need_help(request):
     return render(request, 'mh_app/profile_need_help.html', {})
 
 
+def profile_can_help(request):
+    return render(request, 'mh_app/profile_can_help.html', {})
+
+
 def profile_general_info(request):
     return render(request, 'mh_app/profile_general_info.html', {})
 
