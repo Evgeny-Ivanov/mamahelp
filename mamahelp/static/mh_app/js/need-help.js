@@ -2,7 +2,7 @@
  * on page load.
  * @param event contains db instance
  */
-// var url = window.location.href;
+var url = window.location.href;
 request.onsuccess = function (event) {
     //Start mandatory block. We need to initialize DB object that will be used by
     // other functions in custom.js file
