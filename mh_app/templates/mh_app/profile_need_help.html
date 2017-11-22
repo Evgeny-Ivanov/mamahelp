@@ -21,7 +21,7 @@
                         </label>
                     </div>
                     <div class="col-xs-12 btn-holder">
-                        <button class="btn-custom btn-join-us btn-primary open1" type="button"
+                        <button class="btn-custom btn-join-us btn-primary open1" type="button" id="typeBtn"
                                 onclick="return getHelpType()">Next <span
                                 class="fa fa-arrow-right"></span></button>
                     </div>
@@ -31,7 +31,7 @@
                 </fieldset>
             </form>
 
-            <form id="need-help-form" action="" method="post"
+            <form id="need-help-form" action="{% url 'mh_app:profile_need_help' %}" method="post"
                   onsubmit="return needHelpSubmit('need-help-form')">
                 {% csrf_token %}
 
@@ -94,7 +94,7 @@
             <div class="form-group form-inline address">
                 <label for="need-address">Address</label>
                 <input class="form-control address-input" id="need-address" type="text"
-                       size="50" name="need-location">
+                       size="50" name="location">
 
 
             </div>
@@ -113,15 +113,15 @@
             <legend>Step 3 Add details (Babysitting)</legend>
 
             <div class="form-group">
-                <div class="radio-inline">
+                <div class="checkbox-inline">
                     <label>
-                        <input type="radio" name="option-place" id="" value="indoor">
+                        <input type="checkbox" name="option-place" id="" value="indoor">
                         Indoor
                     </label>
                 </div>
-                <div class="radio-inline">
+                <div class="checkbox-inline">
                     <label>
-                        <input type="radio" name="option-place" id="" value="outdoor">
+                        <input type="checkbox" name="option-place" id="" value="outdoor">
                         Outdoor
                     </label>
                 </div>

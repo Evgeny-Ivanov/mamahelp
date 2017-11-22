@@ -3,7 +3,7 @@
  */
 /****************DECLARE VARIABLES***************************************/
 var button = $("<button class='btn-custom btn-join-us' type='button'></button>");
-var helpData
+
 /*** Site Search expand-collapse...*/
 
 // window.onload = function() {
@@ -75,6 +75,7 @@ function saveMyHelp(myHelp) {
         var objectStore = db.transaction(["my_helps"], "readwrite").objectStore("my_helps");
         var request;
         if (!myHelp.id || myHelp.id === null) {
+
             myHelp.id = guid();
             request = objectStore.add(myHelp);
         } else {
@@ -127,7 +128,7 @@ function readMyHelp(id, callback) {
 }
 
 
-function readAllMyHelps(myHelpCallback, helpKind) {
+function readAllMyHelps(myHelpCallback, helpKind, user) {
     var objectStore = db.transaction("my_helps").objectStore("my_helps");
     objectStore.openCursor().onsuccess = function (event) {
         var cursor = event.target.result;
@@ -135,8 +136,10 @@ function readAllMyHelps(myHelpCallback, helpKind) {
         if (cursor) {
             var help = cursor.value;
 
-            if (!helpKind || help.kind === helpKind) {
+            if ((!helpKind || help.kind === helpKind ) && (!user || user == help.userName)) {
+                console.log('help' + help);
                 myHelpCallback(help);
+
             }
             cursor.continue();
         }
@@ -272,7 +275,7 @@ function formProcessing(form) {
     } catch (e) {
         console.log("Error occured: " + e);
     }
-    return false;
+    return true;
 }
 
 
@@ -360,10 +363,6 @@ function deleteElement(element) {
     $(element).remove();
 
 }
-function addElement(div, id) {
-    var element = $(id);
-    $(div).append(element);
-}
 
 
 //-----------------------GOOGLE MAPS, FIELD AUTOCOMPLETE, MAP MARKERS, GEOLOCATION----------------------//
@@ -394,7 +393,6 @@ function initMap(id) {
 }
 
 
-
 function fieldAutocomplete(id, mark) {
     var options = {
         bounds: defaultBounds
@@ -418,6 +416,8 @@ function codeAddress(id, mark) {
         if (status === 'OK') {
             map.setCenter(results[0].geometry.location);
             mark.setPosition(results[0].geometry.location);
+            helpData['Lat'] = results[0].geometry.location.lat();
+            helpData['Lng'] = results[0].geometry.location.lng();
         } else {
             console.log('Geocode was not successful for the following reason: ' + status);
         }
@@ -454,6 +454,8 @@ function add1Marker(div) {
     google.maps.event.addListener(marker, 'dragend', function () {
         var newLat = this.getPosition().lat();
         var newLng = this.getPosition().lng();
+        helpData['Lat'] = newLat;
+        helpData['Lng'] = newLng;
         getReverseGeocodingData(newLat, newLng, div);
     });
 }

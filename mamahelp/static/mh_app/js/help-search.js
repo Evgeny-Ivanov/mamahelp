@@ -1,17 +1,28 @@
 /**
  * Created by yulia on 10/25/2016.
  */
+var url = window.location.href;
 /*****Add Button "Can(or "Need") help"******************************/
-var btnHelp = button.addClass(helpSearchOptions.helpBtnClass);
-btnHelp.attr('id',helpSearchOptions.helpBtnId);
+var helpData
+if (url.indexOf("userProfile") !== -1) {
+    var btnHelp = button.addClass(helpSearchOptions.helpBtnClass);
+    btnHelp.attr('id', helpSearchOptions.helpBtnId);
 
-btnHelp.text(helpSearchOptions.btnText);
-$("#" + helpSearchOptions.generalDivId).append(btnHelp);
+    btnHelp.text(helpSearchOptions.btnText);
+    $("#" + helpSearchOptions.generalDivId).append(btnHelp);
 
-btnHelp.click(function () {
+    btnHelp.click(function () {
+        btnNewHelp()
+        var stateObj = {entry: "createnew"};
+        history.pushState(stateObj, "", stateObj.entry);
+    });
+}
+
+function btnNewHelp() {
     $("#" + helpSearchOptions.holderId).hide();
-    $(this).hide();
+    $("." + helpSearchOptions.helpBtnClass).hide();
     $("#" + helpSearchOptions.formId).show();
+
     if (helpSearchOptions.helpDataKind === "can") {
         initMap(helpSearchOptions.mapHolder);
         add1Marker(helpSearchOptions.addressInput);
@@ -19,16 +30,36 @@ btnHelp.click(function () {
     }
 
     helpData = {}
+}
 
-});
+function displayTemplate(helpData) {
+    var template = $("#" + helpData.helpType).html();
+    $("#" + helpSearchOptions.formId).append(template);
+    var mapHolder = $("<div id='need-map-holder' style='height:350px'></div>");
+    $(".address").append(mapHolder);
+    $("#" + helpSearchOptions.formId).show();
+    initMap(helpSearchOptions.mapHolder);
+    $('.clockpicker').clockpicker();
+    if (helpData.helpType === "babysitting") {
+        helpSearchOptions.addressInput = "need-address";
+        add1Marker(helpSearchOptions.addressInput);
+        fieldAutocomplete(helpSearchOptions.addressInput, marker);
+    }
+    if (helpData.helpType === "transportation") {
+        add2Markers();
+        fieldAutocomplete('pick-up-location', markerA);
+        fieldAutocomplete('drop-off-location', markerB);
+    }
+}
 /******************Submit form actions**************************************/
 function profileHelpSubmit(form) {
     $("#" + helpSearchOptions.formId).hide();
     $(btnHelp).show();
 
     try {
-        var helpData = getValues(form);
         helpData.kind = helpSearchOptions.helpDataKind;
+        helpData = getValues(form);
+
         saveMyHelp(helpData);
 
         console.log(form);
@@ -43,40 +74,42 @@ function profileHelpSubmit(form) {
 function getValues(form) {
     processCheckbox(form);
     processSelect(form);
-    st2Value(form);
-    // processRadio('option-place');
+    processInput(form)
     processTextarea(form);
     setDateTime(helpData);
-
+    if (helpData.kind === 'need') {
+        getTime(form)
+    }
+    helpData.userName = $("#username").val();
+    ;
 
     return helpData;
 }
+function getTime(form) {
+    var timeInputs = $('#' + form).find('input.time');
+    $.each(timeInputs, function (i) {
+        var value = timeInputs[i].value;
+        var key = timeInputs[i].name;
+        helpData[key] = value;
 
+    })
+}
 function processTextarea(form) {
     var allTextarea = $('#' + form).find('textarea');
     $.each(allTextarea, function (t) {
-        if ($(allTextarea[t]).val()) {
-            helpData.info = $(allTextarea[t]).val();
-        }
+        // if ($(allTextarea[t]).val()) {
+        helpData.info = $(allTextarea[t]).val();
+        // }
     });
 
 }
 
-function st2Value(f) {
-    $("#" + f + " :input.address-input").each(function () {
+function processInput(form) {
+    $("#" + form + " :input.address-input").each(function () {
         var input = $(this);
         var key = input.attr('name');
         var value = input.val();
         helpData[key] = value;
-        geocoder.geocode({'address': value}, function (results, status) {
-            if (status === 'OK') {
-                helpData[key + 'Lat'] = results[0].geometry.location.lat();
-                helpData[key + 'Lng'] = results[0].geometry.location.lng();
-            } else {
-                console.log('Geocode was not successful for the following reason: ' + status);
-            }
-        });
-
     });
 }
 
@@ -111,7 +144,7 @@ function processSelect(form) {
 
 
     })
-    if(childAge.length) {
+    if (childAge.length) {
         helpData.childAge = childAge;
     }
 }
@@ -125,6 +158,7 @@ function setDateTime(helpData) {
         helpData['updatedDatetime'] = new Date();
     }
 }
+
 /**********************Display all user's helps**************************************/
 var createTemplate = function (entryId, div) {
 
@@ -159,50 +193,6 @@ var createTemplate = function (entryId, div) {
     };
 };
 
-var canHelpEntryContent = function (help, templateObject) {
-    help.range = help.range + ' miles';
-    var entryDiv = templateObject.entryDiv;
-
-
-    var pType = $("<p></p>");
-    var pLoc = $("<p></p>");
-    var pRange = $("<span><strong>Within </strong></span>");
-    var pMyLoc = $("<span><strong> from </strong></span>");
-    var pDays = $("<p></p>");
-    var pTime = $("<p></p>");
-    var pInfo = $("<p><strong>Additional information: </strong></p>");
-    var pDateCreated = $("<p class='text-muted'></p>");
-    var pDateUpdated = $("<p class='text-muted'>Updated: </p>");
-
-
-    pDateCreated.text('Created: ' + help.createdDatetime);
-    templateObject.h3.append(pDateCreated);
-    pDateUpdated.text('Updated: ' + help.updatedDatetime);
-    templateObject.h3.append(pDateUpdated);
-
-    if (help.helpType && help.helpType.length !== 0) {
-        displayTextFromArray(help.helpType, pType, entryDiv, "I can help with: ")
-    }
-    if (help.time && help.time.length !== 0) {
-        displayTextFromArray(help.time, pTime, entryDiv, "Time: ")
-    }
-
-    if (help.days && help.days.length !== 0) {
-        displayTextFromArray(help.days, pDays, entryDiv, "Days: ")
-    }
-    if (help.myLocation) {
-        entryDiv.append(pLoc);
-        displayRes(help.range, pRange, pLoc);
-        displayRes(help.myLocation, pMyLoc, pLoc);
-    }
-
-    if (help.info && help.info.length > 0) {
-        var divShowMore = addShowMore(help.id, templateObject);
-        displayRes(help.info, pInfo, divShowMore);
-
-    }
-
-}
 
 function addShowMore(id, templateObject) {
     var showMoreContent = $("<div class='collapse'></div>").attr('id', 'showMore' + id);
@@ -264,17 +254,32 @@ function editHelp(element) {
 
         console.log(helpToEdit);
 
+        var stateObj = {
+            entry: "edit",
+            helpId: helpToEdit.id
+        };
+        history.pushState(stateObj, "", stateObj.entry + '/' + stateObj.helpId);
         $('#' + helpSearchOptions.holderId).hide();
-        btnHelp.hide()
+        btnHelp.hide();
 
-        initMap(helpSearchOptions.mapHolder);
-        add1Marker(helpSearchOptions.addressInput);
-        fieldAutocomplete(helpSearchOptions.addressInput, marker);
-        fillData(helpToEdit, ("#" + helpSearchOptions.formId))
+        if (helpToEdit.kind === 'can') {
+            initMap(helpSearchOptions.mapHolder);
+            add1Marker(helpSearchOptions.addressInput);
+            fieldAutocomplete(helpSearchOptions.addressInput, marker);
+            fillData(helpToEdit, ("#" + helpSearchOptions.formId))
+        }
+        if (helpToEdit.kind === 'need') {
+            helpSearchOptions.formId = 'need-help-form';
 
+            displayTemplate(helpToEdit);
+
+            var legend = $("#" + helpSearchOptions.formId).find('legend');
+            $(legend).text('Editing ' + helpToEdit.helpType + ' information')
+            fillData(helpToEdit, ("#" + helpSearchOptions.formId))
+
+
+        }
         $("#" + helpSearchOptions.formId).show();
-
-        fillData(helpToEdit, "#" + helpSearchOptions.formId)
         helpData = helpToEdit;
     })
 }
@@ -302,11 +307,26 @@ function fillData(helpToEdit, f) {
             var key = $(input[i]).attr('name')
             $(input[i]).val(helpToEdit[key]);
         }
+        if ($(input[i]).attr('id') === 'need-children') {
+            var key = 'childAge'
+            $(input[i]).val(helpToEdit[key].length);
+            newNumber = helpToEdit[key].length;
+            addField(oldNumber, newNumber);
+            oldNumber = helpToEdit[key].length;
+            $.each(helpToEdit[key], function (j) {
+                var id = '#need-child' + (j + 1) + 'Age';
+                var age = helpToEdit[key][j];
+                $(id).val(age).attr('selected', 'selected');
+            });
+        }
     }
 
     var select = $(f).find('select');
-    for (var i = 0; i < select.length; i++) {
-        var key = $(select[i]).attr('name')
-        $(select[i]).val(helpToEdit[key]).attr('selected', 'selected');
+    if ($(select).attr('name') !== "child-age") {
+        for (var i = 0; i < select.length; i++) {
+            var key = $(select[i]).attr('name')
+            $(select[i]).val(helpToEdit[key]).attr('selected', 'selected');
+        }
     }
+
 }

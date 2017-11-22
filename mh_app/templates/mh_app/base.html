@@ -19,7 +19,10 @@
     </script>
 </head>
 <body>
+<input id="username" type="hidden" value="{{ user.username }}">
+
 {% include 'mh_app/navigation.html' %}
+
 {% block content %}
 {% endblock %}
 

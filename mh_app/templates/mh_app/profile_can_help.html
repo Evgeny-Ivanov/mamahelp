@@ -5,7 +5,7 @@
     <div class="col-xs-10" id="can-help">
         <div class="col-xs-12" id="can-all-myHelps"></div>
         <div class="col-xs-12" id="for-can-help-form">
-            <form id="can-help-form" action="" method="post"
+            <form id="can-help-form" action="{% url 'mh_app:profile_can_help' %}" method="post"
                   onsubmit="return canHelpSubmit('can-help-form')"
                   style="display: none">
                 {% csrf_token %}

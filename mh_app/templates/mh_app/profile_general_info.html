@@ -1,8 +1,11 @@
-
 {% extends 'mh_app/user_profile.html' %}
 {% block main %}
     <div class="col-xs-10">
         <p>General info</p>
+        <p>First name: {{ user.first_name }}</p>
+        <p>Last name: {{ user.last_name }}</p>
+    <p>Email: {{ user.email }}</p>
+
     </div>
 {% endblock %}
 
@@ -181,7 +184,7 @@
 {#                                <span class="glyphicon glyphicon-time"></span>#}
 {#                             </span>#}
 {#                            </div>#}
-                            {#   class time is only for js use. Add options to select #}
+{#   class time is only for js use. Add options to select #}
 {#                            <select class="form-control time" id="need-from" name="timeFrom">#}
 {#                                <option value="" selected>...</option>#}
 {#                            </select>#}
@@ -195,7 +198,7 @@
 {#                            </div>#}
 {#                            <select class="form-control time" id="need-to" name="timeTo">#}
 {#                                <option value="" selected>...</option>#}
-                                {#                                    <option disabled>choose from first</option>#}
+{#                                    <option disabled>choose from first</option>#}
 {#                            </select>#}
 {#                        </div>#}
 {#                    </div>#}
@@ -271,11 +274,11 @@
 {#                                <span class="glyphicon glyphicon-time"></span>#}
 {#                             </span>#}
 {#                        </div>#}
-                        {#                        <label for="pick-up-time">Pick up at: </label>#}
-                        {#                        class time is only for js use. Add options to select #}
-                        {#                        <select class="form-control time" id="pick-up-time" name="pickUpTime">#}
-                        {#                            <option value="" selected>...</option>#}
-                        {#                        </select>#}
+{#                        <label for="pick-up-time">Pick up at: </label>#}
+{#                        class time is only for js use. Add options to select #}
+{#                        <select class="form-control time" id="pick-up-time" name="pickUpTime">#}
+{#                            <option value="" selected>...</option>#}
+{#                        </select>#}
 {#                    </div>#}
 {##}
 {#                    <div class="form-group form-inline">#}
@@ -287,7 +290,7 @@
 {#                                <span class="glyphicon glyphicon-time"></span>#}
 {#                             </span>#}
 {#                        </div>#}
-                        {#   class time is only for js use. Add options to select #}
+{#   class time is only for js use. Add options to select #}
 {#                        <select class="form-control time" id="drop-off-time" name="dropOffTime">#}
 {#                            <option value="" selected>...</option>#}
 {#                        </select>#}
