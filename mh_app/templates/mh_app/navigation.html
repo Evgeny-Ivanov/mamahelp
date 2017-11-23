@@ -3,22 +3,23 @@
     var sing_in_url = '{% url 'mh_app:check_login' %}'
 </script>
 <nav class="navbar-fixed-top">
-<header class="container-fluid header-top">
-    <div class="row">
-        <div class="col-xs-12">
-            <div id="nav-search-input">
-{#                <div class="site-search-input-wrapper">#}
+    <header class="container-fluid header-top">
+        <div class="row">
+            <div class="col-xs-12">
+                <div id="nav-search-input">
+
                     <span class="glyphicon glyphicon-search" id="glyphicon-search2"></span>
                     <form role="" action="" method="get">
-                        <input class="site-search-input" id="search-terms" type="search" name="search-terms" placeholder="Print here">
+                        <input class="site-search-input" id="search-terms" type="search" name="search-terms"
+                               placeholder="Print here">
                     </form>
                     <span class="glyphicon glyphicon-remove"></span>
-{#                </div>#}
-            </div>
+
+                </div>
 
             </div>
             <div class="col-sm-4 col-md-3 site-name">
-                <a href="{% url 'mh_app:index' %}">Mama help</a>
+                <a href="{% url 'mh_app:index' %}">Mama Help</a>
             </div>
             <nav class="col-sm-8 col-md-9 navbar navbar-default">
                 <div class="navbar-header">
@@ -32,13 +33,7 @@
                 <div class="navbar-collapse collapse navbar-left" id="navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a class="header-link-font" href="">Home</a>
-                        </li>
-                        <li>
-                            <a class="header-link-font" href="">Articles</a>
-                        </li>
-                        <li>
-                            <a class="header-link-font" href="">Forum</a>
+                            <a class="header-link-font" href="{% url 'mh_app:index' %}">Home</a>
                         </li>
                     </ul>
                 </div>
@@ -100,7 +95,8 @@
             </div>
             <div class="modal-body login-modal">
                 <div class="wrapper center-block">
-                    <form class="login-modal-form" id="sign-in-form" action="{% url 'social:complete' 'email' %}"  novalidate
+                    <form class="login-modal-form" id="sign-in-form" action="{% url 'social:complete' 'email' %}"
+                          novalidate
                           method="POST" onsubmit="return formProcessing('#sign-in-form')">
                         {% csrf_token %}
                         <div class="form-group">
@@ -131,10 +127,10 @@
                             </a>
                         </li>
                         <li>
-                        <form action="" method="get"></form>
+                            <form action="" method="get"></form>
                             <a class=" btn btn-social btn-google"
                                href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with
-                            Google
+                                Google
                                 <i class="fa fa-google"></i>
                             </a>
                         <li>
