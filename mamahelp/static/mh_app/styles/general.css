@@ -1,11 +1,7 @@
 /********Base rules**********/
-body {
-    background-color: #ffffff;
-    line-height: 1;
-    margin: 0;
-    padding: 0;
-    color: #474B4f;
 
+.navbar p {
+    margin-bottom: 0;
 }
 
 .page-content {
@@ -13,186 +9,12 @@ body {
     top: 90px;
 }
 
-/*.background {*/
-    /*position: absolute;*/
-    /*background-image: url(../img/background-img.jpg);*/
-    /*background-repeat: no-repeat;*/
-    /*background-position: left bottom;*/
-    /*background-attachment: fixed;*/
-
-/*}*/
 .transbox {
     background-color: #fff;
     opacity: 0.9;
     filter: alpha(opacity=90);
 }
-/*!*remove yellow-banana background in inputs*!*/
-/*input:-webkit-autofill, input:-webkit-autofill:focus {*/
-    /*-webkit-box-shadow: inset 0 0 0px 9999px white;*/
-/*}*/
 
-/*******************Custom button*********************/
-button {
-    outline: none;
-}
-
-.btn-custom,
-.btn-custom:focus {
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 0;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    background-image: none;
-    background-color: #474B4F;
-    color: #ffd600;
-    border: 1px solid #ffd600;
-    border-radius: 25px 0 25px 25px;
-}
-
-.btn-custom:hover,
-.btn-custom:active,
-.nav-pills > li.active > a,
-.nav-pills > li.active > a:hover,
-.nav-pills > li.active > a:focus {
-    color: #fff;
-    border-color: #fff;
-    background-color: #474B4f;
-}
-
-.btn-social {
-    min-width: 190px;
-    padding: 10px 0 10px 50px;
-    margin: 5px 0;
-    border: 1px solid #fff;
-    border-radius: 25px 0 25px 25px;
-}
-
-.nav > li > a {
-    padding-left: 50px;    /***rewrite bootstrap css for social buttons in log-in form****/
-}
-
-.nav-pills > li > a {
-    border-radius: 25px 0 25px 25px;
-}
-
-.btn-social > :first-child {
-    padding-left: 4px;
-    width: 40px;
-}
-
-
-.btn-join-us,
-.btn-join-us:focus {
-    font-family: 'Amatic SC', cursive;
-    font-weight: 700;
-    font-size: 30px;
-    letter-spacing: 1.5px;
-    word-spacing: 5px;
-    padding: 0 10px;
-    border-color: #474B4f;
-}
-
-.btn-help-search {
-    width: 200px;
-    font-size: 38px;
-}
-
-/************Special for Logo************/
-.site-name a, .site-name a:hover, .site-name a:focus, .site-name a:active, .site-name a:visited {
-    color: #ffd600;
-    font-family: 'Amatic SC', cursive;
-    font-size: 60px;
-    font-weight: 700;
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.site-name a:hover, .site-name a:focus, .site-name a:active, .site-name a:visited {
-    text-decoration: none
-}
-
-/**********Custom typography******************************/
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Amatic SC', cursive;
-    font-weight: 700;
-    color: #333638;
-    word-spacing: 4px;
-    letter-spacing: 1.2px;
-}
-
-p {
-    font-family: 'Times New Roman', serif;
-    font-size: 18px;
-    text-indent: 18px;
-    line-height: 1.5;
-}
-
-a {
-    color: #4169E1;
-}
-
-a:hover {
-    text-decoration: none;
-}
-
-/*******************Navbar style*****************/
-.navbar-default {
-    background-color: #474B4f;
-    border: none;
-}
-
-.header-top {
-    background-color: #474B4f;
-    margin-bottom: 20px;
-    height: 70px;
-    color: #ffd600;
-}
-
-.header-link-font {
-    color: #ffd600;
-    text-transform: uppercase;
-    font-family: sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: 2px;
-}
-
-.navbar-default .navbar-nav > li > a:hover {
-    color: #fff;
-    text-decoration: overline;
-}
-
-.site-search {
-    margin-left: 20px;
-}
-
-.user-name {
-    padding: 15px;
-}
-
-.user-name p,
-.user-name span {
-    margin: 0 5px;
-    line-height: 20px;
-}
-
-.user-name p:hover,
-.user-name span:hover {
-    color: #fff;
-}
 
 /***********Expandable search-field**************/
 #nav-search-input {
@@ -274,39 +96,7 @@ a:hover {
     width: 200px;
 }
 
-/**********************************************************************
-**********************Main img section*********************************
-***********************************************************************/
-.main-img {
-position: relative;
-margin-bottom: 30px;
-}
 
-.main-img-content {
-    position: absolute;
-    top: 1%;
-    right: 450px;
-    left: 15%;
-    min-width: 450px;
-}
-
-/*@media screen and (min-width: 768px) {*/
-    /*!**sm-screen****!*/
-    /*.main-img-content {*/
-        /*width: 50%;*/
-        /*min-width: 450px;*/
-        /*top: 35%;*/
-        /*left: 10%;*/
-    /*}*/
-/*}*/
-
-/*@media screen and (min-width: 992px) {*/
-    /*!**md-screen****!*/
-    /*.main-img-content {*/
-        /*top: 35%;*/
-        /*left: 10%;*/
-    /*}*/
-/*}*/
 .content-fixed-top {
      visibility: visible;
      position: fixed;
@@ -339,15 +129,6 @@ margin-bottom: 30px;
     visibility: collapse;
 }
 
-/*.btn-help-search:first-child {*/
-    /*position: absolute;*/
-    /*left: 0;*/
-/*}*/
-
-/*.btn-help-search:last-child {*/
-    /*position: absolute;*/
-    /*right: 0;*/
-/*}*/
 
 .content-fixed-top .btn-help-sch-holder {
     width: 50%;
@@ -358,50 +139,7 @@ margin-bottom: 30px;
     position: relative;
 
 }
-.left {
-    height: 500px;
-    width: 250px;
-    position: absolute;
-    top: 0;
-    left: 0;
 
-    background-image: url(../img/main-left.png);
-    background-repeat: no-repeat;
-}
-
-.middle {
-    height: 500px;
-    margin: 0 400px 0 240px;
-
-    background-image: url(../img/main-middle.png);
-    background-repeat: repeat-x;
-
-}
-
-.right {
-    height: 500px;
-    width: 410px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-image: url(../img/main-right.png);
-    background-repeat: no-repeat;
-}
-
-/*****************PAGE CONTENT*******************/
-
-.page-content-backrg {
-    background-image: url(../img/background-img.svg);
-    background-size: 336px 410px;
-    background-repeat: no-repeat;
-    background-position: bottom left;
-    background-attachment: fixed;
-
-}
-
-.container {
-    margin-top: 120px;
-}
 .stickem-container {
     position: relative;
 }
@@ -418,10 +156,6 @@ margin-bottom: 30px;
     right: 0;
 }
 
-.article-entry {
-    margin-top: 30px;
-    line-height: 1.5;
-}
 
 .field-correct {
     border-color: #06fdbd;
