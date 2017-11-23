@@ -48,7 +48,7 @@ var helpSearchOptions = {
 }
 
 //onclick actions for next button on step 1//
-function st1Submit() {
+function getHelpType() {
     var helpType = processRadio("helpType");
     if (helpType != helpData.helpType) {
         helpData = {
@@ -162,7 +162,7 @@ function needHelpSubmit(formId) {
 
     });
 
-    return true;
+    return false;
 
 }
 

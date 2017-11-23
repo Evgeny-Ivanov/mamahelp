@@ -16,10 +16,9 @@ urlpatterns = [
     url(r'^userProfile/$', views.user_profile, name='user_profile'),
     url(r'^userProfile/generalinfo/$', views.profile_general_info, name='profile_general_info'),
     url(r'^userProfile/needhelp/$', views.profile_need_help, name='profile_need_help'),
-    url(r'^userProfile/needhelp/createnew/$', views.profile_need_help, name='profile_need_help_new'),
-    url(r'^userProfile/needhelp/edit/.*/$', views.profile_need_help, name='profile_need_help_edit'),
+    url(r'^userProfile/needhelp/edit/*', views.profile_need_help, name='profile_need_help'),
+    url(r'^userProfile/needhelp/createnew$', views.profile_need_help, name='profile_need_help'),
     url(r'^userProfile/canhelp/$', views.profile_can_help, name='profile_can_help'),
-    url(r'^userProfile/canhelp/createnew/$', views.profile_can_help, name='profile_can_help_new'),
-    url(r'^userProfile/canhelp/edit/.*/$', views.profile_can_help, name='profile_can_help_edit')
+    url(r'^userProfile/canhelp/createnew$', views.profile_can_help, name='profile_can_help')
 
 ]

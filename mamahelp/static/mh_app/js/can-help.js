@@ -63,6 +63,7 @@ function canHelpSubmit(formId) {
         console.log(myHelp);
 
         var templateObject = createTemplate(myHelp.id, helpSearchOptions.holderId);
+
         canHelpEntryContent(myHelp, templateObject);
 
     });
