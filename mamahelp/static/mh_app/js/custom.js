@@ -39,24 +39,26 @@ request.onupgradeneeded = function (event) {
 
 
 (function (window) {
-    var input = $('#nav-search-input');
-    var label = $('.nav-search-label');
+    var inputId = '#nav-search-input';
+    var labelSelector = '.nav-search-label';
+    var input = $(inputId);
+    var label = $(labelSelector);
     label.click(function () {
         input.addClass('search-expanded');
         label.addClass('search-active');
         $('#search-terms').focus();
     });
     document.addEventListener('click', function (e) {
-        if ($(e.target).closest('#nav-search-input').length === 0
+        if ($(e.target).closest(inputId).length === 0
             && $(e.target).closest('#site-search-button').length === 0) {
-            $('#nav-search-input').removeClass('search-expanded');
-            $('.nav-search-label').removeClass('search-active');
+            $(inputId).removeClass('search-expanded');
+            $(labelSelector).removeClass('search-active');
         }
     });
 
     $('.glyphicon-remove').click(function () {
-        $('#nav-search-input').removeClass('search-expanded');
-        $('.nav-search-label').removeClass('search-active');
+        $(inputId).removeClass('search-expanded');
+        $(labelSelector).removeClass('search-active');
     });
 
 }(window));
@@ -97,8 +99,7 @@ request.onsuccess = function (event) {
 
     if (url.indexOf("userProfile") !== -1) {
         readAllMyHelps(function (myHelp) {
-            var templateObject = createTemplate(myHelp.id, '#'+ helpSearchOptions.holderId);
-
+            var templateObject = createTemplate(myHelp.id, '#' + helpSearchOptions.holderId);
             needHelpEntryContent(myHelp, templateObject);
         }, helpSearchOptions.helpDataKind);
     }
@@ -113,7 +114,7 @@ request.onsuccess = function (event) {
             if (url.indexOf("needhelp") !== -1) {
                 showNextForm(helpToEdit);
             }
-            fillData(helpToEdit, ("#" + helpSearchOptions.formId))
+            fillData(helpToEdit, ("#" + helpSearchOptions.formId));
             helpData = helpToEdit;
         })
     }
@@ -143,40 +144,33 @@ function formValidation(form) {
             status = false;
         }
     });
+    var value;
+    var obj;
+    var validator;
     if (formObjects['password-confirm']) {
-        var value = ($('#password-confirm').val())
-        if (isMatchPass(value)) {
-            displayValid($('#password-confirm'))
-        } else {
-            displayNotValid($('#password-confirm'))
-            status = false;
-        }
+        obj = $('#password-confirm');
+        value = obj.val();
+        validator = 'isMatchPass';
     }
     if (formObjects['login-email']) {
-        console.log(formObjects['login-email'])
-        var value = ($('#login-email').val())
-        if (isEmail(value)) {
-            displayValid($('#login-email'))
-        } else {
-            displayNotValid($('#login-email'))
-            status = false;
-        }
+        obj = $('#login-email')
+        value = obj.val();
+        validator = 'isEmail';
     }
     if (formObjects['reg-email']) {
-
-        var value = ($('#reg-email').val())
-        if (isEmail(value)) {
-            displayValid($('#reg-email'))
-        } else {
-            displayNotValid($('#reg-email'))
-            status = false;
-        }
+        obj = $('#reg-email');
+        value = obj.val();
+        validator = 'isEmail';
     }
-
+    if (validator(value)) {
+        displayValid(obj)
+    }  else {
+        displayNotValid(obj);
+        status = false;
+    }
     return status;
 }
 function getFormObjects(form) {
-    console.log(form);
     var formObjects = {};
     var inputs = $(form + ' .form-control');
     inputs.each(function (idx, input) {
@@ -193,12 +187,10 @@ function getFormValues(form) {
     var formData = {};
     var inputs = $(form + ' :input:not(:checkbox):not(:button):not(:hidden)').toArray();
     for (var i in inputs) {
-        var key = $('#' + inputs[i].id).attr('name')
-        var value = $('#' + inputs[i].id).val();
-        console.log(key + ': ' + value)
-        formData[key] = value;
+        var selector = $('#' + inputs[i].id);
+        var key = selector.attr('name');
+        formData[key] = selector.val();
     }
-    console.log(formData);
 }
 
 /*************called from html "onblur" event on field, validation after user enter info********************/
@@ -258,7 +250,7 @@ function initMap(id) {
     geocoder = new google.maps.Geocoder();
     var mapDiv = document.getElementById(id);
     map = new google.maps.Map(mapDiv, {
-        center: {lat: 50.4501, lng: 30.4135},
+        center: {lat: 50.4501, lng: 30.5234},
         zoom: 12
     });
     defaultBounds = new google.maps.LatLngBounds(
@@ -376,11 +368,9 @@ function saveMyHelp(myHelp) {
         var objectStore = db.transaction(["my_helps"], "readwrite").objectStore("my_helps");
         var request;
         if (!myHelp.id || myHelp.id === null) {
-
             myHelp.id = guid();
             request = objectStore.add(myHelp);
         } else {
-            console.log('dont change id');
             request = objectStore.put(myHelp);
         }
         request.onsuccess = function (event) {
@@ -390,18 +380,17 @@ function saveMyHelp(myHelp) {
         console.log("Error: " + e);
     }
 }
-
-function searchHelps(myHelpCriteria, callback) {
-    var objectStore = db.transaction("my_helps").objectStore("my_helps");
-    objectStore.openCursor().onsuccess = function (event) {
-        var cursor = event.target.result;
-
-        if (cursor) {
-            callback(cursor.value);
-            cursor.continue();
-        }
-    }
-}
+//
+// function searchHelps(myHelpCriteria, callback) {
+//     var objectStore = db.transaction("my_helps").objectStore("my_helps");
+//     objectStore.openCursor().onsuccess = function (event) {
+//         var cursor = event.target.result;
+//         if (cursor) {
+//             callback(cursor.value);
+//             cursor.continue();
+//         }
+//     }
+// }
 
 function deleteMyHelp(helpId) {
     try {
@@ -421,43 +410,29 @@ function readMyHelp(id, callback) {
     request.onerror = function (event) {
         console.log("Error occurred on retrieving event by id: " + id);
     };
-
     request.onsuccess = function (event) {
         callback(event.target.result);
     }
 }
 
-
 function readAllMyHelps(myHelpCallback, helpKind, user) {
     var objectStore = db.transaction("my_helps").objectStore("my_helps");
     objectStore.openCursor().onsuccess = function (event) {
         var cursor = event.target.result;
-
         if (cursor) {
             var help = cursor.value;
-
-            if ((!helpKind || help.kind === helpKind ) && (!user || user == help.userName)) {
-
+            if ((!helpKind || help.kind === helpKind ) && (!user || user === help.userName)) {
                 myHelpCallback(help);
-
             }
             cursor.continue();
         }
     }
-
 }
 /**************************end*****************************************/
 
 function deleteElement(element) {
-    console.log(element);
     $(element).remove();
-
 }
-
-
-
-// /*************************************/
-
 
 function guid() {
     function s4() {
@@ -470,181 +445,44 @@ function guid() {
         s4() + '-' + s4() + s4() + s4();
 }
 /*******************************FROM home.js***************************/
-// formTemplate = $("#need-help-form").html();
-// resultTemplate = $("#help-search-result").html();
-// $('#get-help-btn').click(function () {
-//
-//     $(".btn-help-sch-holder").hide();
-//     $("#home-page-content").append(formTemplate);
-//     $('.clockpicker').clockpicker();
-//     $("#need-st1").show("slow");
-//     $('#need-all-myHelps').empty();
-//     helpData = {};
-// })
+formTemplate = $("#need-help-form").html();
+resultTemplate = $("#help-search-result").html();
+$('#get-help-btn').click(function () {
 
-// function homePageHelpSubmit(formId) {
-//     try {
-//         searchHelpData = getFormDataValues(formId);
-//         searchHelps(helpData, function (helpResult) {
-//             console.log(helpResult);
-//             console.log("Found 3 helps.");
-//         });
-//     } catch (e) {
-//         console.log("Error occured: " + e);
-//     }
-//     document.getElementById(formId).reset();
-//     $('#need-age').empty();
-//     oldNumber = 0;
-//     newNumber = 0;
-//     $(".frm").hide("fast");
-//     // $(".btn-help-sch-holder").show();
-//     // var p = $('<p>search results</p>')
-//     // $(".btn-help-sch-holder").append(p)
-//     $("#help-request-form").remove();
-//     $("#home-page-content").append(resultTemplate);
-//     console.log(searchHelpData)
-//     return false;
-// }
-// $("#edit-request-btn").click(function () {
-//     console.log('are you ready to edit help?')
-//     editSearch(searchHelpData)
-// })
+    $(".btn-help-sch-holder").hide();
+    $("#home-page-content").append(formTemplate);
+    $(".clockpicker").clockpicker();
+    $("#need-st1").show("slow");
+    $('#need-all-myHelps').empty();
+    helpData = {};
+});
+$("#edit-request-btn").click(function () {
+    editSearch(searchHelpData)
+})
 // function saveYes(searchHelpData) {
 //     saveMyHelp(searchHelpData);
 //     // $('#confirmSaving').modal('show');
 //     var button = $("<button type='button' class='btn btn-primary btn-lg' data-toggle='modal' data-target='#confirmSaving'>" +
 //         "Launch demo modal " +
-//         "</button>")
+//         "</button>");
 //     $("#home-page-content").append(button);
 // }
-//
-// function editSearch (data) {
-//     console.log('are you ready to edit help?')
-//     $("#search-result").remove()
-//     $("#home-page-content").append(formTemplate)
-//     // var template = $("template[id='need-help-form']").html();
-//     // $('#for-need-help-form').append(template);
-//     $('.clockpicker').clockpicker();
-//     $("#need-st1").show("slow");
-//     fillData(data);
-// }
 
-/*********************FROM can-help.js****************************/
-/**
- * Created by yulia on 10/18/2016.
- */
-
-//
-// request.onsuccess = function (event) {
-//     //Start mandatory block. We need to initialize DB object that will be used by
-//     // other functions in custom.js file
-//     console.log("success: " + db);
-//     db = request.result;
-//     // end mandatory block
-//
-//     if (url.indexOf("userProfile") !== -1) {
-//         readAllMyHelps(function (myHelp) {
-//             var templateObject = createTemplate(myHelp.id, '#can-all-myHelps');
-//
-//             canHelpEntryContent(myHelp, templateObject);
-//
-//         }, helpSearchOptions.helpDataKind)
-//     }
-//     if (url.indexOf("createnew") !== -1) {
-//         btnNewHelp()
-//     }
-//
-//     if (url.indexOf("edit") !== -1) {
-//         btnNewHelp();
-//         var pathArray = window.location.pathname.split('/');
-//         var helpId = pathArray[pathArray.length - 2];
-//         readMyHelp(helpId, function (helpToEdit) {
-//             fillData(helpToEdit, ("#" + helpSearchOptions.formId))
-//             helpData = helpToEdit;
-//         })
-//     }
-// };
-
-
-function canHelpSubmit(formId) {
-    try {
-        if (url.indexOf("userProfile") !== -1) {
-            profileHelpSubmit(formId)
-        } else {
-            homePageHelpSubmit(formId)
-        }
-    } catch (e) {
-        console.log("Error occured:" + e);
-    }
-    document.getElementById(formId).reset();
-    document.getElementsByTagName('textarea').value = '';
-
-    readAllMyHelps(function (myHelp) {
-        console.log(myHelp);
-
-        var templateObject = createTemplate(myHelp.id, helpSearchOptions.holderId);
-
-        canHelpEntryContent(myHelp, templateObject);
-
-    });
-    // location.reload();
-    return true;
+function editSearch(data) {
+    $("#search-result").remove();
+    $("#home-page-content").append(formTemplate);
+    // var template = $("template[id='need-help-form']").html();
+    // $('#for-need-help-form').append(template);
+    $(".clockpicker").clockpicker();
+    $("#need-st1").show("slow");
+    fillData(data);
 }
-
-var canHelpEntryContent = function (help, templateObject) {
-    help.range = help.range + ' miles';
-    var entryDiv = templateObject.entryDiv;
-
-
-    var pType = $("<p></p>");
-    var pLoc = $("<p></p>");
-    var pRange = $("<span><strong>Within </strong></span>");
-    var pMyLoc = $("<span><strong> from </strong></span>");
-    var pDays = $("<p></p>");
-    var pTime = $("<p></p>");
-    var pInfo = $("<p><strong>Additional information: </strong></p>");
-    var pDateCreated = $("<p class='text-muted'></p>");
-    var pDateUpdated = $("<p class='text-muted'>Updated: </p>");
-
-
-    pDateCreated.text('Created: ' + help.createdDatetime);
-    templateObject.h3.append(pDateCreated);
-    pDateUpdated.text('Updated: ' + help.updatedDatetime);
-    templateObject.h3.append(pDateUpdated);
-
-    if (help.helpType && help.helpType.length !== 0) {
-        displayTextFromArray(help.helpType, pType, entryDiv, "I can help with: ")
-    }
-    if (help.time && help.time.length !== 0) {
-        displayTextFromArray(help.time, pTime, entryDiv, "Time: ")
-    }
-
-    if (help.days && help.days.length !== 0) {
-        displayTextFromArray(help.days, pDays, entryDiv, "Days: ")
-    }
-    if (help.myLocation) {
-        entryDiv.append(pLoc);
-        displayRes(help.range, pRange, pLoc);
-        displayRes(help.myLocation, pMyLoc, pLoc);
-    }
-
-    if (help.info && help.info.length > 0) {
-        var divShowMore = addShowMore(help.id, templateObject);
-        displayRes(help.info, pInfo, divShowMore);
-
-    }
-
-}
-/************************************************************************/
-/************************************************************************/
-/******************FROM help.search.js**********************************/
-
 
 /*****Add Button "Can(or "Need") help"******************************/
 
 if (url.indexOf("userProfile") !== -1) {
     var btnHelp = button.attr('id', helpSearchOptions.helpBtnId);
-      btnHelp.text(helpSearchOptions.btnText);
+    btnHelp.text(helpSearchOptions.btnText);
     $("#" + helpSearchOptions.generalDivId).append(btnHelp);
 
     btnHelp.click(function () {
@@ -656,9 +494,8 @@ if (url.indexOf("userProfile") !== -1) {
 
 function btnNewHelp() {
     $("#" + helpSearchOptions.holderId).hide();
-    $("." + helpSearchOptions.helpBtnId).hide();
+    $("#" + helpSearchOptions.helpBtnId).hide();
     $("#" + helpSearchOptions.formId).show();
-
     if (helpSearchOptions.helpDataKind === "can") {
         initMap(helpSearchOptions.mapHolder);
         add1Marker(helpSearchOptions.addressInput);
@@ -670,12 +507,16 @@ function btnNewHelp() {
 
 function displayTemplate(helpData) {
     var template = $("#" + helpData.helpType).html();
-    $("#" + helpSearchOptions.formId).append(template);
+    var target = $("#" + helpSearchOptions.formId);
+    target.append(template);
     var mapHolder = $("<div id='need-map-holder' style='height:350px'></div>");
     $(".address").append(mapHolder);
-    $("#" + helpSearchOptions.formId).show();
+    target.show();
+
     initMap(helpSearchOptions.mapHolder);
-    $('.clockpicker').clockpicker();
+
+    $(".clockpicker").clockpicker();
+
     if (helpData.helpType === "babysitting") {
         helpSearchOptions.addressInput = "need-address";
         add1Marker(helpSearchOptions.addressInput);
@@ -697,8 +538,6 @@ function profileHelpSubmit(form) {
         helpData = getValues(form);
 
         saveMyHelp(helpData);
-
-        console.log(form);
     } catch (e) {
         console.log("Error occured: " + e);
     }
@@ -710,14 +549,13 @@ function profileHelpSubmit(form) {
 function getValues(form) {
     processCheckbox(form);
     processSelect(form);
-    processInput(form)
+    processInput(form);
     processTextarea(form);
     setDateTime(helpData);
     if (helpData.kind === 'need') {
         getTime(form)
     }
     helpData.userName = $("#username").val();
-    ;
 
     return helpData;
 }
@@ -733,19 +571,15 @@ function getTime(form) {
 function processTextarea(form) {
     var allTextarea = $('#' + form).find('textarea');
     $.each(allTextarea, function (t) {
-        // if ($(allTextarea[t]).val()) {
         helpData.info = $(allTextarea[t]).val();
-        // }
     });
-
 }
 
 function processInput(form) {
     $("#" + form + " :input.address-input").each(function () {
         var input = $(this);
         var key = input.attr('name');
-        var value = input.val();
-        helpData[key] = value;
+        helpData[key] = input.val();
     });
 }
 
@@ -753,8 +587,8 @@ function processCheckbox(form) {
     var allCheckbox = $('#' + form).find(':checkbox');
     for (var i = 0; i < allCheckbox.length; i++) {
         if (allCheckbox[i].checked) {
-            var key = $(allCheckbox[i]).attr('name')
-            var value = allCheckbox[i].value
+            var key = $(allCheckbox[i]).attr('name');
+            var value = allCheckbox[i].value;
             if (!helpData.hasOwnProperty(key)) {
                 helpData[key] = [];
                 helpData[key].push(value);
@@ -769,17 +603,15 @@ function processSelect(form) {
     var allSelect = $('#' + form).find('select');
     var childAge = [];
     $.each(allSelect, function (s) {
-        var key = $(allSelect[s]).attr('name')
-        var value = $("#" + allSelect[s].id + " option:selected").val()
+        var key = $(allSelect[s]).attr('name');
+        var value = $("#" + allSelect[s].id + " option:selected").val();
         if (key === 'child-age') {
             childAge.push(value)
         }
         else {
             helpData[key] = value;
         }
-
-
-    })
+    });
     if (childAge.length) {
         helpData.childAge = childAge;
     }
@@ -789,7 +621,6 @@ function setDateTime(helpData) {
     if (!helpData.id || helpData.id === null) {
         helpData['createdDatetime'] = new Date();
         helpData['updatedDatetime'] = new Date();
-
     } else {
         helpData['updatedDatetime'] = new Date();
     }
@@ -797,23 +628,21 @@ function setDateTime(helpData) {
 
 /**********************Display all user's helps**************************************/
 var createTemplate = function (entryId, div) {
-
     var entryDiv = $("<div class='col-xs-12'></div>");
     entryDiv.attr('id', entryId);
     $(div).prepend(entryDiv);
-
     var btnHolderDiv = $("<div class='col-xs-3 pull-right myHelps-btn'></div>");
     btnHolderDiv.attr('id', 'bntHolder' + entryId);
     entryDiv.append(btnHolderDiv);
 
     var editBtnP = $("<p></p>");
-    var editBtn = $("<button class='btn btn-primary btn-block' type='button' onclick='editHelp(this)'>Edit </button>")
+    var editBtn = $("<button class='btn btn-primary btn-block' type='button' onclick='editHelp(this)'>Edit </button>");
     editBtn.attr('helpid', entryId);
     editBtnP.append(editBtn);
     btnHolderDiv.append(editBtnP);
 
     var deleteBtnP = $("<p></p>");
-    var deleteBtn = $("<button class='btn btn-primary btn-block' type='button' onclick='deleteHelp(this)'>Delete help</button>")
+    var deleteBtn = $("<button class='btn btn-primary btn-block' type='button' onclick='deleteHelp(this)'>Delete help</button>");
     deleteBtn.attr('helpid', entryId);
     deleteBtnP.append(deleteBtn);
     btnHolderDiv.append(deleteBtnP);
@@ -828,7 +657,6 @@ var createTemplate = function (entryId, div) {
         "h3": h3
     };
 };
-
 
 function addShowMore(id, templateObject) {
     var showMoreContent = $("<div class='collapse'></div>").attr('id', 'showMore' + id);
@@ -845,37 +673,33 @@ function addShowMore(id, templateObject) {
 
     return showMoreContent;
 }
-
 function displayTextFromArray(key, p, div, text) {
     $.each(key, function (d) {
         $(p).append(key[d].capitalizeFirstLetter() + ", ")
     });
     var info = p.text().slice(0, -2);
-    var strong = $('<strong></strong>')
-    strong.html(text)
+    var strong = $('<strong></strong>');
+    strong.html(text);
     p.html(info);
     p.prepend(strong);
     div.append(p);
 }
-
 function displayRes(helpKey, p, div) {
     if (helpKey && helpKey.length !== 0) {
         p.append(helpKey);
         div.append(p);
     }
 }
-
 function showMoreAction(element) {
     var button = $(element);
-    button.html(button.html() == 'Show more' ? 'Show less' : 'Show more');
+    button.html(button.html() === 'Show more' ? 'Show less' : 'Show more');
 }
-
 function deleteHelp(element) {
     var id = $(element).attr('helpid');
-    deleteMyHelp(id)
+    deleteMyHelp(id);
 
     readAllMyHelps(function (myHelp) {
-        console.log(myHelp);
+
         var templateObject = createTemplate(myHelp.id, helpSearchOptions.holderId);
 
         canHelpEntryContent(myHelp, templateObject);
@@ -887,9 +711,6 @@ function deleteHelp(element) {
 function editHelp(element) {
     var id = $(element).attr('helpid');
     readMyHelp(id, function (helpToEdit) {
-
-        console.log(helpToEdit);
-
         var stateObj = {
             entry: "edit",
             helpId: helpToEdit.id
@@ -902,32 +723,27 @@ function editHelp(element) {
             initMap(helpSearchOptions.mapHolder);
             add1Marker(helpSearchOptions.addressInput);
             fieldAutocomplete(helpSearchOptions.addressInput, marker);
-            fillData(helpToEdit, ("#" + helpSearchOptions.formId))
-        }
+    }
         if (helpToEdit.kind === 'need') {
             helpSearchOptions.formId = 'need-help-form';
-
             displayTemplate(helpToEdit);
-
             var legend = $("#" + helpSearchOptions.formId).find('legend');
-            $(legend).text('Editing ' + helpToEdit.helpType + ' information')
-            fillData(helpToEdit, ("#" + helpSearchOptions.formId))
-
-
+            $(legend).text('Editing ' + helpToEdit.helpType + ' information');
         }
+        fillData(helpToEdit, ("#" + helpSearchOptions.formId));
         $("#" + helpSearchOptions.formId).show();
         helpData = helpToEdit;
     })
 }
-
 function fillData(helpToEdit, f) {
-
+ var key;
     var allCheckbox = $(f).find(':checkbox');
     for (var i = 0; i < allCheckbox.length; i++) {
-        var key = $(allCheckbox[i]).attr('name')
+        // key = new Selector("name", allCheckbox[i]);
+        var key = $(allCheckbox[i]).attr('name');
         var value = allCheckbox[i].value;
         if (helpToEdit.hasOwnProperty(key) && helpToEdit[key].indexOf(value) !== -1) {
-            $(allCheckbox[i]).prop('checked', 'true')
+            $(allCheckbox[i]).prop('checked', 'true');
             helpToEdit[key].splice(helpToEdit[key].indexOf(value), 1)
         }
     }
@@ -936,16 +752,15 @@ function fillData(helpToEdit, f) {
     var key = textarea.attr('name');
     textarea.val(helpToEdit[key]);
 
-
     var input = $(f).find('input');
-    for (var i = 0; i < input.length; i++) {
-        if ($(input[i]).attr('type') === "text") {
-            var key = $(input[i]).attr('name')
-            $(input[i]).val(helpToEdit[key]);
+    for (var j = 0; j < input.length; j++) {
+        if ($(input[j]).attr('type') === "text") {
+            var key = $(input[j]).attr('name');
+            $(input[j]).val(helpToEdit[key]);
         }
-        if ($(input[i]).attr('id') === 'need-children') {
-            var key = 'childAge'
-            $(input[i]).val(helpToEdit[key].length);
+        if ($(input[j]).attr('id') === 'need-children') {
+            var key = 'childAge';
+            $(input[j]).val(helpToEdit[key].length);
             newNumber = helpToEdit[key].length;
             addField(oldNumber, newNumber);
             oldNumber = helpToEdit[key].length;
@@ -959,29 +774,24 @@ function fillData(helpToEdit, f) {
 
     var select = $(f).find('select');
     if ($(select).attr('name') !== "child-age") {
-        for (var i = 0; i < select.length; i++) {
-            var key = $(select[i]).attr('name')
-            $(select[i]).val(helpToEdit[key]).attr('selected', 'selected');
+        for (var g = 0; g < select.length; g++) {
+            var key = $(select[g]).attr('name');
+            $(select[g]).val(helpToEdit[key]).attr('selected', 'selected');
         }
     }
 
 }
-
+function Selector(n, element) {
+    return ($(element).attr(n));
+}
 /****************************************************************************/
 /***************************************************************************/
-/*********************FROM need-help.js************************************/
-
-/**Add this block if you need to make a request to DB
- * on page load.
- * @param event contains db instance
- */
-
-
+/*********************Actions for need-help multystep form************************************/
 
 //onclick actions for next button on step 1//
 function getHelpType() {
     var helpType = processRadio("helpType");
-    if (helpType != helpData.helpType) {
+    if (helpType !== helpData.helpType) {
         helpData = {
             "id": helpData.id,
             "createdDatetime": helpData.createdDatetime,
@@ -1016,7 +826,7 @@ var newNumber = 0;
 //---------------------------Add-remove children age field for selected number of kids-------------//
 
 $(document).on('change', '#need-children', function () {
-    if ($('#label-age').length == 0) {
+    if ($('#label-age').length === 0) {
         var label1 = $('<label>').attr('for', 'childAge').attr('id', 'label-age').text('Specify age');
         $('#need-age').prepend(label1);
     }
@@ -1054,7 +864,6 @@ function addField(on, nn) {
         }
     }
 }
-
 function removeField(on, nn) {
     for (var i = nn; i < on; i++) {
         var idToRemove = ('#need-child' + (i + 1) + 'Age');
@@ -1064,45 +873,40 @@ function removeField(on, nn) {
     }
 }
 
-//------------------------------------submit form actions---------------------------------------//
-function needHelpSubmit(formId) {
+/***********************************Submit form actions***************************************/
+function searchSubmit(formId) {
     try {
-        if (url.indexOf("userProfile") !== -1) {
-            profileHelpSubmit(formId)
-
-
-        } else {
-            homePageHelpSubmit(formId)
-        }
+        profileHelpSubmit(formId)
     } catch (e) {
         console.log("Error occured:" + e);
     }
+    document.getElementById(formId).reset();
+    var callback;
+    if (helpSearchOptions.helpDataKind === "need") {
+        $('#need-age').empty();
+        oldNumber = 0;
+        newNumber = 0;
+        callback = "needHelpEntryContent"
+    }
+    if (helpSearchOptions.helpDataKind === "can") {
+        document.getElementsByTagName('textarea').value = '';
+        callback = "canHelpEntryContent"
+    }
 
-    document.getElementById(form).reset();
-    $('#need-age').empty();
-    oldNumber = 0;
-    newNumber = 0;
 
     readAllMyHelps(function (myHelp) {
-        console.log(myHelp);
-
         var templateObject = createTemplate(myHelp.id, helpSearchOptions.holderId);
-
-        needHelpEntryContent(myHelp, templateObject);
-
+        callback(myHelp, templateObject);
     });
+    return true;
 
-    return false;
 
 }
-
 var needHelpEntryContent = function (help, templateObject) {
-
     var entryDiv = templateObject.entryDiv;
-
     var pType = $("<p><strong>I need help with: </strong></p>");
     var pLoc = $("<p><strong>My location is: </strong></p>");
-    var pLocFrom = $("<p><strong>Pick up from: </strong></p>")
+    var pLocFrom = $("<p><strong>Pick up from: </strong></p>");
     var pLocTo = $("<p><strong>Drop off at: </strong></p>");
     var pDays = $("<p></p>");
     var pTime = $("<p><strong>Time: </strong></p>");
@@ -1163,43 +967,74 @@ var needHelpEntryContent = function (help, templateObject) {
         }
         if (help.info && help.info.length > 0) {
             displayRes(help.info, pInfo, divShowMore);
-
         }
     }
-}
-
+};
 function ownHelpAge(help) {
-
+    var age;
     var atLeastOneAgeFilled = false;
     for (var i = 0; i < help.childAge.length; i++) {
-        var age = help.childAge[i];
-        if (age != -1) {
+        age = help.childAge[i];
+        if (age !== -1) {
             atLeastOneAgeFilled = true;
         }
     }
 
     if (atLeastOneAgeFilled) {
-        var span = $("<span> Age: </span>")
-        for (var i = 0; i < help.childAge.length; i++) {
-            var age = help.childAge[i];
+        var span = $("<span> Age: </span>");
+        for (var j = 0; j < help.childAge.length; j++) {
+            age = help.childAge[j];
             var text;
-            if (age != -1) {
+            if (age !== -1) {
                 text = age + ' years, ';
             } else {
-                text = '_ years, ';
+                text = ' ';
             }
             span.append(text);
         }
         return (span);
     }
 }
+var canHelpEntryContent = function (help, templateObject) {
+    help.range = help.range + ' miles';
+    var entryDiv = templateObject.entryDiv;
 
-/*** ****************************************Markers on map*******************************************************/
+    var pType = $("<p></p>");
+    var pLoc = $("<p></p>");
+    var pRange = $("<span><strong>Within </strong></span>");
+    var pMyLoc = $("<span><strong> from </strong></span>");
+    var pDays = $("<p></p>");
+    var pTime = $("<p></p>");
+    var pInfo = $("<p><strong>Additional information: </strong></p>");
+    var pDateCreated = $("<p class='text-muted'></p>");
+    var pDateUpdated = $("<p class='text-muted'>Updated: </p>");
 
 
+    pDateCreated.text('Created: ' + help.createdDatetime);
+    templateObject.h3.append(pDateCreated);
+    pDateUpdated.text('Updated: ' + help.updatedDatetime);
+    templateObject.h3.append(pDateUpdated);
 
+    if (help.helpType && help.helpType.length !== 0) {
+        displayTextFromArray(help.helpType, pType, entryDiv, "I can help with: ")
+    }
+    if (help.time && help.time.length !== 0) {
+        displayTextFromArray(help.time, pTime, entryDiv, "Time: ")
+    }
 
+    if (help.days && help.days.length !== 0) {
+        displayTextFromArray(help.days, pDays, entryDiv, "Days: ")
+    }
+    if (help.myLocation) {
+        entryDiv.append(pLoc);
+        displayRes(help.range, pRange, pLoc);
+        displayRes(help.myLocation, pMyLoc, pLoc);
+    }
 
-/********************************************************************/
-/*******************************************************************/
+    if (help.info && help.info.length > 0) {
+        var divShowMore = addShowMore(help.id, templateObject);
+        displayRes(help.info, pInfo, divShowMore);
+    }
+};
+
 

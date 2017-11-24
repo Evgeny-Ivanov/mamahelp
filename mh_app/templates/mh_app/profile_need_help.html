@@ -32,7 +32,7 @@
             </form>
 
             <form id="need-help-form" action="{% url 'mh_app:profile_need_help' %}" method="post"
-                  onsubmit="return needHelpSubmit('need-help-form')">
+                  onsubmit="return searchSubmit('need-help-form')">
                 {% csrf_token %}
 
             </form>
@@ -91,13 +91,12 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group form-inline address">
+            <div class="form-group form-inline">
                 <label for="need-address">Address</label>
                 <input class="form-control address-input" id="need-address" type="text"
                        size="50" name="location">
-
-
             </div>
+            <div class="address"></div>
             <div class="col-xs-12 btn-holder">
                 <button class="btn btn-primary btn-join-us back2" type="button"
                         onclick="formStep('need-helpType')"><span
@@ -228,7 +227,7 @@
     </template>
 {% endblock %}
 {% block scripts %}
-    <script src="{% static 'mh_app/js/need-help.js' %}"></script>
-    <script src="{% static 'mh_app/js/help-search.js' %}"></script>
+{#    <script src="{% static 'mh_app/js/need-help.js' %}"></script>#}
+{#    <script src="{% static 'mh_app/js/help-search.js' %}"></script>#}
 {% endblock %}
 
