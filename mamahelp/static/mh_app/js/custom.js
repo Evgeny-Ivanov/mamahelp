@@ -164,7 +164,7 @@ function formValidation(form) {
     }
     if (validator(value)) {
         displayValid(obj)
-    }  else {
+    } else {
         displayNotValid(obj);
         status = false;
     }
@@ -509,7 +509,14 @@ function displayTemplate(helpData) {
     var template = $("#" + helpData.helpType).html();
     var target = $("#" + helpSearchOptions.formId);
     target.append(template);
-    var mapHolder = $("<div id='need-map-holder' style='height:350px'></div>");
+    console.log(helpData)
+    var mapHolder;
+    if ($('#need-map-holder').length) {
+        mapHolder = $('#need-map-holder')
+    } else {
+        mapHolder = $("<div id='need-map-holder' style='height:350px'></div>");
+    }
+
     $(".address").append(mapHolder);
     target.show();
 
@@ -723,7 +730,7 @@ function editHelp(element) {
             initMap(helpSearchOptions.mapHolder);
             add1Marker(helpSearchOptions.addressInput);
             fieldAutocomplete(helpSearchOptions.addressInput, marker);
-    }
+        }
         if (helpToEdit.kind === 'need') {
             helpSearchOptions.formId = 'need-help-form';
             displayTemplate(helpToEdit);
@@ -736,10 +743,9 @@ function editHelp(element) {
     })
 }
 function fillData(helpToEdit, f) {
- var key;
+
     var allCheckbox = $(f).find(':checkbox');
     for (var i = 0; i < allCheckbox.length; i++) {
-        // key = new Selector("name", allCheckbox[i]);
         var key = $(allCheckbox[i]).attr('name');
         var value = allCheckbox[i].value;
         if (helpToEdit.hasOwnProperty(key) && helpToEdit[key].indexOf(value) !== -1) {
@@ -749,8 +755,7 @@ function fillData(helpToEdit, f) {
     }
 
     var textarea = $('textarea');
-    var key = textarea.attr('name');
-    textarea.val(helpToEdit[key]);
+    textarea.val(helpToEdit[textarea.attr('name')]);
 
     var input = $(f).find('input');
     for (var j = 0; j < input.length; j++) {
@@ -781,9 +786,7 @@ function fillData(helpToEdit, f) {
     }
 
 }
-function Selector(n, element) {
-    return ($(element).attr(n));
-}
+
 /****************************************************************************/
 /***************************************************************************/
 /*********************Actions for need-help multystep form************************************/
