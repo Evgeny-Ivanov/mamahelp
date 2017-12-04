@@ -1,31 +1,13 @@
 {% load staticfiles %}
-<script>
-    var sing_in_url = '{% url 'mh_app:check_login' %}'
-</script>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
     <a class="navbar-brand" href="{% url 'mh_app:index' %}">Mama Help</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
+            aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    {#    <div class="col-xs-12" id="nav-search-input">#}
-    {##}
-    {#        <span class="glyphicon glyphicon-search" id="glyphicon-search2"></span>#}
-    {#        <form role="" action="" method="get">#}
-    {#            <input class="site-search-input" id="search-terms" type="search" name="search-terms"#}
-    {#                   placeholder="Print here">#}
-    {#        </form>#}
-    {#        <span class="glyphicon glyphicon-remove"></span>#}
-    {##}
-    {#    </div>#}
     <div class="collapse navbar-collapse" id="navbar">
-
-        {#            <li class="nav-item">#}
-        {#                <a class="nav-link" href="{% url 'mh_app:index' %}">Home</a>#}
-        {#            </li>#}
-        {#           #}
         {% if user and not user.is_anonymous %}
-
-
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'mh_app:profile_general_info' %}">Profile</a>
@@ -40,12 +22,6 @@
                     data-target="#logInFormModal" onclick="clearForm('#sign-in-form')">Log in
             </button>
         {% endif %}
-        <div class="search-holder">
-            <button class="btn btn-dark site-search nav-search-label"
-                    id="site-search-button" type="button">
-                <span class="glyphicon glyphicon-search nav-search-label js-click-unsensitive"></span>
-            </button>
-        </div>
     </div>
 </nav>
 
@@ -53,66 +29,66 @@
 <div class="modal fade" id="logInFormModal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header border-bottom-0">
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body login-modal">
-                <div class="wrapper center-block">
-                    <form class="login-modal-form" id="sign-in-form" action="{% url 'social:complete' 'email' %}"
-                          novalidate
-                          method="POST" onsubmit="return formProcessing('#sign-in-form')">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="login-email">Email adress</label>
-                            <input id="login-email" name="email" class="form-control" type="email"
-                                   placeholder="Email" onblur="return checkEmail(this)">
-                        </div>
-                        <div class="form-group">
-                            <label for="login-password">Password</label>
-                            <input id="login-password" name="password" class="form-control" type="password"
-                                   placeholder="Password">
-                            <a>Forgot password?</a>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn-custom" id="sign-in-button"
-                                    type="submit">Sign in
-                            </button>
-                        </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <form class="login-modal-form" id="sign-in-form" action="{% url 'social:complete' 'email' %}"
+                              method="POST" onsubmit="return formProcessing('#sign-in-form')">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="login-email">Email adress</label>
+                                <input id="login-email" name="email" class="form-control" type="email"
+                                       placeholder="Email" onblur="return checkEmail(this)">
+                            </div>
+                            <div class="form-group">
+                                <label for="login-password">Password</label>
+                                <input id="login-password" name="password" class="form-control" type="password"
+                                       placeholder="Password">
+                                <a>Forgot password?</a>
+                            </div>
+                            <div class="text-center">
+                                <button class="btn-custom" id="sign-in-button"
+                                        type="submit">Sign in
+                                </button>
+                            </div>
 
-                    </form>
-                    <p class="text-center">or</p>
-                    <ul class="nav">
-                        <li>
-                            <form action="" method="get"></form>
-                            <a class="btn btn-social btn-facebook"
-                               href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"> Login with Facebook
-                                <i class="fa fa-facebook"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <form action="" method="get"></form>
-                            <a class=" btn btn-social btn-google"
-                               href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with
-                                Google
-                                <i class="fa fa-google"></i>
-                            </a>
-                        <li>
-
-                    </ul>
+                        </form>
+                    </div>
+                    <div class="col border border-light border-top-0 border-bottom-0 border-right-0">
+                        <p class="text-center">or</p>
+                        <ul class="list-group">
+                            <li class="list-group-item border-0">
+                                {#                                <form action="" method="get"></form>#}
+                                <a class="btn btn-social btn-facebook"
+                                   href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"> Login with
+                                    Facebook
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                            </li>
+                            <li class="list-group-item border-0">
+                                {#                                <form action="" method="get"></form>#}
+                                <a class=" btn btn-social btn-google"
+                                   href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with
+                                    Google
+                                    <i class="fa fa-google"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
             </div>
-            <div class="modal-footer">
-                <div class="wrapper center-block">
-                    <ul class="list-inline">
-                        <li>Not a user yet?</li>
-                        <li>
-                            <a class="btn-custom" href="{% url 'mh_app:signup' %}"
-                               onclick="clearForm('#reg-form')">Join us</a>
-                        </li>
-                    </ul>
+            <div class="modal-footer  border-top-0">
+                <div class="row">
+                    <div class="col">
+                        <span class="align-middle">Not a user yet?</span>
+                        <a class="btn btn-link" href="{% url 'mh_app:signup' %}" onclick="clearForm('#reg-form')">Join us</a>
+                    </div>
                 </div>
             </div>
         </div>

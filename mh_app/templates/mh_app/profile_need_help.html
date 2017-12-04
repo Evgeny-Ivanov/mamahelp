@@ -2,11 +2,11 @@
 {% load staticfiles %}
 
 {% block main %}
-    <div class="col-xs-10" id="need-help">
-        <div class="col-xs-12" id="need-all-myHelps"></div>
-        <div class="col-xs-12" id="for-need-help-form" >
+    <div class="col-10" id="need-help">
+        <div class="col-12 px-0" id="need-all-myHelps"></div>
+        <div class="col-12 px-0" id="for-need-help-form">
             <form id="need-helpType" style="display: none">
-                <fieldset id="need-st1" >
+                <fieldset id="need-st1">
                     <legend>Step 1 Select type of help</legend>
                     <div class="radio-inline">
                         <label>
@@ -20,8 +20,8 @@
                             Transportation
                         </label>
                     </div>
-                    <div class="col-xs-12 btn-holder">
-                        <button class="btn btn-join-us btn-primary open1" type="button" id="typeBtn"
+                    <div class="col-12 btn-holder">
+                        <button class="btn btn-primary open1" type="button" id="typeBtn"
                                 onclick="return getHelpType()">Next <span
                                 class="fa fa-arrow-right"></span></button>
                     </div>
@@ -36,198 +36,7 @@
                 {% csrf_token %}
 
             </form>
-
         </div>
     </div>
-    <template id="babysitting">
-        <fieldset class='frm' id="need-st2-bbsitting">
-            <legend>Step 2 Address, date and time</legend>
-            <div class="form-group">
-                <label for="need-days-babysitting">Days of week</label>
-                <div id="need-days-babysitting">
-                    <label class="checkbox-inline">
-                        <input type="checkbox" value="monday" name="days">Monday
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" value="tuesday" name="days">Tuesday
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox"  value="wednesday" name="days">Wednesday
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox"  value="thursday" name="days">Thursday
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox"  value="friday" name="days">Friday
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox"  value="saturday" name="days">Saturday
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" id="need-sun" value="sunday" name="days">Sunday
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="need-bbsitting-time">Select hours</label>
-                <div id="need-bbsitting-time" class="form-inline">
-                    <label for="need-from" class="form-inline">From</label>
-                    <div class="input-group clockpicker">
-
-                        <input type="text" class="form-control time" id="need-from" name="timeFrom" value="">
-                        <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-time"></span>
-                                 </span>
-                    </div>
-                    {#       class time is only for js use. Add options to select#}
-
-                    <label for="need-to" class="form-inline">To</label>
-                    <div class="input-group clockpicker">
-
-                        <input type="text" class="form-control time" id="need-to" name="timeTo" value="">
-                        <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-time"></span>
-                                 </span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group form-inline">
-                <label for="need-address">Address</label>
-                <input class="form-control address-input" id="need-address" type="text"
-                       size="50" name="location">
-            </div>
-            <div class="address"></div>
-            <div class="col-xs-12 btn-holder">
-                <button class="btn btn-primary btn-join-us back2" type="button"
-                        onclick="formStep('need-helpType')"><span
-                        class="fa fa-arrow-left"></span> Back
-                </button>
-                <button class="btn btn-primary btn-join-us  open1" type="button"
-                        onclick="formStep('need-st3-bbsitting')">Next <span
-                        class="fa fa-arrow-right"></span></button>
-            </div>
-        </fieldset>
-
-        <fieldset class="frm" id="need-st3-bbsitting" style="display: none">
-            <legend>Step 3 Add details (Babysitting)</legend>
-
-            <div class="form-group">
-                <div class="checkbox-inline">
-                    <label>
-                        <input type="checkbox" name="option-place" id="" value="indoor">
-                        Indoor
-                    </label>
-                </div>
-                <div class="checkbox-inline">
-                    <label>
-                        <input type="checkbox" name="option-place" id="" value="outdoor">
-                        Outdoor
-                    </label>
-                </div>
-            </div>
-            <div class='form-group form-inline'>
-                <label for="need-children">Number of children</label>
-                <input type="number" id="need-children">
-                <div class="form-group form-inline" id="need-age">
-                </div>
-            </div>
-            <div class='form-group'><label for='need-bbsitting-info'>Additional information</label>
-                <textarea id='need-bbsitting-info' placeholder='Give more information' name="info"
-                          class="form-control" rows='5' ></textarea>
-            </div>
-            <div class="col-xs-12 btn-holder">
-                <button class="btn btn-primary btn-join-us" type="button"
-                        onclick="formStep('need-st2-bbsitting')"><span
-                        class="fa fa-arrow-left"></span> Back
-                </button>
-                <button class="btn btn-primary btn-join-us"
-                        type="submit">Submit
-                </button>
-            </div>
-        </fieldset>
-
-    </template>
-    <template id="transportation">
-        <fieldset class="frm" id="need-st2-transportation">
-            <legend>Step 2 Address</legend>
-            <div class="form-group">
-                <label for="need-days-transportation">Days of week</label>
-                <div id="need-days-transportation">
-                    <label class="checkbox-inline">
-                        <input type="checkbox"  value="monday" name="days">Monday
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox"  value="tuesday" name="days">Tuesday
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" value="wednesday" name="days">Wednesday
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox"  value="thursday" name="days">Thursday
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" value="friday" name="days">Friday
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" value="saturday" name="days">Saturday
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" value="sunday" name="days">Sunday
-                    </label>
-                </div>
-            </div>
-            <div class="form-group form-inline">
-                <label for="pick-up-location">Pick up location: </label>
-                <input class="form-control location-from address-input" id="pick-up-location" name="addressFrom"
-                       type="text"
-                       size="50">
-            </div>
-            <div class="form-group form-inline">
-                <label for="pick-up-time">Pick up at: </label>
-                <div class="input-group clockpicker">
-                    <input type="text" class="form-control time" id="pick-up-time" name="pickUpTime" value="">
-                    <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-time"></span>
-                                 </span>
-                </div>
-
-            </div>
-            <div class="form-group form-inline">
-                <label for="drop-off-location">Drop off location: </label>
-                <input class="form-control location-to address-input" id="drop-off-location" name="addressTo"
-                       type="text"
-                       size="50">
-            </div>
-            <div class="form-group form-inline">
-                <label for="drop-off-time">Drop off at: </label>
-                <div class="input-group clockpicker">
-
-                    <input type="text" class="form-control time" id="drop-off-time" name="dropOffTime" value="">
-                    <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-time"></span>
-                                 </span>
-                </div>
-            </div>
-            <div class="address"></div>
-            <div class='form-group'><label for='need-transportation-info'>Additional information</label>
-                <textarea id='need-transportation-info' name="info"
-                          placeholder="Give more information (way of transportation, payment for tickets, child age, etc"
-                          class="form-control" rows='5'></textarea>
-            </div>
-            <div class="col-xs-12 btn-holder">
-                <button class="btn-custom btn-join-us btn-warning" type="button"
-                        onclick="formStep('need-helpType')"><span
-                        class="fa fa-arrow-left"></span> Back
-                </button>
-                <button class="btn-custom btn-join-us"
-                        type="submit" >Submit
-                </button>
-            </div>
-        </fieldset>
-    </template>
-{% endblock %}
-{% block scripts %}
-{#    <script src="{% static 'mh_app/js/need-help.js' %}"></script>#}
-{#    <script src="{% static 'mh_app/js/help-search.js' %}"></script>#}
 {% endblock %}
 

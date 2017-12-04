@@ -9,19 +9,18 @@
     <title>Mamahelp</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
           integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    {#    <link rel="stylesheet" type="text/css" href="{% static 'mh_app/bootstrap/css/bootstrap.min.css' %}"/>#}
-{#    <link rel="stylesheet" type="text/css" href="{% static 'mh_app/styles/bootstrap-social.css' %}"/>#}
+    <script src="https://use.fontawesome.com/ee57c8a0cc.js"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'mh_app/styles/general.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'mh_app/styles/jquery-clockpicker.css' %}"/>
 
-    {#    <script type="text/javascript">#}
-    {#        var userAnonymous = "{{user.is_anonymous}}"==="True";#}
-    {#    </script>#}
 </head>
 <body>
 <input id="username" type="hidden" value="{{ user.username }}">
 
 {% include 'mh_app/navigation.html' %}
+{% include 'mh_app/card-template.html' %}
+{% include 'mh_app/babysitting-template.html' %}
+{% include 'mh_app/transportation-template.html' %}
 
 {% block content %}
 {% endblock %}

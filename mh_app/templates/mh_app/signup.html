@@ -3,65 +3,69 @@
 {% block content %}
     <div class="container page-content">
         <div class="row">
-            <form class="col-sm-12" id="reg-form" name="regForm" action="{% url 'social:complete' "email" %}"
-                  method="post" onsubmit="return formProcessing('#reg-form')">
-                {% csrf_token %}
-                <div class="form-group col-sm-5">
-                    <label for="reg-first-name">First name</label>
+            <div class="col-12">
+                <h3 class="invisible noAccountMessage">No account found. Please complete registration.</h3>
+        </div>
 
-                    <input class="form-control" id="reg-first-name" name="first_name" type="text"
-                           placeholder="First name"
-                           value="{{ form.first_name.value | default_if_none:'' }}">
-                </div>
+            <div class="col d-flex justify-content-center">
+                <form class="reg-form border p-4" id="reg-form" name="regForm" action="{% url 'social:complete' "email" %}"
+                      method="post" onsubmit="return formProcessing('#reg-form')">
+                    {% csrf_token %}
+                    <h4>Registration form</h4>
+                    <div class="form-row">
+                        <div class="form-group col-sm">
+                            <label for="reg-first-name"><small class="text-success"></small></label>
+                            <input class="form-control" id="reg-first-name" name="first_name" type="text" required
+                                   placeholder="First name"
+                                   value="{{ form.first_name.value | default_if_none:'' }}">
+                        </div>
+                        <div class="form-group col-sm">
+                            <label for="reg-last-name"><small class="text-success"></small></label>
 
-                <div class="form-group col-sm-5 col-sm-push-2">
-                    <label for="reg-last-name">Last name</label>
+                            <input class="form-control" id="reg-last-name" name="last_name" type="text" required
+                                   placeholder="Last name" value="{{ form.last_name.value | default_if_none:'' }}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-sm">
+                            <label for="reg-email"><small class="text-success"></small></label>
 
-                    <input class="form-control" id="reg-last-name" name="last_name" type="text"
-                           placeholder="Last name" value="{{ form.last_name.value | default_if_none:'' }}">
-                </div>
+                            <input class="form-control" id="reg-email" name="email" type="email" placeholder="Email"
+                                   required
+                                   value="{{ form.email.value | default_if_none:'' }}">
+                        </div>
+                        <div class="form-group col-sm">
+                            <label for="reg-username"><small class="text-success"></small></label>
 
-                <div class="form-group col-sm-5">
-                    <label for="reg-email">Email</label>
+                            <input class="form-control" id="reg-username" name="username" type="text" required
+                                   placeholder="Nickname" value="{{ form.username.value| default_if_none:'' }}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-sm">
+                            <label for="reg-password"><small class="text-success"></small></label>
 
-                    <input class="form-control" id="reg-email" name="email" type="email" placeholder="Email"
-                           onblur="return checkEmail(this)"
-                           value="{{ form.email.value | default_if_none:'' }}">
-                </div>
+                            <input class="form-control" id="reg-password" name="password" type="password" required
+                                   placeholder="Password" value="{{ form.password.value | default_if_none:'' }}">
+                        </div>
+                        <div class="form-group col-sm">
+                            <label for="password-confirm"><small class="text-success"></small></label>
 
-                <div class="form-group col-sm-5 col-sm-push-2">
-                    <label for="reg-username">Nickname</label>
-
-                    <input class="form-control" id="reg-username" name="username" type="text"
-                           placeholder="Nickname" value="{{ form.username.value| default_if_none:'' }}">
-                </div>
-
-                <div class="form-group col-sm-5">
-                    <label for="reg-password">Password</label>
-
-                    <input class="form-control" id="reg-password" name="password" type="password"
-                           placeholder="Password" value="{{ form.password.value | default_if_none:'' }}">
-                </div>
-
-                <div class="form-group col-sm-5 col-sm-push-2">
-                    <label for="password-confirm">Confirm Password</label>
-
-                    <input class="form-control" id="password-confirm" name="password_confirm"
-                           type="password" placeholder="Confirm password"
-                           onblur="return checkPass(this)"
-                           value="{{ form.password_confirm.value | default_if_none:'' }}">
-                </div>
-                {{ form.non_field_errors }}
-
-                <div class="col-sm-12 text-center">
-                    <button class="btn-custom btn-join-us" id="submit-reg"
-                            type="submit">Submit
-                    </button>
-                </div>
-            </form>
-
+                            <input class="form-control" id="password-confirm" name="password_confirm" required
+                                   type="password" placeholder="Confirm password"
+                                   onblur="return checkPass(this)"
+                                   value="{{ form.password_confirm.value | default_if_none:'' }}">
+                            <small class="invisible text-danger validationFail-msg">Doesn't match password</small>
+                        </div>
+                        {{ form.non_field_errors }}
+                    </div>
+                    <div class="col-sm-12 text-center">
+                        <button class="btn-custom btn-join-us" id="submit-reg"
+                                type="submit">Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-
-{#    <script src="{% static 'mh_app/js/reg-form-valid.js' %}"></script>#}
 {% endblock %}

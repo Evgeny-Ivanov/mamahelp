@@ -2,7 +2,8 @@
  * Created by yulia on 1/8/2016.
  */
 /****************DECLARE VARIABLES***************************************/
-var button = $("<button class='btn-custom btn-join-us' type='button'></button>");
+var button = $("<button class='btn btn-secondary my-2 type='button'></button>");
+
 var request;
 var db;
 var formTemplate;
@@ -13,6 +14,7 @@ var helpData;
 var url = window.location.href;
 
 const dbName = "mama_help";
+
 window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
@@ -36,32 +38,31 @@ request.onupgradeneeded = function (event) {
         console.log("Mamahelp DB initializing completed.")
     }
 };
-
-
-(function (window) {
-    var inputId = '#nav-search-input';
-    var labelSelector = '.nav-search-label';
-    var input = $(inputId);
-    var label = $(labelSelector);
-    label.click(function () {
-        input.addClass('search-expanded');
-        label.addClass('search-active');
-        $('#search-terms').focus();
-    });
-    document.addEventListener('click', function (e) {
-        if ($(e.target).closest(inputId).length === 0
-            && $(e.target).closest('#site-search-button').length === 0) {
-            $(inputId).removeClass('search-expanded');
-            $(labelSelector).removeClass('search-active');
-        }
-    });
-
-    $('.glyphicon-remove').click(function () {
-        $(inputId).removeClass('search-expanded');
-        $(labelSelector).removeClass('search-active');
-    });
-
-}(window));
+//
+// (function (window) {
+//     var inputId = '#nav-search-input';
+//     var labelSelector = '.nav-search-label';
+//     var input = $(inputId);
+//     var label = $(labelSelector);
+//     label.click(function () {
+//         input.addClass('search-expanded');
+//         label.addClass('search-active');
+//         $('#search-terms').focus();
+//     });
+//     document.addEventListener('click', function (e) {
+//         if ($(e.target).closest(inputId).length === 0
+//             && $(e.target).closest('#site-search-button').length === 0) {
+//             $(inputId).removeClass('search-expanded');
+//             $(labelSelector).removeClass('search-active');
+//         }
+//     });
+//
+//     $('.glyphicon-remove').click(function () {
+//         $(inputId).removeClass('search-expanded');
+//         $(labelSelector).removeClass('search-active');
+//     });
+//
+// }(window));
 
 String.prototype.capitalizeFirstLetter = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -70,7 +71,7 @@ if (url.indexOf("needhelp") !== -1) {
     helpSearchOptions = {
         // helpBtnClass: 'btn-help-search',
         helpBtnId: 'btn-need-help',
-        btnText: 'I need help',
+        // btnText: "Create new",
         generalDivId: 'need-help',
         holderId: "need-all-myHelps",
         formId: "need-helpType",
@@ -81,7 +82,7 @@ if (url.indexOf("needhelp") !== -1) {
     helpSearchOptions = {
         // helpBtnClass: 'can-help',
         helpBtnId: 'btn-can-help',
-        btnText: 'I can help',
+        // btnText: 'Create new',
         generalDivId: 'can-help',
         holderId: "can-all-myHelps",
         formId: "can-help-form",
@@ -96,13 +97,36 @@ request.onsuccess = function (event) {
     console.log("success: " + db);
     db = request.result;
     // end mandatory block
-
+    if (url.indexOf("complete/email") !== -1) {
+        if ($('#reg-email').length) {
+            $(".noAccountMessage").removeClass("invisible")
+        }
+    }
     if (url.indexOf("userProfile") !== -1) {
+        if (url.indexOf("needhelp") !== -1) {
+            switchActive("#profileNeedLink")
+            helpSearchOptions = {
+                // helpBtnClass: 'btn-help-search',
+                helpBtnId: 'btn-need-help',
+                btnText: "Create new",
+                generalDivId: 'need-help',
+                holderId: "need-all-myHelps",
+                formId: "need-helpType",
+                mapHolder: "need-map-holder",
+                helpDataKind: 'need'
+            }
+        }
+        if (url.indexOf("canhelp") !== -1) {
+            switchActive("#profileCanLink")
+        }
+
         readAllMyHelps(function (myHelp) {
             var templateObject = createTemplate(myHelp.id, '#' + helpSearchOptions.holderId);
             needHelpEntryContent(myHelp, templateObject);
         }, helpSearchOptions.helpDataKind);
     }
+
+
     if (url.indexOf("createnew") !== -1) {
         btnNewHelp()
     }
@@ -112,6 +136,7 @@ request.onsuccess = function (event) {
         var helpId = pathArray[pathArray.length - 2];
         readMyHelp(helpId, function (helpToEdit) {
             if (url.indexOf("needhelp") !== -1) {
+
                 showNextForm(helpToEdit);
             }
             fillData(helpToEdit, ("#" + helpSearchOptions.formId));
@@ -119,54 +144,50 @@ request.onsuccess = function (event) {
         })
     }
 };
+/**************************************************************************/
+function switchActive(e) {
+    $('#user-menu').find('a.active').removeClass("active");
+    $(e).addClass('active')
+}
 /**********************Login module****************************************/
 function formProcessing(form) {
     try {
-        if (formValidation(form)) {
-            console.log('ready for submit');
+        if (formValidation(form) === true) {
             getFormValues(form);
+            console.log('fff');
+            return true;
+        } else {
+            return false;
         }
     } catch (e) {
         console.log("Error occured: " + e);
     }
-    return true;
+
 }
 function formValidation(form) {
-    var status = true;
+    var status = false;
     var formObjects = getFormObjects(form);
 
     $.each(formObjects, function (key, value) {
-        var field = $("#" + value.id);
-        if (isNotEmpty(field)) {
+        var field = $(value.id);
+
+        if (isNotEmpty(field) && !($(field).hasClass("field-incorrect"))) {
             displayValid(field);
+            status = true;
         } else {
             displayNotValid(field, "Field is required");
-            status = false;
+            field.bind({
+                click: function () {
+                    $(this).addClass("active");
+                }
+            });
         }
     });
-    var value;
-    var obj;
-    var validator;
-    if (formObjects['password-confirm']) {
-        obj = $('#password-confirm');
-        value = obj.val();
-        validator = 'isMatchPass';
-    }
-    if (formObjects['login-email']) {
-        obj = $('#login-email')
-        value = obj.val();
-        validator = 'isEmail';
-    }
-    if (formObjects['reg-email']) {
-        obj = $('#reg-email');
-        value = obj.val();
-        validator = 'isEmail';
-    }
-    if (validator(value)) {
-        displayValid(obj)
-    } else {
-        displayNotValid(obj);
-        status = false;
+
+    if (isMatchPass()) {
+        //     alert("true");
+        // } else {
+        //     alert("false");
     }
     return status;
 }
@@ -175,7 +196,7 @@ function getFormObjects(form) {
     var inputs = $(form + ' .form-control');
     inputs.each(function (idx, input) {
         formObjects[input.id] = {
-            "id": input.id,
+            "id": "#" + input.id,
             "name": input.name,
             "type": input.type,
             "placeholder": input.placeholder
@@ -187,7 +208,7 @@ function getFormValues(form) {
     var formData = {};
     var inputs = $(form + ' :input:not(:checkbox):not(:button):not(:hidden)').toArray();
     for (var i in inputs) {
-        var selector = $('#' + inputs[i].id);
+        var selector = $(inputs[i].id);
         var key = selector.attr('name');
         formData[key] = selector.val();
     }
@@ -196,21 +217,32 @@ function getFormValues(form) {
 /*************called from html "onblur" event on field, validation after user enter info********************/
 function checkEmail(field) {
     if (isEmail(field.value)) {
+        displayValid($('#' + field.id));
+        if ($(".validationFail-msg")) {
+            $(".validationFail-msg").remove()
+        }
+    } else {
+        displayNotValid($('#' + field.id));
+        if (!$(".validationFail-msg").length) {
+            addMessage(field, "Incorrect email format")
+        }
+    }
+}
+function checkPass(field) {
+
+    if (isMatchPass(field.value)) {
         displayValid($('#' + field.id))
     } else {
         displayNotValid($('#' + field.id))
     }
-}
-function checkPass(field) {
-    if (isNotEmpty($('#reg-password'))) {
-        if (isMatchPass(field.value)) {
-            displayValid($('#' + field.id))
-        } else {
-            displayNotValid($('#' + field.id))
-        }
-    }
-}
 
+}
+function addMessage(field, text) {
+    var textNode = $("<small class='text-danger validationFail-msg'></small>");
+    $(text.Node).text(text);
+    $(field).parent().append(textNode);
+    $(textNode).text(text)
+}
 /********************Field validation small functions**************/
 function isNotEmpty(elem) {
     var x = elem.val();
@@ -220,9 +252,23 @@ function isEmail(mail) {
     var mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
     return mail.match(mailFormat);
 }
-function isMatchPass(text) {
-    var pass = $('#reg-password').val();
-    return (text === pass)
+function isMatchPass() {
+    var confirm = $("#password-confirm");
+    var message = (confirm).siblings(".validationFail-msg")
+    if ($('#reg-password').val() === confirm.val()) {
+        if (!message.hasClass("invisible")) {
+            message.toggleClass("invisible");
+        }
+        displayValid(confirm);
+        return true
+    } else {
+        if (message.hasClass("invisible")) {
+            message.toggleClass("invisible");
+        }
+
+        displayNotValid(confirm);
+        return false
+    }
 }
 function displayNotValid(element, text) {
     element.removeClass('field-correct');
@@ -233,9 +279,24 @@ function displayValid(element) {
     element.removeClass('field-incorrect');
     element.addClass('field-correct');
 }
+//clear login form in modal if closed without submission
 function clearForm(form) {
     $(form).find("input").val("").removeClass('field-incorrect').removeClass('field-correct');
 
+}
+//remove text from placeholder and add it to label
+$("#reg-form").find('.form-control').focus(function () {
+    var placeholder = $(this).attr('placeholder');
+    if (placeholder) {
+        var label = getLabel($(this).attr('id'))
+        var labelText = placeholder;
+        $(label).find("small").html(labelText);
+        $(this).attr('placeholder', '')
+    }
+});
+function getLabel(e) {
+    var label = $("label[for='" + e + "']");
+    return label;
 }
 //-----------------------GOOGLE MAPS, FIELD AUTOCOMPLETE, MAP MARKERS, GEOLOCATION----------------------//
 var geocoder;
@@ -482,8 +543,9 @@ function editSearch(data) {
 
 if (url.indexOf("userProfile") !== -1) {
     var btnHelp = button.attr('id', helpSearchOptions.helpBtnId);
-    btnHelp.text(helpSearchOptions.btnText);
-    $("#" + helpSearchOptions.generalDivId).append(btnHelp);
+    btnHelp.text("Create new");
+   btnHelp.prepend("<i class='fa fa-plus mr-2' aria-hidden='true'></i>")
+    $("#" + helpSearchOptions.generalDivId).prepend(btnHelp);
 
     btnHelp.click(function () {
         btnNewHelp()
@@ -634,49 +696,76 @@ function setDateTime(helpData) {
 }
 
 /**********************Display all user's helps**************************************/
-var createTemplate = function (entryId, div) {
-    var entryDiv = $("<div class='col-xs-12'></div>");
-    entryDiv.attr('id', entryId);
-    $(div).prepend(entryDiv);
-    var btnHolderDiv = $("<div class='col-xs-3 pull-right myHelps-btn'></div>");
-    btnHolderDiv.attr('id', 'bntHolder' + entryId);
-    entryDiv.append(btnHolderDiv);
-
-    var editBtnP = $("<p></p>");
-    var editBtn = $("<button class='btn btn-primary btn-block' type='button' onclick='editHelp(this)'>Edit </button>");
+function HelpCard(id) {
+    var card = $("#helpCard").html()
+    return ($(card).attr("id", id))
+}
+var createTemplate = function (entryId, holder) {
+    var card = new HelpCard(entryId);
+    $(holder).prepend(card);
+    var cardBody = $(card).find('.card-body');
+    var cardAside = $(cardBody).find(".btn-group-vertical");
+    var cardMain = $(cardBody).find(".col-sm-8");
+    var editBtn = $("<button class='btn btn-secondary my-2 rounded' type='button' style='width: 100px;' onclick='editHelp(this)'>Edit </button>");
     editBtn.attr('helpid', entryId);
-    editBtnP.append(editBtn);
-    btnHolderDiv.append(editBtnP);
-
-    var deleteBtnP = $("<p></p>");
-    var deleteBtn = $("<button class='btn btn-primary btn-block' type='button' onclick='deleteHelp(this)'>Delete help</button>");
+    cardAside.append(editBtn);
+    var deleteBtn = $("<button class='btn btn-secondary my-2 rounded' type='button' style='width: 100px;' onclick='deleteHelp(this)'>Delete help</button>");
     deleteBtn.attr('helpid', entryId);
-    deleteBtnP.append(deleteBtn);
-    btnHolderDiv.append(deleteBtnP);
-
-    var h3 = $('<h3></h3>').attr('class', 'clearfix').attr('id', '');
-    entryDiv.prepend(h3);
-    h3.text(entryId);
-
+    cardAside.append(deleteBtn);
+    var title = $(card).find('.card-title');
+    cardBody.prepend(title);
+    title.text("Entry with id: " + entryId);
+    var subtitle = $(card).find('.card-subtitle');
+    cardMain.append(subtitle)
     return {
-        "entryDiv": entryDiv,
-        "buttonHolder": btnHolderDiv,
-        "h3": h3
+        "entryDiv": cardMain,
+        "buttonHolder": cardAside,
+        "h3": subtitle
     };
-};
+}
+// var createTemplate = function (entryId, div) {
+//     var entryDiv = $("<div class='col-xs-12'></div>");
+//     entryDiv.attr('id', entryId);
+//     $(div).prepend(entryDiv);
+//     var btnHolderDiv = $("<div class='col-xs-3 pull-right myHelps-btn'></div>");
+//     btnHolderDiv.attr('id', 'bntHolder' + entryId);
+//     entryDiv.append(btnHolderDiv);
+//
+//     var editBtnP = $("<p></p>");
+//     var editBtn = $("<button class='btn btn-primary btn-block' type='button' onclick='editHelp(this)'>Edit </button>");
+//     editBtn.attr('helpid', entryId);
+//     editBtnP.append(editBtn);
+//     btnHolderDiv.append(editBtnP);
+//
+//     var deleteBtnP = $("<p></p>");
+//     var deleteBtn = $("<button class='btn btn-primary btn-block' type='button' onclick='deleteHelp(this)'>Delete help</button>");
+//     deleteBtn.attr('helpid', entryId);
+//     deleteBtnP.append(deleteBtn);
+//     btnHolderDiv.append(deleteBtnP);
+//
+//     var h3 = $('<h3></h3>').attr('class', 'clearfix').attr('id', '');
+//     entryDiv.prepend(h3);
+//     h3.text(entryId);
+//     return {
+//         "entryDiv": entryDiv,
+//         "buttonHolder": btnHolderDiv,
+//         "h3": h3
+//     };
+//
+// };
 
 function addShowMore(id, templateObject) {
     var showMoreContent = $("<div class='collapse'></div>").attr('id', 'showMore' + id);
     templateObject.entryDiv.append(showMoreContent);
-    var showMoreP = $("<p></p>");
-    var showMoreBtn = $("<button class='btn btn-primary btn-block show-more ' type='button' data-toggle='collapse' " +
+    // var showMoreP = $("<p></p>");
+    var showMoreBtn = $("<button class='btn btn-link' type='button' data-toggle='collapse' " +
         " aria-expanded='false' onclick='showMoreAction(this)' >Show more" +
         "</button>");
-    showMoreP.append(showMoreBtn);
-    templateObject.buttonHolder.prepend(showMoreP);
+    // showMoreP.append(showMoreBtn);
+    // templateObject.buttonHolder.prepend(showMoreP);
 
     showMoreBtn.attr('id', 'btn' + id).attr('data-target', '#showMore' + id).attr('aria-controls', 'showMore' + id);
-    templateObject.buttonHolder.prepend(showMoreP);
+    templateObject.entryDiv.append(showMoreBtn);
 
     return showMoreContent;
 }
@@ -704,11 +793,8 @@ function showMoreAction(element) {
 function deleteHelp(element) {
     var id = $(element).attr('helpid');
     deleteMyHelp(id);
-
     readAllMyHelps(function (myHelp) {
-
         var templateObject = createTemplate(myHelp.id, helpSearchOptions.holderId);
-
         canHelpEntryContent(myHelp, templateObject);
     });
     location.reload()
@@ -811,23 +897,19 @@ function showNextForm(helpData) {
     $(helpSearchOptions.formId).show("slow");
 
 }
-
 function processRadio(name) {
     return $('form input[name="' + name + '"]:checked').val();
 }
-
 function formStep(form) {
 
     $(".frm").hide("fast");
     $("#" + form).show("slow");
     helpSearchOptions.formId = form
 }
-
 //---------------------------------------display label for Age-div--------------------------------///
 var oldNumber = 0;
 var newNumber = 0;
 //---------------------------Add-remove children age field for selected number of kids-------------//
-
 $(document).on('change', '#need-children', function () {
     if ($('#label-age').length === 0) {
         var label1 = $('<label>').attr('for', 'childAge').attr('id', 'label-age').text('Specify age');
@@ -875,7 +957,6 @@ function removeField(on, nn) {
         $(labelAttr).remove();
     }
 }
-
 /***********************************Submit form actions***************************************/
 function searchSubmit(formId) {
     try {
@@ -895,15 +976,11 @@ function searchSubmit(formId) {
         document.getElementsByTagName('textarea').value = '';
         callback = "canHelpEntryContent"
     }
-
-
     readAllMyHelps(function (myHelp) {
         var templateObject = createTemplate(myHelp.id, helpSearchOptions.holderId);
         callback(myHelp, templateObject);
     });
     return true;
-
-
 }
 var needHelpEntryContent = function (help, templateObject) {
     var entryDiv = templateObject.entryDiv;
@@ -919,14 +996,10 @@ var needHelpEntryContent = function (help, templateObject) {
     var pInfo = $("<p><strong>Additional information: </strong></p>");
     var pDateCreated = $("<p class='text-muted'></p>");
     var pDateUpdated = $("<p class='text-muted'>Updated: </p>");
-
-
     pDateCreated.text('Created: ' + help.createdDatetime);
     templateObject.h3.append(pDateCreated);
     pDateUpdated.text('Updated: ' + help.updatedDatetime);
     templateObject.h3.append(pDateUpdated);
-
-
     displayRes(help.helpType, pType, entryDiv);
     displayRes(help.bbAddress, pLoc, entryDiv);
     displayRes(help.addressFrom, pLocFrom, entryDiv);
@@ -991,6 +1064,7 @@ function ownHelpAge(help) {
             if (age !== -1) {
                 text = age + ' years, ';
             } else {
+                console.log('aaa');
                 text = ' ';
             }
             span.append(text);
@@ -1039,5 +1113,7 @@ var canHelpEntryContent = function (help, templateObject) {
         displayRes(help.info, pInfo, divShowMore);
     }
 };
+/**********************Page aside navigation mark active**************************************/
+
 
 

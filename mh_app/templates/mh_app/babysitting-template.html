@@ -1,0 +1,108 @@
+<template id="babysitting">
+    <fieldset class='frm' id="need-st2-bbsitting">
+        <legend>Step 2 Address, date and time</legend>
+        <div class="form-group">
+            <label for="need-days-babysitting">Days of week</label>
+            <div id="need-days-babysitting">
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="monday" name="days">Monday
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="tuesday" name="days">Tuesday
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="wednesday" name="days">Wednesday
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="thursday" name="days">Thursday
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="friday" name="days">Friday
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="saturday" name="days">Saturday
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="need-sun" value="sunday" name="days">Sunday
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="need-bbsitting-time">Select hours</label>
+            <div id="need-bbsitting-time" class="form-inline">
+                <label for="need-from" class="form-inline">From</label>
+                <div class="input-group clockpicker">
+
+                    <input type="text" class="form-control time" id="need-from" name="timeFrom" value="">
+                    <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                 </span>
+                </div>
+                {#       class time is only for js use. Add options to select#}
+
+                <label for="need-to" class="form-inline">To</label>
+                <div class="input-group clockpicker">
+
+                    <input type="text" class="form-control time" id="need-to" name="timeTo" value="">
+                    <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                 </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-inline">
+            <label for="need-address">Address</label>
+            <input class="form-control address-input" id="need-address" type="text"
+                   size="50" name="location">
+        </div>
+        <div class="address"></div>
+        <div class="col-12 btn-holder my-2">
+            <button class="btn btn-primary" type="button"
+                    onclick="formStep('need-helpType')"><span
+                    class="fa fa-arrow-left"></span> Back
+            </button>
+            <button class="btn btn-primary" type="button"
+                    onclick="formStep('need-st3-bbsitting')">Next <span
+                    class="fa fa-arrow-right"></span></button>
+        </div>
+    </fieldset>
+
+    <fieldset class="frm" id="need-st3-bbsitting" style="display: none">
+        <legend>Step 3 Add details (Babysitting)</legend>
+
+        <div class="form-group">
+            <div class="checkbox-inline">
+                <label>
+                    <input type="checkbox" name="option-place" id="" value="indoor">
+                    Indoor
+                </label>
+            </div>
+            <div class="checkbox-inline">
+                <label>
+                    <input type="checkbox" name="option-place" id="" value="outdoor">
+                    Outdoor
+                </label>
+            </div>
+        </div>
+        <div class='form-group form-inline'>
+            <label for="need-children">Number of children</label>
+            <input type="number" id="need-children">
+            <div class="form-group form-inline" id="need-age">
+            </div>
+        </div>
+        <div class='form-group'><label for='need-bbsitting-info'>Additional information</label>
+            <textarea id='need-bbsitting-info' placeholder='Give more information' name="info"
+                      class="form-control" rows='5'></textarea>
+        </div>
+        <div class="col-12 btn-holder">
+            <button class="btn btn-primary" type="button"
+                    onclick="formStep('need-st2-bbsitting')"><span
+                    class="fa fa-arrow-left"></span> Back
+            </button>
+            <button class="btn btn-primary"
+                    type="submit">Submit
+            </button>
+        </div>
+    </fieldset>
+
+</template>
