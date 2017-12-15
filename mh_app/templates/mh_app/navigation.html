@@ -9,9 +9,9 @@
     <div class="collapse navbar-collapse" id="navbar">
         {% if user and not user.is_anonymous %}
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'mh_app:profile_general_info' %}">Profile</a>
-                </li>
+                <!--<li class="nav-item">-->
+                    <!--<a class="nav-link" href="{% url 'mh_app:profile_general_info' %}">Profile</a>-->
+                <!--</li>-->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'mh_app:logout' %}">Logout</a>
                 </li>

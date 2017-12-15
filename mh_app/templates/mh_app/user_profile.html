@@ -1,25 +1,25 @@
 {% extends 'mh_app/base.html' %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-2" id="user-menu">
-                <img class="user-photo" src="http://placehold.it/150x150">
-                <ul class="nav nav-pills nav-stacked" role="tablist" id="myTabs">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2" id="user-menu">
+            <img class="user-photo" src="http://placehold.it/150x150">
+            <ul class="nav nav-pills nav-stacked" role="tablist" id="myTabs">
 
-                    <li class="nav-item user-profile">
-                        <a class="nav-link " id="profileNeedLink"
-                           href="{% url 'mh_app:profile_need_help' %}">I need help</a>
-                    </li>
-                    <li class="nav-item user-profile">
-                        <a class="nav-link"  id="profileCanLink"
-                           href="{% url 'mh_app:profile_can_help' %}">I can help </a></li>
-
-                </ul>
-            </div>
-            {% block main %}
-            {% endblock %}
+                <li class="nav-item user-profile">
+                    <a class="nav-link " id="profileNeedLink"
+                       href="{% url 'mh_app:profile_need_help' %}">I need help</a>
+                </li>
+                <li class="nav-item user-profile">
+                    <a class="nav-link" id="profileCanLink"
+                       href="{% url 'mh_app:profile_can_help' %}">I can help </a></li>
+            </ul>
         </div>
+        {% block main %}
+        <p>Are you looking for help or can help somebody</p>
+        {% endblock %}
     </div>
+</div>
 
 {% endblock %}

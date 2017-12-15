@@ -2,91 +2,88 @@
 {% load staticfiles %}
 
 {% block main %}
-    <div class="col-10" id="can-help">
-        <div class="col-12 px-0" id="can-all-myHelps"></div>
-        <div class="col-12 " id="for-can-help-form">
-            <form id="can-help-form" action="{% url 'mh_app:profile_can_help' %}" method="post"
-                  onsubmit="return searchSubmit('can-help-form')"
-                  style="display: none">
-                {% csrf_token %}
+<div class="col-10" id="can-help">
+    <div class="col-12 px-0" id="can-all-myHelps"></div>
+    <div class="col-12 " id="for-can-help-form">
+        <form id="can-help-form" action="{% url 'mh_app:profile_can_help' %}" method="post"
+              onsubmit="return searchSubmit('can-help-form')"
+              style="display: none">
+            {% csrf_token %}
 
-                <div class="form-group">
-                    <label for="timeRange">Time range</label>
-                    <div id="timeRange">
-                        <label class="checkbox-inline">
-                            <input class="can" type="checkbox"  value="am" name="time">Am
-                        </label>
-                        <label class="checkbox-inline">
-                            <input class="can" type="checkbox"  value="pm" name="time">Pm
-                        </label>
-                    </div>
+            <div class="form-group">
+                <label for="timeRange">Time range</label>
+                <div id="timeRange">
+                    <label class="checkbox-inline">
+                        <input class="can" type="checkbox" value="am" name="time">Am
+                    </label>
+                    <label class="checkbox-inline">
+                        <input class="can" type="checkbox" value="pm" name="time">Pm
+                    </label>
                 </div>
+            </div>
 
-                <div class="form-group  form-inline">
-                        <label for="can-location-range">Search within</label>
-                        <select class="form-control" id="can-location-range" name="range">
-                            <option value="5" selected>5 miles</option>
-                            <option value="10">10 miles</option>
-                            <option value="15">15 miles</option>
-                            <option value="20">20 miles</option>
-                        </select>
+            <div class="form-group  form-inline">
+
+                    <label for="can-location-range">Search within</label>
+                    <select class="form-control" id="can-location-range" name="range">
+                        <option value="5" selected>5 miles</option>
+                        <option value="10">10 miles</option>
+                        <option value="15">15 miles</option>
+                        <option value="20">20 miles</option>
+                    </select>
                     <label for="my-location">from</label>
                     <input class="form-control address-input can" id="my-location" name="myLocation"
                            type="text" size="50" placeholder="move marker on map or start typing address">
-                    <div id="map-holder-ownLocation" style="height:350px"></div>
-
+            </div>
+            <div id="map-holder-ownLocation" style="height:350px"></div>
+            <div class="form-group">
+                <label for="can-days">Days of week</label>
+                <div id="can-days">
+                    <label class="checkbox-inline">
+                        <input class="can" type="checkbox" value="monday" name="days">Monday
+                    </label>
+                    <label class="checkbox-inline">
+                        <input class="can" type="checkbox" value="tuesday" name="days">Tuesday
+                    </label>
+                    <label class="checkbox-inline">
+                        <input class="can" type="checkbox" value="wednesday" name="days">Wednesday
+                    </label>
+                    <label class="checkbox-inline">
+                        <input class="can" type="checkbox" value="thursday" name="days">Thursday
+                    </label>
+                    <label class="checkbox-inline">
+                        <input class="can" type="checkbox" value="friday" name="days">Friday
+                    </label>
+                    <label class="checkbox-inline">
+                        <input class="can" type="checkbox" value="saturday" name="days">Saturday
+                    </label>
+                    <label class="checkbox-inline">
+                        <input class="can" type="checkbox" value="sunday" name="days">Sunday
+                    </label>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="can-days">Days of week</label>
-                    <div id="can-days">
-                        <label class="checkbox-inline">
-                            <input class="can" type="checkbox"  value="monday" name="days">Monday
-                        </label>
-                        <label class="checkbox-inline">
-                            <input class="can" type="checkbox"  value="tuesday" name="days">Tuesday
-                        </label>
-                        <label class="checkbox-inline">
-                            <input class="can" type="checkbox" value="wednesday" name="days">Wednesday
-                        </label>
-                        <label class="checkbox-inline">
-                            <input class="can" type="checkbox"  value="thursday" name="days">Thursday
-                        </label>
-                        <label class="checkbox-inline">
-                            <input class="can" type="checkbox" value="friday" name="days">Friday
-                        </label>
-                        <label class="checkbox-inline">
-                            <input class="can" type="checkbox" value="saturday" name="days">Saturday
-                        </label>
-                        <label class="checkbox-inline">
-                            <input class="can" type="checkbox" value="sunday" name="days">Sunday
-                        </label>
-                    </div>
+            <div class="form-group">
+                <label for="helpType">Type of help</label>
+                <div id="helpType">
+                    <label class="checkbox-inline">
+                        <input class="can" type="checkbox" name="helpType" value="babysitting">Babysitting
+                    </label>
+                    <label class="checkbox-inline">
+                        <input class="can" type="checkbox" name="helpType" value="transportation">Transportation
+                    </label>
                 </div>
-
-                <div class="form-group">
-                    <label for="helpType">Type of help</label>
-                    <div id="helpType">
-                        <label class="checkbox-inline">
-                            <input class="can" type="checkbox"  name="helpType" value="babysitting">Babysitting
-                        </label>
-                        <label class="checkbox-inline">
-                            <input class="can" type="checkbox"  name="helpType" value="transportation">Transportation
-                        </label>
-                    </div>
-                </div>
-                <div class='form-group'><label for='can-info'>Additional information</label>
-                    <textarea id='cab-info' placeholder='Give more information' name="info"
-                              class="form-control" rows='5' ></textarea>
-                </div>
-                <div class="col-xs-12 btn-holder">
-                    <button class="btn-custom btn-join-us"
-                            type="submit">Submit
-                    </button>
-                </div>
-            </form>
-
-        </div>
-
+            </div>
+            <div class='form-group'><label for='can-info'>Additional information</label>
+                <textarea id='can-info' placeholder='Give more information' name="info"
+                          class="form-control" rows='5'></textarea>
+            </div>
+            <div class="col-xs-12 btn-holder">
+                <button class="btn-custom btn-join-us"
+                        type="submit">Submit
+                </button>
+            </div>
+        </form>
     </div>
+</div>
 {% endblock %}
