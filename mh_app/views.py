@@ -11,37 +11,11 @@ from mh_app.models import CustomUser
 from mh_app.forms import SignupForm
 from django.template import RequestContext
 
-
 # Create your views here.
 def index(request):
     return render(request, 'mh_app/home.html', {})
 
 
-def done(request):
-    return render(request, 'mh_app/reg_done.html', {})
-
-
-# @csrf_protect
-# @never_cache
-# @sensitive_post_parameters()
-# def login(request):
-#     authentication_form = AuthenticationForm
-#     if request.method == "POST":
-#         form = authentication_form(request, data=request.POST)
-#         if form.is_valid():
-#             # Okay, security check complete. Log the user in.
-#             auth_login(request, form.get_user())
-#
-#             return HttpResponseRedirect(reverse('mamahelp:index'))
-#     else:
-#         form = authentication_form(request)
-#
-#     context = {
-#         'form': form,
-#     }
-#     return render(request, 'registration/login.html', context)
-#
-#
 def logout(request):
     """Logs out user"""
     auth_logout(request)
@@ -56,44 +30,13 @@ def context(**extra):
     }, **extra)
 
 
-#
-#
-# @render_to('mh_app/home.html')
-# def home(request):
-#     """Home view, displays login mechanism"""
-#     if request.user.is_authenticated():
-#         return redirect('done')
-#     return context()
-#
-#
-# @login_required
-# @render_to('mh_app/home.html')
-# def done(request):
-#     """Login complete view, displays user data"""
-#     return context()
-#
-#
-# @render_to('mh_app/home.html')
-# def validation_sent(request):
-#     return context(
-#             validation_sent=True,
-#             email=request.session.get('email_validation_address')
-#     )
-#
-#
-# @render_to('mh_app/signup.html')
 def validate_form_inputs(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
     else:
         form = SignupForm()
-    # details = request.session['partial_pipeline']['kwargs']['details']
-    # details['form'] = form
     return render_to_response('mh_app/signup.html', {'form': form}, RequestContext(request))
 
-
-def user_profile(request):
-    return render(request, 'mh_app/user_profile.html', {})
 
 
 def profile_need_help(request):
@@ -103,9 +46,6 @@ def profile_need_help(request):
 def profile_can_help(request):
     return render(request, 'mh_app/profile_can_help.html', {})
 
-
-def profile_general_info(request):
-    return render(request, 'mh_app/profile_general_info.html', {})
 
 
 @render_to('mh_app/signup.html')

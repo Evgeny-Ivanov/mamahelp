@@ -123,7 +123,6 @@ function formProcessing(form) {
     try {
         if (formValidation(form) === true) {
             getFormValues(form);
-            console.log('fff');
             return true;
         } else {
             return false;
@@ -131,10 +130,11 @@ function formProcessing(form) {
     } catch (e) {
         console.log("Error occured: " + e);
     }
+    return false;
 
 }
 function formValidation(form) {
-    var status = false;
+    var status = true;
     var formObjects = getFormObjects(form);
 
     $.each(formObjects, function (key, value) {
@@ -142,8 +142,8 @@ function formValidation(form) {
 
         if (isNotEmpty(field) && !($(field).hasClass("field-incorrect"))) {
             displayValid(field);
-            status = true;
         } else {
+            status = false;
             displayNotValid(field, "Field is required");
             field.bind({
                 click: function () {
@@ -152,12 +152,6 @@ function formValidation(form) {
             });
         }
     });
-
-    if (isMatchPass()) {
-        //     alert("true");
-        // } else {
-        //     alert("false");
-    }
     return status;
 }
 function getFormObjects(form) {
@@ -487,7 +481,7 @@ function editSearch(data) {
 if (url.indexOf("userProfile") !== -1) {
     var btnHelp = button.attr('id', helpSearchOptions.helpBtnId);
     btnHelp.text("Create new");
-    btnHelp.prepend("<i class='fa fa-plus mr-2' aria-hidden='true'></i>")
+    btnHelp.prepend("<i class='fa fa-plus mr-2' aria-hidden='true'></i>");
     $("#" + helpSearchOptions.generalDivId).prepend(btnHelp);
 
     btnHelp.click(function () {
@@ -936,8 +930,6 @@ var needHelpEntryContent = function (help, templateObject) {
             pChildren.append(span1);
             divShowMore.append(pChildren);
 
-            var parentId = entryDiv.parent().parent().parent();
-            console.log(help)
             if (help.kind === 'need' && help.helpType === 'babysitting') {
                 var span2 = ownHelpAge(help);
                 pChildren.append(span2);
