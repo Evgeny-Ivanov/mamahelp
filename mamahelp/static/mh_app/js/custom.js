@@ -7,7 +7,7 @@ var button = $("<button class='btn btn-secondary my-2 type='button'></button>");
 var request;
 var db;
 var formTemplate;
-var resultTemplate;
+
 var searchHelpData;
 var helpSearchOptions;
 var helpData;
@@ -67,6 +67,7 @@ request.onsuccess = function (event) {
     console.log("success: " + db);
     db = request.result;
     // end mandatory block
+    var templateObject;
     if (url.indexOf("complete/email") !== -1) {
         if ($('#reg-email').length) {
             $(".noAccountMessage").removeClass("invisible")
@@ -75,25 +76,18 @@ request.onsuccess = function (event) {
     if (url.indexOf("userProfile") !== -1) {
         if (url.indexOf("needhelp") !== -1) {
             switchActive("#profileNeedLink");
-            helpSearchOptions = {
-                // helpBtnClass: 'btn-help-search',
-                helpBtnId: 'btn-need-help',
-                btnText: "Create new",
-                generalDivId: 'need-help',
-                holderId: "need-all-myHelps",
-                formId: "need-helpType",
-                mapHolder: "need-map-holder",
-                helpDataKind: 'need'
-            }
+            readAllMyHelps(function (myHelp) {
+                templateObject = createTemplate(myHelp.id, '#' + helpSearchOptions.holderId);
+                needHelpEntryContent(myHelp, templateObject);
+            }, helpSearchOptions.helpDataKind);
         }
         if (url.indexOf("canhelp") !== -1) {
-            switchActive("#profileCanLink")
+            switchActive("#profileCanLink");
+            readAllMyHelps(function (myHelp) {
+                templateObject = createTemplate(myHelp.id, '#' + helpSearchOptions.holderId);
+                canHelpEntryContent(myHelp, templateObject);
+            }, helpSearchOptions.helpDataKind);
         }
-
-        readAllMyHelps(function (myHelp) {
-            var templateObject = createTemplate(myHelp.id, '#' + helpSearchOptions.holderId);
-            needHelpEntryContent(myHelp, templateObject);
-        }, helpSearchOptions.helpDataKind);
     }
 
 
@@ -654,7 +648,7 @@ var createTemplate = function (entryId, holder) {
         "buttonHolder": cardAside,
         "h3": subtitle
     };
-}
+};
 
 function addShowMore(id, templateObject) {
     var showMoreContent = $("<div class='collapse'></div>").attr('id', 'showMore' + id);
@@ -877,7 +871,6 @@ function searchSubmit(formId) {
     return true;
 }
 var needHelpEntryContent = function (help, templateObject) {
-
     var entryDiv = templateObject.entryDiv;
     var pType = $("<p><strong>I need help with: </strong></p>");
     var pLoc = $("<p><strong>My location is: </strong></p>");
@@ -896,7 +889,6 @@ var needHelpEntryContent = function (help, templateObject) {
     pDateUpdated.text('Updated: ' + help.updatedDatetime);
     templateObject.h3.append(pDateUpdated);
     displayRes(help.helpType, pType, entryDiv);
-    displayRes(help.bbAddress, pLoc, entryDiv);
     displayRes(help.addressFrom, pLocFrom, entryDiv);
     displayRes(help.addressTo, pLocTo, entryDiv);
     displayRes(help.timeFrom, pTime, entryDiv);
@@ -966,6 +958,7 @@ function ownHelpAge(help) {
     }
 }
 var canHelpEntryContent = function (help, templateObject) {
+    console.log(help)
     help.range = help.range + ' miles';
     var entryDiv = templateObject.entryDiv;
     var pType = $("<p></p>");
