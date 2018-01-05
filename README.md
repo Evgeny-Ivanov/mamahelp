@@ -1,5 +1,6 @@
 # Mamahelp
 Working prototype for Beehelper project that covers authentication, help enrty creation, validation and list view. Form templates are Jade based and are served to the user with Django based backend. 
+View [live demo](yuliapi.github.io/projects/beehelper-prototype/templates/index.html)
 
 ## Getting Started
 ### Prerequisites
