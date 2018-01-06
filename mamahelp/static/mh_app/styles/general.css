@@ -1,156 +1,17 @@
-/********Base rules**********/
 
 .navbar p {
     margin-bottom: 0;
 }
+.dl-horizontal {
+    display: inline-flex;
 
-/*.page-content {*/
-/*position: relative;*/
-/*top: 90px;*/
-/*}*/
+}
 
-/*.transbox {*/
-    /*background-color: #fff;*/
-    /*opacity: 0.9;*/
-    /*filter: alpha(opacity=90);*/
-/*}*/
+ dd {
+    margin-left: 20px;
+    margin-right: 50px;
+}
 
-/***********Expandable search-field**************/
-/*#nav-search-input {*/
-    /*visibility: collapse;*/
-    /*position: relative;*/
-    /*top: 0;*/
-    /*right: 0;*/
-    /*width: 0;*/
-    /*height: 0;*/
-    /*z-index: 20;*/
-    /*background-color: #474B4f;*/
-/*}*/
-
-/*#nav-search-input.search-expanded {*/
-    /*visibility: visible;*/
-    /*position: fixed;*/
-    /*top: 0;*/
-    /*width: 100%;*/
-    /*height: 90px;*/
-    /*z-index: 20;*/
-    /*font-size: 20px;*/
-    /*color: #ffd600;*/
-    /*background-color: #474B4F;*/
-    /*transition: height 400ms ease-in-out, padding 400ms ease-in-out;*/
-/*}*/
-
-/*.site-search-input {*/
-    /*display: inline-block;*/
-    /*visibility: visible;*/
-    /*position: absolute;*/
-    /*left: 35px;*/
-    /*top: 50%;*/
-    /*height: 35%;*/
-    /*width: 90%;*/
-    /*background-color: #474B4f;*/
-    /*border: none;*/
-    /*border-bottom: 1px solid #ffd600;*/
-    /*outline: none;*/
-/*}*/
-
-/*#glyphicon-search2 {*/
-    /*display: inline-block;*/
-    /*position: absolute;*/
-    /*top: 57%;*/
-    /*left: 10px;*/
-    /*z-index: 25;*/
-/*}*/
-
-/*#nav-search-input .glyphicon-remove {*/
-    /*display: inline-block;*/
-    /*position: absolute;*/
-    /*top: 57%;*/
-    /*right: 10px;*/
-    /*z-index: 25;*/
-    /*color: #000;*/
-/*}*/
-
-/************Dropdown transition****************/
-/*.open > .dropdown-menu {*/
-    /*-webkit-transform: scale(1, 1);*/
-    /*transform: scale(1, 1);*/
-    /*opacity: 1;*/
-/*}*/
-
-/*.dropdown-menu {*/
-    /*opacity: .3;*/
-    /*-webkit-transform-origin: top;*/
-    /*transform-origin: top;*/
-    /*-webkit-animation-fill-mode: forwards;*/
-    /*animation-fill-mode: forwards;*/
-    /*-webkit-transform: scale(1, 0);*/
-    /*display: block;*/
-    /*transition: all 0.2s linear;*/
-    /*-webkit-transition: all 0.2s linear;*/
-/*}*/
-
-/*******************login modal*****************/
-
-/*.content-fixed-top {*/
-    /*visibility: visible;*/
-    /*position: fixed;*/
-    /*top: 70px;*/
-    /*background: rgba(255, 255, 255, .80);*/
-    /*width: 100%;*/
-    /*height: 100px;*/
-    /*z-index: 1000;*/
-    /*margin-left: -15px;*/
-    /*padding-bottom: 20px;*/
-    /*box-shadow: 0 0 7px rgba(0, 0, 0, .25);*/
-    /*transition: height 200ms ease-in-out, padding 400ms ease-in-out;*/
-
-/*}*/
-
-/*.content-fixed-top > .btn-help-sch-holder {*/
-    /*position: absolute;*/
-    /*bottom: 75px;*/
-    /*left: 25%;*/
-    /*z-index: 1000;*/
-    /*-webkit-transform: translateX(-50%);*/
-    /*transform: translateX(-50%);*/
-/*}*/
-
-/*.btn-help-sch-holder {*/
-    /*position: relative;*/
-/*}*/
-
-/*.content-fixed-top.hidden {*/
-    /*height: 0;*/
-    /*visibility: collapse;*/
-/*}*/
-
-/*.content-fixed-top .btn-help-sch-holder {*/
-    /*width: 50%;*/
-    /*min-width: 210px;*/
-    /*margin: 0 25%;*/
-/*}*/
-
-/*.background {*/
-    /*position: relative;*/
-
-/*}*/
-
-/*.stickem-container {*/
-    /*position: relative;*/
-/*}*/
-
-/*.stickit {*/
-    /*margin-left: 660px;*/
-    /*position: fixed;*/
-    /*top: 0;*/
-/*}*/
-
-/*.stickit-end {*/
-    /*bottom: 40px;*/
-    /*position: absolute;*/
-    /*right: 0;*/
-/*}*/
 
 .field-correct {
     border-color: #06fdbd;
@@ -188,27 +49,7 @@
 
 }
 
-/*.reg-form form {*/
-/*display: inline-block;*/
-/*margin-top: 20px;*/
-/*}*/
 
-/*.reg-form i {*/
-/*color: #ffb400;*/
-/*}*/
-
-/**********************User profile********************************/
-/*.user-photo {*/
-    /*margin: 0 5px 10px 5px;*/
-/*}*/
-
-/*li.user-profile {*/
-    /*margin: 5px 0px;*/
-/*}*/
-
-/*.btn-holder {*/
-    /*padding-left: 0;*/
-/*}*/
 .btn-social {
     width: 207px;
     color: #fff;
@@ -217,9 +58,7 @@
     background-color: #3b5998;
 
 }
-.btn-google {
-    background-color: #a32b1c;
-}
+
 .btn-social {
     position: relative;
     padding-left: 44px;
