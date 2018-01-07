@@ -4,16 +4,18 @@
 
 </script>
 {% block content %}
-<div class="container">
+<div class="row">
+    <div class="col-xs-12 container px-4">
 
-    <div class="row">
+
         {% if user.is_anonymous %}
         <div class="description">
             <h2>Welcome to MamaHelp</h2>
             <p>TThis app is part of a prototype series of BeeHelper project, that serves the purpose to experiment with
                 flows for managing of multi-steps forms and authentication. For demo purposes there exist an
                 oversimplified backend part that processes authentication requests and data storage/retrieval. Source
-                code for this project is available on <a href="https://github.com/yuliapi/mamahelp" target="_blank">my GitHub</a>.
+                code for this project is available on <a href="https://github.com/yuliapi/mamahelp" target="_blank">my
+                    GitHub</a>.
                 Feel free to explore.
             </p>
             <h2>Available features</h2>
@@ -24,14 +26,14 @@
                 backend, interaction is not present here.
             </p>
             <p>To explore, how the rest of the application works you can use already existing credentials:</p>
-            <div class="d-flex justify-content-center bg-light ">
-                <dl class="d-flex  mt-3">
-                    <dt>Email:</dt>
-                    <dd class="mb-0">email@mail.ru</dd>
+            <div class="d-flex justify-content-center bg-light">
+                <dl class="mt-3">
+                    <dt class="d-inline">Email:</dt>
+                    <dd class="d-inline mb-0">email@mail.ru</dd>
                 </dl>
-                <dl class="d-flex justify-content-end mt-3">
-                    <dt>Password:</dt>
-                    <dd class="mb-0">explorer</dd>
+                <dl class="mt-3">
+                    <dt class="d-inline">Password:</dt>
+                    <dd class="d-inline mb-0">explorer</dd>
                 </dl>
             </div>
             <p> or register a new user. TThis app doesn’t perform any email verification so feel free to enter any valid
@@ -39,8 +41,10 @@
             </p>
             <h4>Need help and can help</h4>
             <p>These features are available for the authenticated user. We can see a list of previously filled requests
-                as well as create a new one. <em>Need help</em> are system records that represent your requests for getting some
-                help and is filled through a multistep form. <em>Can help</em> form is an opposite one and is going to serve a
+                as well as create a new one. <em>Need help</em> are system records that represent your requests for
+                getting some
+                help and is filled through a multistep form. <em>Can help</em> form is an opposite one and is going to
+                serve a
                 purpose of showing a willingness to provide some services.
             <p>Feel free to create/update/delete records here, but leave at least one record for others.</p>
             <p>Thank you.</p>
