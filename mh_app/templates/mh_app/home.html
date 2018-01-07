@@ -6,8 +6,6 @@
 {% block content %}
 <div class="row">
     <div class="col-xs-12 container px-4">
-
-
         {% if user.is_anonymous %}
         <div class="description">
             <h2>Welcome to MamaHelp</h2>
@@ -50,29 +48,34 @@
             <p>Thank you.</p>
             <h2>References</h2>
             <p>For more information please visit my <a href="http://yuliapi.github.io/">portfolio page</a></p>
-            <p>BeeHelper prototype live demo is also could be find in portfolio in Projects section <a href="http://yuliapi.github.io/projects/beehelper-prototype/templates/index.html">link</a> and <a
+            <p>BeeHelper prototype live demo is also could be find in portfolio in Projects section <a
+                    href="http://yuliapi.github.io/projects/beehelper-prototype/templates/index.html">link</a> and <a
                     href="https://github.com/yuliapi/beehelper-prototype"
                     target="_blank">on GitHub</a>
             <p><a href="https://github.com/yuliapi/mamahelp" target="_blank">Mamahelp on GitHub</a></p>
         </div>
         {% else %}
-        <div class="col-sm-2" id="user-menu">
-            <img class="user-photo" src="http://placehold.it/150x150">
-            <ul class="nav nav-pills nav-stacked" role="tablist" id="myTabs">
+        <div class="row">
 
-                <li class="nav-item user-profile">
-                    <a class="nav-link " id="profileNeedLink"
-                       href="{% url 'mh_app:profile_need_help' %}">I need help</a>
-                </li>
-                <li class="nav-item user-profile">
-                    <a class="nav-link" id="profileCanLink"
-                       href="{% url 'mh_app:profile_can_help' %}">I can help </a></li>
-            </ul>
+            <div class="col-sm-4 col-md-2" id="user-menu">
+                <img class="user-photo" src="http://placehold.it/150x150">
+                <ul class="nav nav-pills nav-stacked" role="tablist" id="myTabs">
+
+                    <li class="nav-item user-profile">
+                        <a class="nav-link " id="profileNeedLink"
+                           href="{% url 'mh_app:profile_need_help' %}">I need help</a>
+                    </li>
+                    <li class="nav-item user-profile">
+                        <a class="nav-link" id="profileCanLink"
+                           href="{% url 'mh_app:profile_can_help' %}">I can help </a></li>
+                </ul>
+            </div>
+            {% endif %}
+            {% block main %}
+
+            {% endblock %}
+
         </div>
-        {% endif %}
-        {% block main %}
-
-        {% endblock %}
     </div>
 </div>
 
