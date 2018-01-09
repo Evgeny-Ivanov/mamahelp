@@ -190,7 +190,7 @@ AUTH_USER_MODEL = 'mh_app.CustomUser'
 SOCIAL_AUTH_USER_MODEL = 'mh_app.CustomUser'
 
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/userProfile/needhelp/'
 URL_PATH = ''
 SOCIAL_AUTH_STRATEGY = 'social.strategies.django_strategy.DjangoStrategy'
 SOCIAL_AUTH_STORAGE = 'social.apps.django_app.default.models.DjangoStorage'
