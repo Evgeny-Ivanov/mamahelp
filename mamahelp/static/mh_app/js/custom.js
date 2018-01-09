@@ -501,7 +501,17 @@ function displayTemplate(helpData) {
     var template = $("#" + helpData.helpType).html();
     var target = $("#" + helpSearchOptions.formId);
     target.append(template);
-    console.log(helpData);
+    var button = $(".step-back");
+    for (var i = 0; i < button.length; i++) {
+        $(button[i]).attr("disabled", false)
+    }
+
+    if (window.location.href.indexOf("edit") !== -1) {
+
+        for (var i = 0; i < button.length; i++) {
+            $(button[i]).attr("disabled", true)
+        }
+    }
     var mapHolder;
     if ($('#need-map-holder').length) {
         mapHolder = $('#need-map-holder')
@@ -653,10 +663,10 @@ var createTemplate = function (entryId, holder) {
 function addShowMore(id, templateObject) {
     var showMoreContent = $("<div class='collapse'></div>").attr('id', 'showMore' + id);
     templateObject.entryDiv.append(showMoreContent);
-       var showMoreBtn = $("<button class='btn btn-link' type='button' data-toggle='collapse' " +
+    var showMoreBtn = $("<button class='btn btn-link' type='button' data-toggle='collapse' " +
         " aria-expanded='false' onclick='showMoreAction(this)' >Show more" +
         "</button>");
-        showMoreBtn.attr('id', 'btn' + id).attr('data-target', '#showMore' + id).attr('aria-controls', 'showMore' + id);
+    showMoreBtn.attr('id', 'btn' + id).attr('data-target', '#showMore' + id).attr('aria-controls', 'showMore' + id);
     templateObject.entryDiv.append(showMoreBtn);
 
     return showMoreContent;
