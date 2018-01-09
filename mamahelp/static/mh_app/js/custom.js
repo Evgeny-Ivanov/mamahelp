@@ -340,6 +340,7 @@ function add2Markers() {
             label: 'A'
         },
         to: {
+            lat: 50.4501,
             lng: 30.5634,
             label: 'B'
         }
