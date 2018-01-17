@@ -320,10 +320,16 @@ function getReverseGeocodingData(lat, lng, id) {
 function changeAddress(input, text) {
     $(input).val(text);
 }
-function add1Marker(div) {
+function add1Marker(div, lat, lng) {
+    if (lat === undefined) {
+        lat = 50.4501;
+    }
+    if (lng === undefined) {
+        lng = 30.5234;
+    }
     marker = new google.maps.Marker({
         map: map,
-        position: {lat: 50.4501, lng: 30.5234},
+        position: {lat: lat, lng: lng},
         title: "Hello World!",
         icon: '/static/mh_app/img/map-marker.png',
         draggable: true
@@ -332,16 +338,28 @@ function add1Marker(div) {
         markerDragend(this, 'Lat', 'Lng', div)
     });
 }
-function add2Markers() {
+function add2Markers(latFrom, lngFrom, latTo, lngTo) {
+    if (latFrom === undefined) {
+        latFrom = 50.4501;
+    }
+    if (lngFrom === undefined) {
+        lngFrom = 30.5234;
+    }
+    if (latTo === undefined) {
+        latTo = 50.4501;
+    }
+    if (lngTo === undefined) {
+        lngTo = 30.5634;
+    }
     var locations = {
         from: {
-            lat: 50.4501,
-            lng: 30.5234,
+            lat: latFrom,
+            lng: lngFrom,
             label: 'A'
         },
         to: {
-            lat: 50.4501,
-            lng: 30.5634,
+            lat: latTo,
+            lng: lngTo,
             label: 'B'
         }
     };
@@ -498,6 +516,7 @@ function btnNewHelp() {
 }
 
 function displayTemplate(helpData) {
+
     var template = $("#" + helpData.helpType).html();
     var target = $("#" + helpSearchOptions.formId);
     target.append(template);
@@ -525,14 +544,15 @@ function displayTemplate(helpData) {
     initMap(helpSearchOptions.mapHolder);
 
     $(".clockpicker").clockpicker();
-
+    console.log(helpData.helpType)
     if (helpData.helpType === "babysitting") {
         helpSearchOptions.addressInput = "need-address";
-        add1Marker(helpSearchOptions.addressInput);
+        add1Marker(helpSearchOptions.addressInput, helpData.Lat, helpData.Lng);
         fieldAutocomplete(helpSearchOptions.addressInput, marker);
     }
     if (helpData.helpType === "transportation") {
-        add2Markers();
+
+        add2Markers(helpData.LatFrom, helpData.LngFrom, helpData.LatTo, helpData.LngTo);
         fieldAutocomplete('pick-up-location', markerA);
         fieldAutocomplete('drop-off-location', markerB);
     }
@@ -716,8 +736,9 @@ function editHelp(element) {
 
         if (helpToEdit.kind === 'can') {
             initMap(helpSearchOptions.mapHolder);
-            add1Marker(helpSearchOptions.addressInput);
+            add1Marker(helpSearchOptions.addressInput, helpToEdit.Lat, helpToEdit.Lng);
             fieldAutocomplete(helpSearchOptions.addressInput, marker);
+            console.log("marker: " + marker)
         }
         if (helpToEdit.kind === 'need') {
             helpSearchOptions.formId = 'need-help-form';
@@ -968,7 +989,7 @@ function ownHelpAge(help) {
     }
 }
 var canHelpEntryContent = function (help, templateObject) {
-    console.log(help)
+
     help.range = help.range + ' miles';
     var entryDiv = templateObject.entryDiv;
     var pType = $("<p></p>");
